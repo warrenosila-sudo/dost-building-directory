@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
+<meta name="build" content="20261110154132">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>DOST Building Directory</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -1345,6 +1346,24 @@ document.getElementById('koWrap').innerHTML=
   `<section class="ko-sec"><h2>Executive officials <span>${EXEC.length} officials</span></h2><div class="ko-grid">${card(EXEC[0],true)}${EXEC.slice(1).map(o=>card(o)).join('')}</div></section>
    <section class="ko-sec"><h2>Service directors <span>${SVC.length} services</span></h2><div class="ko-grid">${SVC.map(o=>card(o,false,true)).join('')}</div></section>
    <p class="ko-note">Names and local numbers from the DOST Office Directory (dost.gov.ph).</p>`;
+})();
+
+
+// ===== Auto-update: reload when a newer version is published (only while idle on the main menu) =====
+(function(){
+  const mine=(document.querySelector('meta[name="build"]')||{}).content;
+  let pending=false;
+  async function check(){
+    try{
+      const r=await fetch(location.pathname+'?check='+Date.now(),{cache:'no-store'}); if(!r.ok)return;
+      const m=(await r.text()).match(/<meta name="build" content="(\d+)">/);
+      if(m&&mine&&m[1]!==mine) pending=true;
+    }catch(e){}
+    maybeReload();
+  }
+  function maybeReload(){ if(pending&&document.body.dataset.view==='home'&&!document.querySelector('.walkbar.show')) location.reload(); }
+  setInterval(check,5*60*1000); setTimeout(check,20000);
+  addEventListener('hashchange',()=>setTimeout(maybeReload,500));
 })();
 
 // ===== Main menu, Citizen's Charter and view routing =====

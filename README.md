@@ -1,0 +1,26 @@
+# DOST Building Directory & Citizen's Charter kiosk
+
+A touch-friendly lobby kiosk for the DOST Central Office.
+
+- **Main menu** — choose *Citizen's Charter* or *Building Directory*; full-screen button for kiosk use.
+- **Citizen's Charter** — 8 services with full tarpaulin layouts (zoom, page switching, "Find office").
+- **Building Directory** — 3D model of the Ground Floor to the 4th Floor with search, floor switcher,
+  turn-by-turn directions from the Front Lobby, and a "Walk me there" guided walk (elevator included).
+
+## Run it
+
+It is a static site: open `index.html` in a browser, or host the folder on any web server.
+Three.js and the Atkinson Hyperlegible font load from public CDNs, so the kiosk needs internet access.
+
+### GitHub Pages
+Settings → Pages → *Deploy from a branch* → `main` / root. The site appears at
+`https://<user>.github.io/<repo>/`.
+
+## Links
+- `#home`, `#charter`, `#charter-<id>` (e.g. `#charter-gia`), `#directory`
+- `#<office-id>` opens an office route, `#<office-id>-walk` also starts the guided walk (e.g. `#f2-coa-walk`)
+
+## Updating content
+- Office names, floors and routes live in the `GF_ROOMS` / `UP_ROOMS` tables inside `index.html`.
+- Citizen's Charter services are in the `CHARTER` list in `index.html`; images are in `charter/`
+  (`<id>-1.jpg`, `<id>-2.jpg` for extra pages, `<id>-thumb.jpg` for the menu preview).

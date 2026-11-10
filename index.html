@@ -1,0 +1,1361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DOST Building Directory</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#0b0b0c; --ink2:#43474e; --mute:#868b94; --line:#e4e7eb; --bg:#f4f6f8; --panel:#ffffff;
+    --accent:#00adee; --accent-d:#0089bd; --accent2:#e3f6fd; --route:#ff7a00; --route2:#fff1e5;
+    --left:#00adee; --core:#8a9099; --right:#1d2b3a;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;height:100%;height:100dvh;-webkit-tap-highlight-color:transparent;-webkit-user-select:none;user-select:none;font-family:"Atkinson Hyperlegible",system-ui,sans-serif;color:var(--ink);background:var(--bg);overflow:hidden}
+  #app{display:grid;grid-template-columns:360px 1fr;height:100%;height:100dvh}
+  body.immersive #app{grid-template-columns:1fr;grid-template-rows:1fr}
+  body.immersive main{grid-row:1;grid-column:1}
+  body.immersive aside{display:none}
+  aside{background:var(--panel);border-right:1px solid var(--line);display:flex;flex-direction:column;min-height:0;z-index:5}
+  .band{background:var(--ink);color:#fff;padding:16px 18px;display:flex;gap:13px;align-items:center;border-bottom:4px solid var(--accent)}
+  .logo{width:56px;height:56px;border-radius:8px;background:#fff;flex:none;overflow:hidden}
+  .logo svg{width:100%;height:100%;display:block}
+  
+  .band small{display:block;font-size:12.5px;color:var(--accent);font-weight:700}
+  .band h1{font-size:18px;margin:2px 0 0;font-weight:800;letter-spacing:-.01em;line-height:1.15}
+  .band p{margin:2px 0 0;font-size:12px;color:#b9bec6}
+  .head{padding:14px 18px 12px;border-bottom:1px solid var(--line)}
+  .here{display:flex;align-items:center;gap:8px;font-size:13px;font-weight:700;color:var(--accent-d);background:var(--accent2);border-radius:9px;padding:9px 11px}
+  .here i{width:10px;height:10px;border-radius:50%;background:var(--accent);box-shadow:0 0 0 4px #b5e8fa;flex:none}
+  main{container-type:inline-size}
+  .topbar{position:absolute;top:14px;left:14px;right:14px;height:48px;pointer-events:none;z-index:4;--tw:190px}
+  .topbar>*{pointer-events:auto}
+  .topbar .mini{position:absolute;left:0;top:0}
+  .topbar .tools{position:absolute;right:0;top:4px}
+  .search{position:absolute;top:0;left:50%;transform:translateX(-50%);width:min(440px,calc(100% - 2 * (var(--tw) + 12px)))}
+  .search input{box-shadow:0 6px 22px rgba(15,27,45,.14);height:48px;border-radius:12px!important;background:#fff!important;padding-right:44px!important;border:2px solid #fff!important}
+  .search input:focus{border-color:var(--accent)!important}
+  .search input::-webkit-search-cancel-button{display:none}
+  .sx{position:absolute;right:7px;top:7px;width:34px;height:34px;border:0;border-radius:8px;background:var(--bg);font-size:20px;line-height:1;color:var(--ink2);cursor:pointer;display:none}
+  .search.has .sx{display:block}
+  .drop{position:absolute;left:0;right:0;top:54px;background:#fff;border-radius:12px;box-shadow:0 12px 32px rgba(15,27,45,.2);max-height:min(56vh,440px);overflow:auto;display:none;padding:6px}
+  .search.open .drop{display:block}
+  .drop button{display:flex;align-items:center;gap:10px;width:100%;min-height:46px;text-align:left;font:inherit;font-size:14.5px;border:0;background:none;padding:9px 10px;border-radius:9px;cursor:pointer;color:var(--ink)}
+  .drop button:hover,.drop button.hi{background:var(--bg)}
+  .drop button i{width:9px;height:9px;border-radius:2px;flex:none}
+  .drop button span{flex:1}
+  .drop button small{color:var(--mute);font-size:12px;white-space:nowrap}
+  .drop .none{padding:14px;color:var(--mute);font-size:14px}
+  /* full screen on narrower screens: badge drops under the bar so it never covers the search */
+  @container (max-width:1000px){ .topbar .mini{top:60px} }
+  /* too narrow to centre: search fills the space left of the controls */
+  @container (max-width:600px){
+    .search{left:0;transform:none;width:calc(100% - var(--tw) - 10px)}
+  }
+  @container (max-width:520px){
+    .tools button:not(.fs){padding:6px 7px;font-size:11px}
+    .mini b,.mini span{display:none}.mini{padding:5px}
+  }
+  .search input{width:100%;font:inherit;font-size:16px;padding:12px 12px 12px 38px;-webkit-user-select:text;user-select:text;border:1px solid var(--line);border-radius:10px;background:var(--bg);outline:none}
+  .search input:focus{border-color:var(--accent);background:#fff}
+  .search > svg{position:absolute;left:11px;top:50%;transform:translateY(-50%);color:var(--mute)}
+  #list{overflow:auto;flex:1;min-height:120px;padding:6px 10px 20px}
+  .grp{margin-top:10px}
+  .grp h3{font-size:13px;color:var(--mute);margin:10px 10px 6px;display:flex;align-items:center;gap:8px}
+  .grp h3 b{width:8px;height:8px;border-radius:2px;display:inline-block}
+  .item{display:flex;justify-content:space-between;align-items:center;gap:10px;width:100%;min-height:44px;text-align:left;font:inherit;font-size:14px;border:0;background:none;padding:10px 12px;touch-action:manipulation;border-radius:8px;cursor:pointer;color:var(--ink)}
+  .item:hover{background:var(--bg)}
+  .item.on{background:var(--ink);color:#fff;font-weight:700;box-shadow:inset 4px 0 0 var(--route)}
+  .item.on small{color:#ffb066}
+  .item small{font-size:11.5px;color:var(--mute);font-weight:500;white-space:nowrap}
+  .empty{padding:20px;color:var(--mute);font-size:13px}
+  #dir{border-top:3px solid var(--route);padding:16px 18px 18px;display:none;max-height:52%;flex:none;overflow:auto;background:#fff}
+  #dir.show{display:block}
+  #dir h2{margin:0;font-size:16px;font-weight:800}
+  #dir .meta{font-size:12.5px;color:var(--ink2);margin:3px 0 12px}
+  #dir ol{margin:0;padding:0;list-style:none;counter-reset:s}
+  #dir li{counter-increment:s;display:flex;gap:10px;font-size:13.5px;line-height:1.4;padding:6px 0}
+  #dir li:before{content:counter(s);flex:none;width:22px;height:22px;border-radius:50%;background:var(--ink);color:#fff;font-size:11px;font-weight:700;display:grid;place-items:center}
+  #dir li:last-child:before{content:"★";background:var(--route)}
+  #dir li b{color:#c25a00}
+  .btns{display:flex;gap:8px;margin-top:12px}
+  .btn{font:inherit;font-size:14px;font-weight:700;border:1px solid var(--line);background:#fff;border-radius:10px;padding:11px 14px;min-height:44px;touch-action:manipulation;cursor:pointer;color:var(--ink)}
+  .btn.pri{background:var(--route);border-color:var(--route);color:#fff}
+  .btn:hover{filter:brightness(.97)}
+  main{position:relative;min-width:0}
+  canvas{display:block}
+  .tools{white-space:nowrap;display:flex;gap:3px!important;padding:3px!important;border-radius:10px!important;gap:6px;background:#fff;border:1px solid var(--line);border-radius:11px;padding:4px;box-shadow:0 4px 18px rgba(15,27,45,.08)}
+  .tools button{font:inherit;font-size:11.5px;font-weight:700;border:0;background:none;padding:6px 9px;min-height:32px;border-radius:7px;cursor:pointer;color:var(--ink2);touch-action:manipulation;}
+  .tools button.on{background:var(--ink);color:#fff}
+  .tools button:hover{background:var(--bg)}
+  .tools button.on:hover{background:var(--ink)}
+  .tools .fs{display:flex;align-items:center;justify-content:center;width:34px;padding:0;color:var(--ink)}
+  .tools .fs #fsTxt{display:none}
+  .tools .sep{width:1px;background:var(--line);margin:5px 1px}
+  .legend{position:absolute;left:14px;bottom:14px;background:rgba(255,255,255,.94);border:1px solid var(--line);border-radius:10px;padding:9px 12px;font-size:12px;display:flex;gap:14px;color:var(--ink2)}
+  .legend span{display:flex;align-items:center;gap:6px}
+  .legend b{width:10px;height:10px;border-radius:3px}
+  .compass{position:absolute;right:14px;bottom:14px;background:rgba(255,255,255,.94);border:1px solid var(--line);border-radius:10px;padding:8px 11px;font-size:11.5px;color:var(--ink2);font-weight:600}
+  #labels{position:absolute;inset:0;pointer-events:none;overflow:hidden}
+  .lbl{position:absolute;transform:translate(-50%,-50%);font-size:10.5px;font-weight:700;color:var(--ink);background:rgba(255,255,255,.82);padding:2px 6px;border-radius:5px;white-space:nowrap;letter-spacing:.01em}
+  .lbl.sel{font-size:13px;background:var(--ink);color:#fff;border-left:4px solid var(--route);padding:6px 10px;border-radius:8px;transform:translate(-50%,-140%);box-shadow:0 6px 18px rgba(15,27,45,.25)}
+  .lbl.you{background:var(--accent);color:#fff;font-size:11.5px;padding:4px 8px;transform:translate(-50%,-150%)}
+  .lbl.hide{display:none}
+  .walkbar{position:absolute;left:50%;bottom:64px;transform:translateX(-50%);background:var(--ink);color:#fff;border-radius:10px;padding:9px 14px;font-size:13px;font-weight:600;display:none;gap:12px;align-items:center}
+  .walkbar.show{display:flex}
+  .walkbar{max-width:min(560px,calc(100% - 24px));padding:10px 12px 10px 16px;border-radius:12px;box-shadow:0 8px 24px rgba(0,0,0,.25)}
+  #walkTxt{font-size:14px;line-height:1.35}
+  .wprog{height:4px;background:#333;border-radius:2px;margin-top:6px;overflow:hidden}
+  .wprog i{display:block;height:100%;width:0;background:var(--route)}
+  .walkbar button.ghost{background:#2a2a2a}
+  .walkbar button{font:inherit;font-size:13px;font-weight:700;background:var(--route);color:#fff;border:0;border-radius:8px;padding:8px 14px;cursor:pointer}
+  .note{font-size:11px;color:var(--mute);padding:10px 20px;border-top:1px solid var(--line)}
+  .mini{display:none;align-items:center;gap:10px;background:var(--ink);color:#fff;border-radius:12px;padding:7px 14px 7px 7px;border-bottom:3px solid var(--accent)}
+  .mini .logo{width:40px;height:40px;border-radius:7px}
+  .mini b{font-size:14px}.mini span{display:block;font-size:11px;color:var(--accent);font-weight:700}
+  body.immersive .mini{display:flex}
+  .mini button{margin-left:6px;font:inherit;font-size:12px;font-weight:700;background:var(--accent);color:#fff;border:0;border-radius:8px;padding:8px 12px;cursor:pointer}
+  .toast{position:absolute;left:50%;top:124px;transform:translateX(-50%);background:var(--ink);color:#fff;font-size:13px;padding:10px 14px;border-radius:10px;display:none;max-width:90%;text-align:center}
+  .toast.show{display:block}
+  /* Tablet landscape */
+  @media (min-width:821px) and (max-width:1180px){
+    #app{grid-template-columns:320px 1fr}
+    .legend{font-size:11.5px;gap:10px}
+    .compass{display:none}
+  }
+  @media (pointer:coarse){
+    .item{min-height:48px;font-size:15px}
+    #dir li{font-size:15px}
+  }
+  /* Tablet portrait & phones */
+  @media (max-width:820px){
+    #app{grid-template-columns:1fr;grid-template-rows:55vh 1fr;grid-template-rows:55dvh 1fr}
+    body.immersive #app{grid-template-rows:1fr;grid-template-columns:1fr}
+    main{grid-row:1}
+    aside{grid-row:2;border-right:0;border-top:1px solid var(--line)}
+    .band{padding:10px 14px}.band .logo{width:44px;height:44px}.band p{display:none}
+    .head{padding:10px 14px}
+    .compass{display:none}
+    .legend{left:8px;bottom:8px;font-size:11px;gap:8px;padding:6px 9px;flex-wrap:wrap;max-width:calc(100% - 16px)}
+    .note{display:none}
+    #list{min-height:90px}
+    #dir{max-height:62%;padding:12px 16px 14px}
+    .topbar{top:8px;left:8px;right:8px}
+    #dir{max-height:60%}
+  }
+  @media (max-width:560px){.legend{display:none}.tools button{padding:9px 10px;font-size:12px}}
+  .fchips{display:flex;gap:6px;margin-top:10px}
+  .fchips button{flex:1;font:inherit;font-size:13px;font-weight:700;border:1px solid var(--line);background:#fff;border-radius:9px;min-height:38px;cursor:pointer;color:var(--ink2);touch-action:manipulation}
+  .fchips button.on{background:var(--ink);border-color:var(--ink);color:#fff}
+  .grp h3 .fl{width:auto;height:auto;background:var(--ink);color:#fff;border-radius:5px;padding:2px 6px;font-size:10.5px;letter-spacing:.04em}
+  .grp h3 span{text-transform:none;letter-spacing:0;font-weight:500}
+  .item i{width:8px;height:8px;border-radius:2px;flex:none}
+  .item span{flex:1}
+  .drop button em{font-style:normal;font-size:11px;font-weight:800;background:var(--ink);color:#fff;border-radius:5px;padding:2px 6px;flex:none}
+  .floors{position:absolute;left:14px;top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:4px;background:#fff;border:1px solid var(--line);border-radius:12px;padding:5px;box-shadow:0 4px 18px rgba(15,27,45,.1);z-index:3}
+  .floors small{font-size:11px;font-weight:700;color:var(--mute);text-align:center;padding:2px 0 1px}
+  .floors button{position:relative;width:48px;height:42px;font:inherit;font-size:14px;font-weight:800;border:0;border-radius:9px;background:var(--bg);color:var(--ink);cursor:pointer;touch-action:manipulation}
+  .floors button.on{background:var(--ink);color:#fff;box-shadow:inset 0 -3px 0 var(--accent)}
+  .floors button i{display:none;position:absolute;top:5px;right:5px;width:8px;height:8px;border-radius:50%;background:var(--route)}
+  .floors button.dest i{display:block}
+  .flname{position:absolute;left:14px;bottom:58px;background:var(--ink);color:#fff;font-size:12px;font-weight:700;padding:6px 10px;border-radius:8px;border-left:3px solid var(--accent)}
+  @media (max-width:820px){.floors{left:8px}.floors button{width:42px;height:38px;font-size:13px}.flname{left:8px;bottom:8px}}
+  main #dir{position:absolute;right:14px;bottom:14px;top:auto;width:min(300px,calc(100% - 28px));max-height:min(46%,420px);overflow:auto;background:#fff;border-radius:12px;border:0;border-top:3px solid var(--route);box-shadow:0 12px 32px rgba(15,27,45,.22);padding:10px 12px 12px;z-index:5;display:none}
+  main #dir .dhead h2{font-size:14px}
+  main #dir .meta{font-size:11.5px;margin:2px 0 8px}
+  main #dir li{font-size:12.5px;line-height:1.35;padding:4px 0;gap:8px}
+  main #dir li:before{width:19px;height:19px;font-size:10px}
+  main #dir .btns{margin-top:8px;gap:6px}
+  main #dir .btn{font-size:12.5px;min-height:38px;padding:8px 12px}
+  main #dir .dbtn{width:28px;height:28px;font-size:16px}
+  body.has-route .compass{display:none}
+  main #dir.show{display:block;animation:popin .28s ease-out}
+  @keyframes popin{from{opacity:0;transform:translateY(16px) scale(.97)}to{opacity:1;transform:none}}
+  .dhead{display:flex;align-items:flex-start;gap:6px}
+  .dhead h2{flex:1;margin:0;font-size:16px;font-weight:800;line-height:1.3;cursor:pointer}
+  .dbtn{flex:none;width:32px;height:32px;border:0;border-radius:8px;background:var(--bg);font:inherit;font-size:18px;font-weight:700;line-height:1;color:var(--ink2);cursor:pointer;touch-action:manipulation}
+  .dbtn:hover{background:#e6e9ee}
+  main #dir.min{padding-bottom:12px}
+  main #dir.min .meta,main #dir.min ol,main #dir.min .btns{display:none}
+  body.walking main #dir{display:none}
+  @media (max-width:820px){
+    main #dir{top:auto;bottom:8px;left:8px;right:8px;width:auto;max-height:62%}
+    @keyframes popin{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:none}}
+  }
+  :root{--ink:#000;--ink2:#3d4450;--bg:#f3f6f9;--line:#e2e7ee}
+  aside{background:#fff}
+  #list{background:#fff}
+  .cchips{display:flex;gap:6px;margin-top:8px;overflow-x:auto;scrollbar-width:none}
+  .cchips::-webkit-scrollbar{display:none}
+  .cchips button{flex:none;display:flex;align-items:center;gap:6px;font:inherit;font-size:13px;font-weight:700;border:1.5px solid var(--line);background:#fff;border-radius:999px;padding:6px 11px 6px 7px;min-height:36px;cursor:pointer;color:var(--ink2);touch-action:manipulation}
+  .cchips button .pg{width:22px;height:22px;border-radius:6px}
+  .cchips button.on{border-color:var(--ink);color:var(--ink);background:#fff;box-shadow:inset 0 0 0 1px var(--ink)}
+  .pg{display:inline-grid;place-items:center;flex:none;border-radius:8px}
+  .pg svg{width:62%;height:62%;fill:none;stroke:currentColor;stroke-width:2.1;stroke-linecap:round;stroke-linejoin:round}
+  .grp{margin-top:6px}
+  .grp h3{position:sticky;top:0;z-index:1;background:#fff;margin:0;padding:12px 10px 8px;display:flex;align-items:center;gap:8px;color:var(--ink);font-weight:700}
+  .grp h3 span{margin-left:auto;color:var(--mute);font-weight:400;font-size:12.5px}
+  .item{gap:12px;padding:8px 10px;min-height:54px;border-radius:12px}
+  .item span.pg{flex:none;width:36px;height:36px;border-radius:10px}
+  .drop button span.pg{flex:none}
+  .lbl span.pg{flex:none}
+  .item .t{flex:1;display:flex;flex-direction:column;min-width:0}
+  .item .t b{font-weight:700;font-size:14.5px;line-height:1.25;color:var(--ink)}
+  .item .t small{font-size:12.5px;color:var(--mute);margin-top:1px}
+  .item>small{font-size:12.5px;color:var(--ink2);font-weight:700}
+  .item.on{background:var(--ink);box-shadow:inset 4px 0 0 var(--route)}
+  .item.on .t b,.item.on>small{color:#fff}.item.on .t small{color:#aab3c0}
+  .item:focus-visible,.cchips button:focus-visible,.fchips button:focus-visible,.floors button:focus-visible,.btn:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+  .drop button .pg{width:30px;height:30px;border-radius:8px}
+  .drop button .pg svg{position:static;transform:none;width:62%;height:62%}
+  /* sign-plate labels on the map */
+  .lbl{display:flex;align-items:center;gap:5px;font-size:12px;font-weight:700;color:var(--ink);background:#fff;padding:3px 8px 3px 3px;border-radius:7px;box-shadow:0 2px 6px rgba(20,30,45,.18);letter-spacing:0}
+  .lbl .pg{width:18px;height:18px;border-radius:5px}
+  .lbl.sel,.lbl.you{padding:6px 10px}
+  .legend{gap:12px;font-size:12.5px;padding:8px 12px;border-radius:12px}
+  .legend span{gap:6px}
+  .legend .pg{width:20px;height:20px;border-radius:6px}
+  .legend b{width:20px;height:6px;border-radius:3px}
+  @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+  /* ---------- views: home / charter / viewer ---------- */
+  .view{position:fixed;inset:0;z-index:50;display:none;flex-direction:column;background:#f3f6f9;overflow:hidden}
+  body[data-view="home"] #home,body[data-view="charter"] #charter,body[data-view="viewer"] #viewer{display:flex}
+  body:not([data-view="dir"]) #app{visibility:hidden}
+  .vbar{flex:none;display:flex;align-items:center;gap:14px;background:#000;color:#fff;padding:12px 18px;border-bottom:4px solid var(--accent);min-height:72px}
+  .vbrand{display:flex;align-items:center;gap:14px}
+  .vbrand b{display:block;font-size:19px}
+  .vbrand span{display:block;font-size:13px;color:var(--accent);font-weight:700}
+  .view .logo{width:52px;height:52px;border-radius:8px;background:#fff;flex:none;overflow:hidden}
+  .view .logo svg{width:100%;height:100%;display:block}
+  .view .logo.sm{width:40px;height:40px;margin-left:auto}
+  .clock{margin-left:auto;text-align:right;font-size:13px;color:#c9d0da}
+  .clock b{display:block;font-size:24px;color:#fff;font-variant-numeric:tabular-nums}
+  .hfs{flex:none;display:flex;align-items:center;gap:8px;font:inherit;font-size:15px;font-weight:700;color:#fff;background:#222;border:0;border-radius:10px;padding:0 16px;height:48px;cursor:pointer;touch-action:manipulation}
+  .hfs:hover{background:#333}
+  .hfs:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+  .hfs svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:2.4;stroke-linecap:round}
+  .htoast{position:absolute;left:50%;top:92px;transform:translateX(-50%);background:#000;color:#fff;font-size:14px;padding:12px 16px;border-radius:10px;max-width:min(560px,90%);text-align:center;display:none;z-index:2}
+  .htoast.show{display:block}
+  #home{position:fixed}
+  .home-main{flex:1;display:flex;flex-direction:column;justify-content:center;align-items:center;padding:28px 22px;overflow:auto}
+  .home-main h1{font-size:clamp(28px,4.4vw,46px);margin:0;text-align:center;line-height:1.15}
+  .home-main .lead{margin:10px 0 30px;color:var(--ink2);font-size:18px}
+  .choices{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:22px;width:min(980px,100%)}
+  .choice{display:flex;flex-direction:column;gap:22px;text-decoration:none;color:var(--ink);background:#fff;border:2px solid #fff;border-radius:22px;padding:30px 28px 32px;box-shadow:0 10px 30px rgba(15,27,45,.10);min-height:250px;transition:transform .12s ease,border-color .12s ease;touch-action:manipulation}
+  .choice:hover{border-color:var(--accent)}
+  .choice:active{transform:scale(.985)}
+  .choice:focus-visible{outline:4px solid var(--accent);outline-offset:3px}
+  .ctile{width:84px;height:84px;border-radius:20px;display:grid;place-items:center}
+  .ctile svg{width:46px;height:46px;fill:none;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
+  .ctile.cyan{background:var(--accent)}.ctile.cyan svg{stroke:#fff}
+  .ctile.ink{background:#000}.ctile.ink svg{stroke:var(--accent)}
+  .ctext b{display:block;font-size:clamp(24px,2.8vw,32px);line-height:1.15}
+  .ctext span{display:block;margin-top:8px;font-size:17px;color:var(--ink2);line-height:1.4}
+  .home-foot{flex:none;display:flex;align-items:center;justify-content:center;gap:10px;padding:14px;font-weight:700;color:var(--accent-d);background:var(--accent2)}
+  .home-foot i{width:11px;height:11px;border-radius:50%;background:var(--accent);box-shadow:0 0 0 4px #b5e8fa}
+  .vback{display:flex;align-items:center;gap:6px;color:#fff;text-decoration:none;font-weight:700;font-size:15px;background:#222;border-radius:10px;padding:10px 14px 10px 10px;flex:none;min-height:44px}
+  .vback svg,.homebtn svg,.vmap svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
+  .vback:focus-visible,.vmap:focus-visible,.vtools button:focus-visible,.cc-card:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+  .vtitle{min-width:0;flex:1}
+  .vtitle b{display:block;font-size:18px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .vtitle span{display:block;font-size:13px;color:var(--accent);font-weight:700}
+  .cc-wrap{flex:1;overflow:auto;padding:22px}
+  .cc-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:18px;max-width:1300px;margin:0 auto}
+  .cc-card{display:flex;flex-direction:column;text-decoration:none;color:var(--ink);background:#fff;border-radius:16px;overflow:hidden;box-shadow:0 6px 20px rgba(15,27,45,.08);border:2px solid #fff;touch-action:manipulation}
+  .cc-card:hover{border-color:var(--accent)}
+  .cc-card img{width:100%;aspect-ratio:720/259;object-fit:cover;object-position:top;display:block;border-bottom:1px solid var(--line)}
+  .cc-body{padding:14px 16px 16px;display:flex;flex-direction:column;gap:6px;flex:1}
+  .cc-body small{color:var(--accent-d);font-weight:700;font-size:13px}
+  .cc-body b{font-size:17px;line-height:1.3}
+  .cc-body p{margin:0;color:var(--ink2);font-size:14px;line-height:1.45}
+  .cc-tags{display:flex;gap:6px;margin-top:auto;padding-top:8px;flex-wrap:wrap}
+  .cc-tags span{font-size:12px;font-weight:700;border-radius:999px;padding:4px 10px;background:var(--bg);color:var(--ink2)}
+  .cc-tags span.loc{background:#fff1e5;color:#b44c00}
+  .vtools{display:flex;align-items:center;gap:6px;flex:none}
+  .vtools button,.vpages button{font:inherit;font-weight:700;font-size:16px;min-width:44px;height:44px;border:0;border-radius:10px;background:#222;color:#fff;cursor:pointer;touch-action:manipulation}
+  .vtools #zFit{font-size:14px;padding:0 12px}
+  .vpages{display:flex;gap:4px;margin-right:6px}
+  .vpages button{font-size:14px;padding:0 12px}
+  .vpages button.on{background:var(--accent)}
+  .vmap{display:flex;align-items:center;gap:6px;text-decoration:none;font-weight:700;font-size:14px;background:var(--route);color:#fff;border-radius:10px;padding:0 14px;height:44px;margin-left:4px}
+  .vmap.off{display:none}
+  .vw-scroll{flex:1;overflow:auto;background:#d9e0e8;padding:18px;-webkit-overflow-scrolling:touch;text-align:center}
+  .vw-scroll img{display:block;margin:0 auto;max-width:none;border-radius:6px;box-shadow:0 8px 28px rgba(15,27,45,.25);background:#fff}
+  .homebtn{flex:none;width:44px;height:44px;border-radius:10px;background:#222;color:#fff;display:grid;place-items:center;order:-1}
+  .minihome{margin-left:6px;font-size:12px;font-weight:700;background:#222;color:#fff;border-radius:8px;padding:8px 12px;text-decoration:none}
+  @media (max-width:820px){
+    .choices{grid-template-columns:1fr;gap:14px}
+    .choice{min-height:0;flex-direction:row;align-items:center;padding:20px}
+    .ctile{width:64px;height:64px;flex:none}.ctile svg{width:36px;height:36px}
+    .vbar{flex-wrap:wrap;gap:10px;padding:10px 12px}
+    .vbrand b{font-size:16px}.vbrand span{display:none}
+    .clock{display:none}
+    .hfs{margin-left:auto;padding:0 12px}.hfs span{display:none}
+    #viewer .vtools{width:100%;justify-content:flex-end}
+    .cc-wrap{padding:14px}
+  }
+</style>
+</head>
+<body data-view="home">
+<div id="home" class="view" aria-label="Main menu">
+  <header class="vbar">
+    <div class="vbrand"><div class="logo"><svg xmlns="http://www.w3.org/2000/svg" viewBox="-0.3 -0.3 4.6 4.6" role="img" aria-label="DOST logo"><g fill="#000"><path d="M0,1A1,1 0 0 1 2,1Z"/><path d="M3,0A1,1 0 0 1 3,2Z"/><path d="M1,2A1,1 0 0 0 1,4Z"/><path d="M2,3A1,1 0 0 0 4,3Z"/><rect x="1" y="1" width="2" height="2"/></g><g fill="#00adee"><path d="M1,1L0,1A1,1 0 0 0 1,2Z"/><path d="M3,1L3,0A1,1 0 0 0 2,1Z"/><path d="M1,3L1,4A1,1 0 0 0 2,3Z"/><path d="M3,3L4,3A1,1 0 0 0 3,2Z"/></g><g fill="#fff"><path d="M1,1L2,1A1,1 0 0 1 1,2Z"/><path d="M3,1L3,2A1,1 0 0 1 2,1Z"/><path d="M1,3L1,2A1,1 0 0 1 2,3Z"/><path d="M3,3L2,3A1,1 0 0 1 3,2Z"/></g></svg></div><div><b>Department of Science and Technology</b><span>OneDOST4U: Solutions and Opportunities for All</span></div></div>
+    <div class="clock" id="clock"></div>
+    <button class="hfs" id="homeFs" aria-label="Full screen"><svg viewBox="0 0 24 24"><path id="homeFsIco" d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg><span id="homeFsTxt">Full screen</span></button>
+  </header>
+  <div class="htoast" id="homeToast" role="status"></div>
+  <main class="home-main">
+    <h1>How can we help you today?</h1>
+    <p class="lead">Choose what you'd like to see.</p>
+    <div class="choices">
+      <a class="choice" href="#charter">
+        <span class="ctile cyan"><svg viewBox="0 0 24 24"><path d="M7 3h7l5 5v13H7z"/><path d="M14 3v5h5M10 12h6M10 15.5h6M10 19h4"/></svg></span>
+        <span class="ctext"><b>Citizen's Charter</b><span>Our services: requirements, steps, fees and processing time</span></span>
+      </a>
+      <a class="choice" href="#directory">
+        <span class="ctile ink"><svg viewBox="0 0 24 24"><path d="M12 2.5a7 7 0 0 0-7 7c0 5.2 7 12 7 12s7-6.8 7-12a7 7 0 0 0-7-7z"/><circle cx="12" cy="9.5" r="2.5"/></svg></span>
+        <span class="ctext"><b>Building Directory</b><span>Find an office from the Ground Floor to the 4th Floor and get directions</span></span>
+      </a>
+    </div>
+  </main>
+  <footer class="home-foot"><i></i>You are at the Front Lobby, Ground Floor</footer>
+</div>
+
+<div id="charter" class="view" aria-label="Citizen's Charter">
+  <header class="vbar">
+    <a class="vback" href="#home"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg>Home</a>
+    <div class="vtitle"><b>Citizen's Charter</b><span id="ccCount"></span></div>
+    <div class="logo sm"><svg xmlns="http://www.w3.org/2000/svg" viewBox="-0.3 -0.3 4.6 4.6" role="img" aria-label="DOST logo"><g fill="#000"><path d="M0,1A1,1 0 0 1 2,1Z"/><path d="M3,0A1,1 0 0 1 3,2Z"/><path d="M1,2A1,1 0 0 0 1,4Z"/><path d="M2,3A1,1 0 0 0 4,3Z"/><rect x="1" y="1" width="2" height="2"/></g><g fill="#00adee"><path d="M1,1L0,1A1,1 0 0 0 1,2Z"/><path d="M3,1L3,0A1,1 0 0 0 2,1Z"/><path d="M1,3L1,4A1,1 0 0 0 2,3Z"/><path d="M3,3L4,3A1,1 0 0 0 3,2Z"/></g><g fill="#fff"><path d="M1,1L2,1A1,1 0 0 1 1,2Z"/><path d="M3,1L3,2A1,1 0 0 1 2,1Z"/><path d="M1,3L1,2A1,1 0 0 1 2,3Z"/><path d="M3,3L2,3A1,1 0 0 1 3,2Z"/></g></svg></div>
+  </header>
+  <div class="cc-wrap"><div class="cc-grid" id="ccGrid"></div></div>
+</div>
+
+<div id="viewer" class="view" aria-label="Citizen's Charter service">
+  <header class="vbar">
+    <a class="vback" href="#charter"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg>All services</a>
+    <div class="vtitle"><b id="vwTitle"></b><span id="vwUnit"></span></div>
+    <div class="vtools">
+      <div class="vpages" id="vwPages"></div>
+      <button id="zOut" aria-label="Zoom out">−</button><button id="zFit" aria-label="Fit to screen">Fit</button><button id="zIn" aria-label="Zoom in">+</button>
+      <a class="vmap" id="vwMap" href="#"><svg viewBox="0 0 24 24"><path d="M12 2.5a7 7 0 0 0-7 7c0 5.2 7 12 7 12s7-6.8 7-12a7 7 0 0 0-7-7z"/><circle cx="12" cy="9.5" r="2.5"/></svg><span id="vwMapTxt">Find office</span></a>
+    </div>
+  </header>
+  <div class="vw-scroll" id="vwScroll"><img id="vwImg" alt=""></div>
+</div>
+
+<div id="app">
+  <aside>
+    <div class="band">
+      <div class="logo"><svg xmlns="http://www.w3.org/2000/svg" viewBox="-0.3 -0.3 4.6 4.6" role="img" aria-label="DOST logo"><g fill="#000"><path d="M0,1A1,1 0 0 1 2,1Z"/><path d="M3,0A1,1 0 0 1 3,2Z"/><path d="M1,2A1,1 0 0 0 1,4Z"/><path d="M2,3A1,1 0 0 0 4,3Z"/><rect x="1" y="1" width="2" height="2"/></g><g fill="#00adee"><path d="M1,1L0,1A1,1 0 0 0 1,2Z"/><path d="M3,1L3,0A1,1 0 0 0 2,1Z"/><path d="M1,3L1,4A1,1 0 0 0 2,3Z"/><path d="M3,3L4,3A1,1 0 0 0 3,2Z"/></g><g fill="#fff"><path d="M1,1L2,1A1,1 0 0 1 1,2Z"/><path d="M3,1L3,2A1,1 0 0 1 2,1Z"/><path d="M1,3L1,2A1,1 0 0 1 2,3Z"/><path d="M3,3L2,3A1,1 0 0 1 3,2Z"/></g></svg></div>
+      <a class="homebtn" href="#home" aria-label="Back to main menu"><svg viewBox="0 0 24 24"><path d="M3 11l9-7 9 7"/><path d="M5 10v10h5v-6h4v6h5V10"/></svg></a>
+      <div>
+        <small>Department of Science and Technology</small>
+        <h1>Building Directory</h1>
+        <p>Ground Floor to 4th Floor · tap an office to see the way</p>
+      </div>
+    </div>
+    <div class="head">
+      <div class="here"><i></i>You are here: Front Lobby, Ground Floor</div>
+      <div class="fchips" id="fchips"></div>
+      <div class="cchips" id="cchips"></div>
+    </div>
+    <div id="list"></div>
+    <div class="note">Layouts traced from the Ground to 4th Floor plans. Distances are approximate walking distances.</div>
+  </aside>
+  <main id="stage">
+    <div id="labels"></div>
+    <div class="toast" id="toast"></div>
+    <div class="topbar">
+    <div class="mini"><div class="logo"><svg xmlns="http://www.w3.org/2000/svg" viewBox="-0.3 -0.3 4.6 4.6" role="img" aria-label="DOST logo"><g fill="#000"><path d="M0,1A1,1 0 0 1 2,1Z"/><path d="M3,0A1,1 0 0 1 3,2Z"/><path d="M1,2A1,1 0 0 0 1,4Z"/><path d="M2,3A1,1 0 0 0 4,3Z"/><rect x="1" y="1" width="2" height="2"/></g><g fill="#00adee"><path d="M1,1L0,1A1,1 0 0 0 1,2Z"/><path d="M3,1L3,0A1,1 0 0 0 2,1Z"/><path d="M1,3L1,4A1,1 0 0 0 2,3Z"/><path d="M3,3L4,3A1,1 0 0 0 3,2Z"/></g><g fill="#fff"><path d="M1,1L2,1A1,1 0 0 1 1,2Z"/><path d="M3,1L3,2A1,1 0 0 1 2,1Z"/><path d="M1,3L1,2A1,1 0 0 1 2,3Z"/><path d="M3,3L2,3A1,1 0 0 1 3,2Z"/></g></svg></div><div><span>DOST</span><b>Building Directory</b></div><button id="showList">☰ Directory</button><a class="minihome" href="#home">Home</a></div>
+      <div class="search" id="searchBox">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+        <input id="q" type="search" placeholder="Search office, division, toilet…" autocomplete="off" aria-label="Search the directory">
+        <button class="sx" id="qClear" aria-label="Clear search">×</button>
+        <div class="drop" id="drop" role="listbox"></div>
+      </div>
+    <div class="tools">
+      <button id="v3d" class="on">3D</button>
+      <button id="vtop">Top</button>
+      <button id="vlbl" class="on">Labels</button>
+      <span class="sep"></span>
+      <button id="fsBtn" class="fs" title="Full screen" aria-label="Full screen"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path id="fsIco" d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg><span id="fsTxt">Full screen</span></button>
+    </div>
+    </div>
+    <div class="floors" id="floors"></div>
+    <div id="dir">
+      <div class="dhead"><h2 id="dName"></h2><button class="dbtn" id="dMin" title="Minimize" aria-label="Minimize directions">–</button><button class="dbtn" id="dClose" title="Close" aria-label="Close directions">×</button></div>
+      <div class="meta" id="dMeta"></div>
+      <ol id="dSteps"></ol>
+      <div class="btns">
+        <button class="btn pri" id="walkBtn"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" style="vertical-align:-2px;margin-right:5px"><path d="M12 2a7 7 0 0 0-7 7c0 5.2 7 13 7 13s7-7.8 7-13a7 7 0 0 0-7-7zm0 9.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5z"/></svg>Walk me there</button>
+        <button class="btn" id="clearBtn">Clear</button>
+      </div>
+    </div>
+    <div class="flname" id="floorName">Ground Floor</div>
+    <div class="walkbar" id="walkbar"><div><div id="walkTxt">Walking…</div><div class="wprog"><i id="walkProg"></i></div></div><button id="pauseWalk" class="ghost">Pause</button><button id="stopWalk">Exit</button></div>
+    <div class="legend" id="legend"></div>
+    <div class="compass">↑ Rear · ↓ Front entrance</div>
+  </main>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+<script>
+(function(){
+// =====================================================================
+//  DOST Building Directory — Ground Floor to 4th Floor
+//  Room outlines traced from the floor plan PDFs. Upper floors are
+//  aligned to the ground floor through the A–F / 1–6 structural grid.
+// =====================================================================
+const FH = 4.6, WALL_H = 2.4;
+const FLOOR_NAMES = ['Ground Floor','2nd Floor','3rd Floor','4th Floor'];
+const FLOOR_SHORT = ['GF','2F','3F','4F'];
+// grid bubble positions on each sheet (40-dpi px) → master plan px (original GF sheet)
+const CAL = [null,
+  {a:402.7,f:798.7,r1:186.0,r6:581.4},
+  {a:405.0,f:798.0,r1:189.2,r6:581.7},
+  {a:385.9,f:783.7,r1:215.6,r6:612.9}];
+const MA=388.0, MF=803.7, M1=207.3, M6=622.1;
+function toPlan(fl,x,y){const c=CAL[fl]; if(!c) return [x,y]; return [MA+(x-c.a)*(MF-MA)/(c.f-c.a), M1+(y-c.r1)*(M6-M1)/(c.r6-c.r1)];}
+const S = 0.0835, OX = 597, OY = 412;           // 1 plan px ≈ 0.0835 m
+const P = (x,y)=>new THREE.Vector3((x-OX)*S, 0, (y-OY)*S);   // local (per-floor group) position
+
+// ---------------- Walkable network ----------------
+const NODES = {};   // id -> {x,y,f,lab}
+const ADJ = {};     // id -> [[id, cost, label]]
+function addNode(id,x,y,f,lab){ if(!NODES[id]){NODES[id]={id,x,y,f,lab};ADJ[id]=[];} return id; }
+const isPassageLab = l => /hallway|corridor|lobby|entrance|reception area|stair lobby/.test(l);
+function addEdge(a,b,lab){
+  const A=NODES[a],B=NODES[b], d=Math.hypot(A.x-B.x,A.y-B.y);
+  const cost=d*((isPassageLab(A.lab)&&isPassageLab(B.lab))?1:2.2);   // prefer public hallways
+  ADJ[a].push([b,cost,lab||B.lab]); ADJ[b].push([a,cost,lab||A.lab]);
+}
+// Ground floor (master plan px)
+const GN = {
+  ENT:[597,664,'front entrance'], LOB:[597,592,'front lobby'], LOBN:[597,553,'front lobby'],
+  LH556:[517,556,'left 3.00 m hallway'], LH505:[517,505,'left 3.00 m hallway'], LH415:[517,415,'left 3.00 m hallway'],
+  LH383:[517,383,'left 3.00 m hallway'], LH297:[517,297,'left 3.00 m hallway'], LH225:[517,225,'left 3.00 m hallway'], LH190:[517,190,'left 3.00 m hallway'],
+  RH556:[679,556,'right 3.00 m hallway'], RH435:[679,435,'right 3.00 m hallway'], RH380:[679,380,'right 3.00 m hallway'],
+  RH345:[679,345,'right 3.00 m hallway'], RH310:[679,310,'right 3.00 m hallway'], RH297:[679,297,'right 3.00 m hallway'],
+  RH230:[679,230,'right 3.00 m hallway'], RH190:[679,190,'right 3.00 m hallway'],
+  REAR:[597,186,'back lobby'], REARR:[559,218,'security reception area'],
+  CCW:[557,297,'common CR corridor'], CC:[595,297,'common CR corridor'], CCE:[637,297,'common CR corridor'],
+  COURT:[550,415,'atrium'],
+  LWH:[450,383,'left-wing hallway'], LWC262:[393,262,'left-wing side corridor'], LWC310:[393,310,'left-wing side corridor'],
+  LWC355:[393,355,'left-wing side corridor'], LWC383:[393,383,'left-wing side corridor'], LWC412:[393,412,'left-wing side corridor'],
+  LWC470:[393,470,'left-wing side corridor'], LWC525:[393,525,'left-wing side corridor'], LWC560:[393,560,'left-wing side corridor'],
+  LWC598:[393,598,'left-wing side corridor'],
+  HR:[450,245,'HR Division'], MGT:[462,345,'Management Division'], ACC:[462,430,'Accounting Division'], FIN:[462,510,'Finance & Management Services'],
+  DIRL:[450,565,'FMS Office of the Director'],
+  PROP:[735,255,'Property Section'], CASH:[735,318,'Cashiers'], MTR:[722,375,'meeting area'],
+  RWC240:[787,240,'right-wing hallway'], RWC270:[787,270,'right-wing hallway'], RWC345:[787,345,'right-wing hallway'], RWC395:[787,395,'right-wing hallway'],
+  RWP:[812,362,'pantry'], GSD:[812,430,'General Services Division'], ADM:[735,438,'Administrative & Legal Services'],
+  LEG:[750,508,'Legal Division'], DIRR:[745,565,'ALS Office of the Director']
+};
+Object.entries(GN).forEach(([k,v])=>addNode(k,v[0],v[1],0,v[2]));
+[['ENT','LOB'],['LOB','LOBN'],['LOBN','LH556'],['LOBN','RH556'],
+ ['LH556','LH505'],['LH505','LH415'],['LH415','LH383'],['LH383','LH297'],['LH297','LH225'],['LH225','LH190'],
+ ['RH556','RH435'],['RH435','RH380'],['RH380','RH345'],['RH345','RH310'],['RH310','RH297'],['RH297','RH230'],['RH230','RH190'],
+ ['LH190','REAR'],['REAR','RH190'],['REAR','REARR'],
+ ['LH297','CCW'],['CCW','CC'],['CC','CCE'],['CCE','RH297'],['LH415','COURT'],
+ ['LH383','LWH'],['LWH','LWC383'],['LWH','MGT'],['LWH','ACC'],['ACC','FIN'],['FIN','LH505'],['LH556','DIRL'],['DIRL','LWC598'],
+ ['LH225','HR'],['HR','LWC262'],
+ ['LWC262','LWC310'],['LWC310','LWC355'],['LWC355','LWC383'],['LWC383','LWC412'],['LWC412','LWC470'],['LWC470','LWC525'],['LWC525','LWC560'],['LWC560','LWC598'],
+ ['RH230','PROP'],['RH345','CASH'],['CASH','RWC345'],['RH380','MTR'],
+ ['RWC240','RWC270'],['RWC270','RWC345'],['RWC345','RWC395'],['RWC345','RWP'],['RWC395','GSD'],
+ ['RH435','ADM'],['ADM','GSD'],['ADM','LEG'],['RH556','DIRR']
+].forEach(([a,b])=>addEdge(a,b));
+const LIFT = ['LOBN'];   // elevator landing node per floor
+
+// Upper floors: corridor centre-lines in each sheet's own coordinates.
+const XS = (y,xs)=>xs.map(x=>[x,y]);
+const UPPER_PATHS = {
+  1:[ {lab:'2.00 m north hallway', pts:XS(271,[355,420,470,528,560,602,640,675,720,785,850])},
+      {lab:'south hallway',        pts:XS(526,[355,420,470,528,565,602,640,675,720,785,850])},
+      {lab:'2.50 m west corridor', pts:[[528,271],[528,350],[528,440],[528,526]]},
+      {lab:'2.50 m east corridor', pts:[[675,271],[675,350],[675,440],[675,526]]},
+      {lab:'1.20 m hallway',       pts:[[470,526],[470,588],[560,588],[640,588]]},
+      {lab:'elevator lobby', lift:true, pts:[[602,518],[602,526]]} ],
+  2:[ {lab:'2.50 m north hallway', pts:XS(273,[355,420,470,530,560,602,640,675,720,790,850])},
+      {lab:'2.50 m south hallway', pts:XS(530,[355,420,470,530,565,602,640,675,720,790,850])},
+      {lab:'2.50 m west corridor', pts:[[530,273],[530,350],[530,440],[530,530]]},
+      {lab:'2.50 m east corridor', pts:[[675,273],[675,350],[675,440],[675,530]]},
+      {lab:'stair lobby', lift:true, pts:[[602,520],[602,530]]} ],
+  3:[ {lab:'2.00 m north corridor', pts:XS(304,[340,400,470,523,560,600,661,720,790,835])},
+      {lab:'west corridor',         pts:[[523,304],[523,400],[523,480],[523,560]]},
+      {lab:'2.50 m east corridor',  pts:[[661,304],[661,400],[661,480],[661,560]]},
+      {lab:'elevator lobby',        pts:[[523,560],[587,560],[661,560]]},
+      {lab:'elevator lobby', lift:true, pts:[[587,548],[587,560]]},
+      {lab:'elevator lobby',        pts:[[587,560],[587,600]]},
+      {lab:'assembly area',         pts:[[523,480],[430,480]]},
+      {lab:'assembly area',         pts:[[430,380],[430,480],[430,600]]} ]
+};
+Object.entries(UPPER_PATHS).forEach(([fs,lines])=>{
+  const f=+fs;
+  lines.forEach(L=>{
+    const ids=L.pts.map(([x,y])=>{const [px,py]=toPlan(f,x,y);return addNode(`f${f}_${x}_${y}`,px,py,f,L.lab);});
+    for(let i=1;i<ids.length;i++) addEdge(ids[i-1],ids[i],L.lab);
+    if(L.lift) LIFT[f]=ids[0];
+  });
+});
+
+// ---------------- Rooms ----------------
+// Ground floor: [id, name, short label, wing, x1,y1,x2,y2, via node, search words]
+const GF_ROOMS = [
+  ['hrmdd','Human Resources Management & Development Division','HR Division','L',398,208,497,287,'HR','hr hrmdd personnel'],
+  ['hr-project-leader','HR Division — Private Office',null,'L',342,208,388,247,'HR','office'],
+  ['procurement-storage','Storage Room (Left Wing)',null,'L',342,247,388,287,'LWC262','storage'],
+  ['pantry-lw-north','Pantry (Left Wing North)',null,'L',342,288,388,321,'LWC310','kitchen coffee'],
+  ['toilet-lw-male','Male Toilet (Left Wing)',null,'L',398,288,434,308,'LWC310','cr restroom comfort room'],
+  ['toilet-lw-female','Female Toilet (Left Wing)',null,'L',414,308,435,338,'LWC310','cr restroom comfort room'],
+  ['mgmt-chief','Office of the Division Chief — Management',null,'L',435,288,497,304,'MGT','chief'],
+  ['management-division','Management Division','Management Div.','L',435,304,497,375,'MGT',''],
+  ['meeting-room-lw','Meeting Room (Left Wing)',null,'L',342,321,388,392,'LWC355','conference'],
+  ['fms-chief-north','Office of the Division Chief (Finance North)',null,'L',342,392,397,433,'LWC412','chief accounting'],
+  ['budget-division','Budget Division','Budget','L',342,433,398,503,'LWC470','budget'],
+  ['fms-chief-south','Office of the Division Chief (Finance South)',null,'L',342,503,397,545,'LWC525','chief budget'],
+  ['accounting-division','Accounting Division','Accounting','L',428,391,497,475,'ACC','accounting'],
+  ['fms','Finance & Management Services — Reception','FMS Reception','L',428,475,497,545,'FIN','fms finance'],
+  ['pantry-lw-south','Pantry & Toilet (FMS Director)',null,'L',342,545,397,571,'LWC560','kitchen cr'],
+  ['fms-director-staff','FMS Office of the Director — Staff Area','FMS Director','L',398,545,497,586,'DIRL','director'],
+  ['fms-director','FMS Director’s Office',null,'L',342,571,397,621,'LWC598','director'],
+  ['fms-director-meeting','Meeting Area (FMS Director)',null,'L',398,586,450,621,'DIRL','conference'],
+  ['fms-director-reception','Reception (FMS Director)',null,'L',473,586,497,615,'DIRL',''],
+  ['lobby','Front Lobby & Lounge','Front Lobby','C',538,551,628,623,'LOB','waiting entrance'],
+  ['information','Front Lobby Reception / Information','Info','C',629,573,656,621,'LOB','information guard front desk'],
+  ['elevator-1','Elevator 1 (Left)','Elev','C',538,509,566,541,'LOBN','lift upstairs'],
+  ['elevator-2','Elevator 2 (Right)','Elev','C',628,509,656,541,'LOBN','lift upstairs'],
+  ['grand-stair','Main Stair to 2nd Floor','Stairs Up','C',581,479,613,541,'LOBN','stairs upstairs'],
+  ['inner-court','Atrium (Garden)','Atrium','C',562,379,632,455,'COURT','garden courtyard inner court'],
+  ['toilet-male','GF Male Common CR','Male CR','C',537,306,577,360,'CCW','cr restroom comfort room toilet'],
+  ['toilet-pwd','PWD Toilet (GF)',null,'C',577,306,598,332,'CC','accessible cr restroom'],
+  ['toilet-female','GF Female Common CR','Female CR','C',598,306,656,360,'CCE','cr restroom comfort room toilet'],
+  ['security-office','Security Office',null,'C',534,234,559,285,'REARR','guard'],
+  ['surveillance','Surveillance Room',null,'C',559,234,584,285,'REARR','cctv'],
+  ['security-reception','Reception Area (Security)',null,'C',534,207,584,234,'REARR','guard'],
+  ['basement-stair','Stair to Basement',null,'C',596,211,632,285,'CC','stairs down'],
+  ['maintenance','Maintenance Room',null,'C',632,211,655,285,'CCE','janitor utility'],
+  ['rear-reception','Back Lobby & Main Rear Entrance','Back Lobby','C',534,157,656,207,'REAR','back door rear entrance'],
+  ['property-section','Property Section','Property','R',697,208,778,280,'PROP','supply'],
+  ['property-project-leader','Project Leader (Property Section)',null,'R',736,208,778,243,'PROP',''],
+  ['cashiers','Cashiers & Transaction Counter','Cashiers','R',697,280,778,348,'CASH','payment cashier collection'],
+  ['vault','Vault',null,'R',750,348,778,384,'CASH',''],
+  ['meeting-area-rw','Meeting Area (Right Wing)',null,'R',697,348,750,400,'MTR','conference'],
+  ['property-storage','Storage Room (Property Section)',null,'R',796,208,852,260,'RWC240','storage'],
+  ['records','Records (Compactors)',null,'R',796,260,852,321,'RWC270','archive files compactor'],
+  ['pantry-rw','Pantry (Right Wing)',null,'R',796,340,832,388,'RWP','kitchen'],
+  ['toilet-rw','Common Toilet (Right Wing)',null,'R',832,321,852,360,'RWP','cr restroom comfort room'],
+  ['storage-rw','Storage (Right Wing)',null,'R',832,360,852,388,'RWP',''],
+  ['gsd','General Services Division','General Services','R',772,390,852,471,'GSD','gsd'],
+  ['als','Administrative & Legal Services — Reception','Admin & Legal','R',697,401,772,471,'ADM','als admin'],
+  ['legal-division','Legal Division','Legal','R',697,471,796,545,'LEG','lawyer'],
+  ['als-chief-north','Office of the Division Chief (Admin North)',null,'R',796,471,852,508,'GSD','chief'],
+  ['als-chief-south','Office of the Division Chief (Admin South)',null,'R',796,508,852,545,'LEG','chief'],
+  ['pantry-rw-south','Pantry & Toilet (ALS Director)',null,'R',796,545,852,571,'DIRR','kitchen cr'],
+  ['als-director-staff','ALS Office of the Director — Staff Area','ALS Director','R',697,545,796,586,'DIRR','director'],
+  ['als-director','ALS Director’s Office',null,'R',796,571,852,621,'DIRR','director'],
+  ['als-director-meeting','Meeting Area (ALS Director)',null,'R',743,586,796,621,'DIRR','conference'],
+  ['als-director-reception','Reception (ALS Director)',null,'R',697,586,722,615,'DIRR','']
+];
+// Upper floors (each sheet's own coordinates): [id, name, short label, x1,y1,x2,y2, search words]
+const UP_ROOMS = {
+ 1:[
+  ['f2-spd-chief','Office of the Division Chief (SPD)',null,340,125,391,171,'special projects chief'],
+  ['f2-pantry-nw','Pantry (Special Projects)',null,340,171,370,213,'kitchen'],
+  ['f2-toilet-nw','Toilet (Special Projects)',null,370,186,404,211,'cr restroom'],
+  ['f2-meeting-nw','Meeting Room (Special Projects)',null,340,213,388,260,'conference'],
+  ['f2-spd','Special Projects Division','Special Projects',404,125,487,260,'spd'],
+  ['f2-spd-huddle','Huddle Room (SPD)',null,432,223,462,260,'meeting'],
+  ['f2-itd','Information Technology Division','IT Division',487,125,600,186,'itd ict computer'],
+  ['f2-itd-work','IT Division — Work Area',null,487,186,534,260,'itd ict'],
+  ['f2-itd-rooms','IT Division — Support Rooms',null,534,186,590,260,'itd server'],
+  ['f2-itd-chief','Office of the Division Chief (ITD)',null,605,125,646,171,'itd chief'],
+  ['f2-itd-meeting','Meeting Room (North)',null,647,125,689,171,'conference'],
+  ['f2-maintenance','Maintenance Room (2F)',null,635,189,658,261,'janitor'],
+  ['f2-shared-pantry','Shared Pantry (2F)','Pantry',658,189,690,261,'kitchen'],
+  ['f2-gad-office','Office (GAD & Regional Support)',null,689,125,722,170,''],
+  ['f2-gad','Gender and Development & Regional Support Services','GAD & Regional',689,170,722,260,'gad gender regional'],
+  ['f2-breastfeeding','Breastfeeding Room',null,722,194,754,224,'lactation nursing mother'],
+  ['f2-clinic','Clinic','Clinic',722,224,754,243,'medical nurse doctor first aid'],
+  ['f2-bac','Bids and Awards Committee (BAC)','BAC',754,194,816,260,'bac bidding'],
+  ['f2-bac-conf','BAC Conference Room',null,763,125,816,170,'bac meeting'],
+  ['f2-pimt-office','Office (PIMT)',null,816,125,872,156,''],
+  ['f2-pimt','PIMT','PIMT',816,156,872,260,'pimt'],
+  ['f2-stred-chief','Office of the Division Chief (S&T Resources & Evaluation)',null,342,287,398,324,'chief'],
+  ['f2-pcmd-chief','Office of the Division Chief (Program Coordination & Monitoring)',null,398,287,454,324,'chief'],
+  ['f2-pdpd-chief','Office of the Division Chief (Policy Development & Planning)',null,454,287,511,324,'chief'],
+  ['f2-stred','S&T Resources and Evaluation Division','S&T Resources',342,324,398,404,'stred'],
+  ['f2-pcmd','Program Coordination and Monitoring Division','Program Coord.',398,324,454,418,'pcmd'],
+  ['f2-pdpd','Policy Development and Planning Division','Policy & Planning',454,324,511,418,'pdpd'],
+  ['f2-pes-pantry','Pantry (PES)',null,342,404,378,465,'kitchen'],
+  ['f2-pes-toilet','Toilets (PES)',null,378,418,409,465,'cr restroom'],
+  ['f2-pes-meeting','Meeting Room (PES)',null,409,418,461,465,'conference'],
+  ['f2-pes-reception','Reception (PES)',null,461,418,511,465,''],
+  ['f2-pes-director','PES Director’s Office',null,342,465,409,516,'director'],
+  ['f2-pes','PES Office of the Director','PES Office',409,465,511,516,'pes planning evaluation service director'],
+  ['f2-cr-male','2nd Floor Male Common CR','Male CR',545,280,583,327,'cr restroom comfort room toilet'],
+  ['f2-cr-pwd','PWD Toilet (2F)',null,583,280,602,310,'accessible cr'],
+  ['f2-cr-female','2nd Floor Female Common CR','Female CR',602,280,660,327,'cr restroom comfort room toilet'],
+  ['f2-procurement','Procurement Management Division','Procurement',691,286,746,441,'pmd procurement'],
+  ['f2-dllo-head','Office of the DLLO Head',null,746,286,783,323,'dllo'],
+  ['f2-dllo','Department Legislative and Liaison Office (DLLO)','DLLO',783,286,862,356,'dllo legislative liaison'],
+  ['f2-toilet-e','Toilet (2F East)',null,746,328,783,353,'cr restroom'],
+  ['f2-pantry-e','Pantry (2F East)',null,746,353,783,380,'kitchen'],
+  ['f2-dllo-office','Office (DLLO)',null,818,356,862,401,'dllo'],
+  ['f2-meeting-e','Meeting Room (2F East)',null,746,401,800,438,'conference'],
+  ['f2-gates1','GATES 1','GATES 1',800,401,862,514,'lounge gates'],
+  ['f2-drccu','DRCCU','DRCCU',691,453,746,514,'drccu'],
+  ['f2-huddle-e','Huddle Room (2F East)',null,771,454,800,480,'meeting'],
+  ['f2-meeting-se','Meeting Room (DRCCU side)',null,746,480,800,514,'conference'],
+  ['f2-dllo-meeting','DLLO Meeting Room',null,342,540,389,595,'dllo conference'],
+  ['f2-pantry-s','Pantry & Gallery (2F South)',null,402,540,471,581,'kitchen'],
+  ['f2-meeting-s','Meeting Area (2F South)',null,471,540,517,581,'conference'],
+  ['f2-holding','Holding Area (2F)',null,517,540,546,581,'waiting'],
+  ['f2-lounge','Waiting Lounge (2F)',null,546,540,600,581,'waiting'],
+  ['f2-pes-conf','Conference Room (PES OD)',null,342,595,389,647,'pes meeting'],
+  ['f2-thrive','THRIVE','THRIVE',389,595,433,647,'thrive'],
+  ['f2-ncbp','NCBP','NCBP',433,595,657,647,'ncbp'],
+  ['f2-rd','R&D Projects','R&D Projects',657,540,800,581,'research development'],
+  ['f2-spd-ext','SPD Extension','SPD Ext.',657,581,730,650,'special projects'],
+  ['f2-meeting-ss','Meeting Room (SPD Extension)',null,730,592,771,650,'conference'],
+  ['f2-pantry-ss','Pantry (2F South)',null,771,611,800,650,'kitchen'],
+  ['f2-coa','Commission on Audit (COA)','COA',800,540,862,650,'coa audit']
+ ],
+ 2:[
+  ['f3-usec-sc','Office of the USEC for SC','USEC for SC',342,130,470,264,'undersecretary'],
+  ['f3-asec-dc','Office of the ASEC for DC','ASEC for DC',470,130,589,264,'assistant secretary'],
+  ['f3-itcu','International Technology Cooperation Unit (ITCU)','ITCU',659,130,727,263,'itcu international cooperation'],
+  ['f3-usec-rd','Office of the USEC for Research and Development (R&D)','USEC for R&D',727,130,862,263,'undersecretary research development'],
+  ['f3-pantry-w','Pantry (3F West)',null,345,295,405,334,'kitchen'],
+  ['f3-toilets-w','Toilets (3F West)',null,412,295,444,334,'cr restroom'],
+  ['f3-service-w','Service Room (3F West)',null,444,295,513,334,'storage'],
+  ['f3-teknolohiya','Teknolohiya Conference Room 01','Teknolohiya Conf.',345,334,513,421,'conference meeting',[530,350]],
+  ['f3-asec-ttcc','Office of the ASEC for TTCC (Executive Office 04)','ASEC for TTCC',345,421,513,515,'assistant secretary',[530,440]],
+  ['f3-cr-male','3rd Floor Male Common CR','Male CR',546,282,583,328,'cr restroom comfort room toilet'],
+  ['f3-cr-pwd','PWD Toilet (3F)',null,583,282,602,312,'accessible cr'],
+  ['f3-cr-female','3rd Floor Female Common CR','Female CR',602,280,659,330,'cr restroom comfort room toilet'],
+  ['f3-holding','Holding Room (3F)',null,690,294,762,334,'waiting'],
+  ['f3-toilets-e','Toilets (3F East)',null,762,294,793,334,'cr restroom'],
+  ['f3-pantry-e','Pantry (3F East)',null,810,294,860,334,'kitchen'],
+  ['f3-agham','Agham Conference Room 02','Agham Conf.',690,334,860,420,'conference meeting',[675,350]],
+  ['f3-asec-ala','Office of the ASEC for ALA','ASEC for ALA',690,420,860,517,'assistant secretary',[675,440]],
+  ['f3-usec-sts','Office of the USEC for Scientific and Technical Services (STS)','USEC for STS',345,545,513,646,'undersecretary'],
+  ['f3-trc','TRC Office','TRC Office',513,545,598,646,'trc'],
+  ['f3-sfu','S&T Foundation Unit (SFU)','SFU',598,545,687,646,'sfu'],
+  ['f3-usec-ro','Office of the USEC for Regional Operations (RO)','USEC for RO',687,545,858,646,'undersecretary regional operations']
+ ],
+ 3:[
+  ['f4-ias-head','Internal Audit Services — Head’s Office',null,322,155,375,216,'ias audit'],
+  ['f4-ias-pantry','Pantry & Toilets (IAS)',null,375,155,450,224,'kitchen cr'],
+  ['f4-ias-staff','Internal Audit Services — Staff Area','IAS Staff',450,155,530,215,'ias audit'],
+  ['f4-ias','Internal Audit Services (IAS)','Internal Audit',368,224,530,290,'ias audit'],
+  ['f4-ias-meeting','Meeting Room (IAS)',null,322,224,368,290,'conference'],
+  ['f4-office-n','Office (4F North)',null,530,155,572,215,''],
+  ['f4-cr-female','4th Floor Female Common CR','Female CR',530,219,572,290,'cr restroom comfort room toilet'],
+  ['f4-asec-cd','Office of the ASEC for CD','ASEC for CD',719,156,804,216,'assistant secretary'],
+  ['f4-asec-cd-office','ASEC for CD — Private Office',null,804,156,847,216,'assistant secretary'],
+  ['f4-pantry-ne','Pantry & Toilet (ASEC for CD)',null,798,216,847,291,'kitchen cr'],
+  ['f4-cr-male','4th Floor Male Common CR','Male CR',531,319,600,356,'cr restroom comfort room toilet'],
+  ['f4-janitor','Janitor’s Room (4F)',null,600,319,615,356,'janitor utility'],
+  ['f4-cr-pwd','PWD Toilet (4F)',null,615,319,642,356,'accessible cr'],
+  ['f4-holding','Holding Room (4F)',null,680,316,747,356,'waiting'],
+  ['f4-toilets-osec','Toilets (OSEC)',null,747,316,777,356,'cr restroom'],
+  ['f4-pantry-osec','Pantry (OSEC)',null,777,316,846,356,'kitchen'],
+  ['f4-osec-conf','OSEC Conference Room 03','OSEC Conf.',680,356,846,447,'conference meeting secretary',[661,400]],
+  ['f4-osec','Office of the Secretary — Reception & Staff','Office of the Secretary',680,447,846,545,'osec secretary',[661,480]],
+  ['f4-secretary','Office of the Secretary — Secretary’s Office',null,785,545,846,680,'osec secretary',[661,560]],
+  ['f4-osec-meeting','OSEC Meeting Room',null,661,610,785,680,'conference secretary'],
+  ['f4-assembly','Assembly Area','Assembly Area',322,317,515,683,'hall event function'],
+  ['f4-pantry-s','Pantry Area (4F)',null,531,583,575,680,'kitchen'],
+  ['f4-gates4','GATES 4','GATES 4',575,583,640,680,'gates lounge'],
+  ['f4-storage','Storage (4F Elevator Lobby)',null,556,505,618,534,'storage']
+ ]
+};
+const OPEN_ROOMS = new Set(['lobby','information','rear-reception','inner-court','grand-stair','f4-assembly','f2-lounge','f2-holding']);
+const R = [];
+GF_ROOMS.forEach(a=>R.push({id:a[0],name:a[1],short:a[2],wing:a[3],x1:a[4],y1:a[5],x2:a[6],y2:a[7],via:a[8],kw:a[9],f:0}));
+Object.entries(UP_ROOMS).forEach(([fs,list])=>{
+  const f=+fs;
+  const cand=Object.values(NODES).filter(n=>n.f===f && n.id!==LIFT[f]);
+  list.forEach(a=>{
+    const [x1,y1]=toPlan(f,a[3],a[4]), [x2,y2]=toPlan(f,a[5],a[6]);
+    const cx=(x1+x2)/2, cy=(y1+y2)/2;
+    let best=null,bd=1e9; cand.forEach(n=>{const d=Math.hypot(n.x-cx,n.y-cy);if(d<bd){bd=d;best=n.id;}});
+    if(a[8]){const k=`f${f}_${a[8][0]}_${a[8][1]}`; if(NODES[k]) best=k; else console.warn('bad via',a[0]);}
+    R.push({id:a[0],name:a[1],short:a[2],x1,y1,x2,y2,via:best,kw:a[7]||'',f,wing:cx<497?'L':cx>698?'R':'C'});
+  });
+});
+// Rooms left in the 3D plan but kept out of the directory, search and map labels
+const HIDE_IDS=new Set(['als','als-director-staff','toilet-rw','toilet-lw-male','toilet-lw-female','fms','fms-director-staff','information','hr-project-leader','maintenance','f2-maintenance','vault','records','surveillance','f2-itd-rooms','f2-itd-work','f2-dllo-office','f2-gad-office','f2-pimt-office','f2-dllo-head','f2-lounge','f4-asec-cd-office','f4-ias-head','f4-ias-staff','f4-janitor']);
+const HIDE_NAME=/^(Meeting Area|Office of the Division Chief|Pantry|Shared Pantry|Toilet|Toilets|PWD Toilet|Reception|Storage|Vault)\b|Pantry & Toilet|Pantry & Gallery|Pantry Area|Pantry & Toilets/;
+const HIDE_ALSO=/^(Holding Area|Holding Room|Huddle Room|Office \()|Meeting Room/;
+R.forEach(r=>{r.hidden=HIDE_IDS.has(r.id)||HIDE_NAME.test(r.name)||HIDE_ALSO.test(r.name);});
+const LISTED=R.filter(r=>!r.hidden);
+// Wayfinding categories: one colour + pictogram per kind of space, used on the map, list, search and labels
+const ICON={
+  office:'<rect x="3" y="7.5" width="18" height="12.5" rx="2"/><path d="M8.5 7.5V5.5a2 2 0 0 1 2-2h3a2 2 0 0 1 2 2v2M3 13h18"/>',
+  meet:'<circle cx="9" cy="8" r="3"/><path d="M3.5 20a5.5 5.5 0 0 1 11 0"/><circle cx="17" cy="9" r="2.4"/><path d="M15.8 14.3A4.6 4.6 0 0 1 21 19"/>',
+  cr:'<circle cx="7" cy="4.6" r="1.7"/><path d="M5 8.5h4l.8 6H8.3V21H5.7v-6.5H4.2z"/><circle cx="17" cy="4.6" r="1.7"/><path d="M15 8.5h4v6h-1.1V21h-2.3v-6.5H15z"/><path d="M12 3v18"/>',
+  lobby:'<circle cx="12" cy="12" r="8.5"/><path d="M12 11v5.5M12 7.6v.4"/>',
+  lift:'<rect x="5" y="3" width="14" height="18" rx="2"/><path d="m9 9.5 3-3 3 3M9 14.5l3 3 3-3"/>',
+  service:'<path d="M3.5 8 12 3.5 20.5 8v8L12 20.5 3.5 16z"/><path d="M3.5 8 12 12.5 20.5 8M12 12.5v8"/>'
+};
+const CAT={
+  office: {name:'Offices',        tint:0xd8f0fa, fill:'#d8f0fa', ink:'#0079a8', stroke:0x0096d1},
+  meet:   {name:'Meeting rooms',  tint:0xe7e1fa, fill:'#e7e1fa', ink:'#5b3fc0', stroke:0x7a5bd6},
+  cr:     {name:'Restrooms',      tint:0xd6f1e3, fill:'#d6f1e3', ink:'#13784f', stroke:0x1f9d6b},
+  lobby:  {name:'Lobby & lifts',  tint:0xe9edf3, fill:'#e4e9f0', ink:'#3b4a60', stroke:0x5b6b82},
+  lift:   {name:'Lobby & lifts',  tint:0xdde3ec, fill:'#e4e9f0', ink:'#3b4a60', stroke:0x5b6b82, icon:'lift'},
+  service:{name:'Service rooms',  tint:0xefece6, fill:'#efece6', ink:'#7a6f5c', stroke:0xa49882}
+};
+function catOf(r){const n=r.name;
+  if(/Common CR|Toilet|PWD/.test(n))return 'cr';
+  if(/Elevator|Stair/.test(n))return 'lift';
+  if(/Conference|Meeting|Huddle|Assembly|GATES/.test(n))return 'meet';
+  if(/Lobby|Atrium|Clinic|Breastfeeding|Lounge|Holding|^Reception|Security/.test(n))return 'lobby';
+  if(/Pantry|Storage|Maintenance|Vault|Janitor|Service Room|Surveillance|Records/.test(n))return 'service';
+  return 'office';}
+R.forEach(r=>r.cat=catOf(r));
+const pg=(cat,size)=>{const c=CAT[cat];return `<span class="pg" style="background:${c.fill};color:${c.ink}${size?`;width:${size}px;height:${size}px`:''}"><svg viewBox="0 0 24 24">${ICON[c.icon||cat]}</svg></span>`;};
+const WING = {L:{name:'Left Wing',color:0x00adee,tint:0xdcf2fb},
+              C:{name:'Center Core',color:0x8a9099,tint:0xeceef1},
+              R:{name:'Right Wing',color:0x1d2b3a,tint:0xdfe3ea}};
+const hex = c=>'#'+c.toString(16).padStart(6,'0');
+
+// ---------------- Routing ----------------
+function dijkstra(from,to){
+  const dist={},prev={},prevLab={},done=new Set(); dist[from]=0;
+  const open=new Set([from]);
+  while(open.size){
+    let u=null; open.forEach(k=>{if(u===null||dist[k]<dist[u])u=k}); open.delete(u); done.add(u);
+    if(u===to)break;
+    ADJ[u].forEach(([v,c,lab])=>{ if(done.has(v))return; const nd=dist[u]+c; if(dist[v]===undefined||nd<dist[v]){dist[v]=nd;prev[v]=u;prevLab[v]=lab;open.add(v);} });
+  }
+  const out=[]; let c=to; while(c!==undefined){ out.unshift({id:c,x:NODES[c].x,y:NODES[c].y,lab:prevLab[c]||NODES[c].lab}); c=prev[c]; }
+  return out;
+}
+const center = r=>[(r.x1+r.x2)/2,(r.y1+r.y2)/2];
+const routeCache={};
+function routeFor(r){
+  if(routeCache[r.id]) return routeCache[r.id];
+  const c=center(r), segs=[];
+  if(r.f===0){
+    const p=dijkstra('ENT',r.via); p.push({x:c[0],y:c[1],end:true}); segs.push({f:0,pts:p});
+  } else {
+    segs.push({f:0,pts:dijkstra('ENT',LIFT[0]),toLift:true});
+    const p=dijkstra(LIFT[r.f],r.via); p.push({x:c[0],y:c[1],end:true}); segs.push({f:r.f,pts:p,fromLift:true});
+  }
+  segs.forEach(s=>{let t=0;for(let i=1;i<s.pts.length;i++)t+=Math.hypot(s.pts[i].x-s.pts[i-1].x,s.pts[i].y-s.pts[i-1].y);s.len=t*S;});
+  const total=segs.reduce((a,s)=>a+s.len,0);
+  return routeCache[r.id]={segs,total};
+}
+const m = px=>Math.round(px*S);
+function legsOf(pts){
+  const legs=[];
+  for(let i=1;i<pts.length;i++){
+    const a=pts[i-1],b=pts[i],dx=b.x-a.x,dy=b.y-a.y,len=Math.hypot(dx,dy); if(len<0.5)continue;
+    const h=[dx/len,dy/len], end=!!b.end;
+    const lab=end?(legs.length?legs[legs.length-1].lab:b.lab||''):b.lab;
+    const L=legs[legs.length-1];
+    if(L && !end && !L.end && L.h[0]*h[0]+L.h[1]*h[1]>0.94){L.len+=len;L.lab=lab;}
+    else legs.push({h,len,lab,end});
+  }
+  return legs;
+}
+const turnWord=(p,h)=>{const cr=p[0]*h[1]-p[1]*h[0], dot=p[0]*h[0]+p[1]*h[1]; return dot>0.94?'Continue straight':(cr>0?'Turn right':'Turn left');};
+function describe(seg,room){
+  const legs=legsOf(seg.pts), walk=legs.filter(l=>!l.end), last=legs[legs.length-1], out=[];
+  walk.forEach((l,i)=>{
+    const d=Math.max(1,m(l.len));
+    if(i===0){
+      if(seg.fromLift){ out.push(`Step out of the elevator into the <b>${l.lab}</b> on the <b>${FLOOR_NAMES[seg.f]}</b>.`); return; }
+      out.push(`From the front entrance, walk straight ahead about ${d} m into the <b>${l.lab}</b>.`); return;
+    }
+    const turn=turnWord(walk[i-1].h,l.h), passage=isPassageLab(l.lab);
+    if(room && i===walk.length-1 && !passage){ out.push(`${turn} and enter <b>${room.name}</b> (about ${d} m). You have arrived.`); out.done=true; }
+    else if(l.lab===walk[i-1].lab) out.push(`${turn} and continue along the <b>${l.lab}</b> for about ${d} m.`);
+    else if(passage) out.push(`${turn} into the <b>${l.lab}</b> and walk about ${d} m.`);
+    else out.push(`${turn} and go through <b>${l.lab}</b> (about ${d} m).`);
+  });
+  if(!room||out.done) return out;
+  const ph=walk.length?walk[walk.length-1].h:[0,1];
+  const cr=ph[0]*last.h[1]-ph[1]*last.h[0], dot=ph[0]*last.h[0]+ph[1]*last.h[1];
+  out.push(`<b>${room.name}</b> is ${dot>0.7?'straight ahead':(cr>0?'on your right':'on your left')}.`);
+  return out;
+}
+function stepsFor(r){
+  const {segs}=routeFor(r);
+  if(segs.length===1) return [describe(segs[0],r)];
+  const a=describe(segs[0],null);
+  a.push(`Take the <b>elevator</b> (or the main stair) up to the <b>${FLOOR_NAMES[r.f]}</b>.`);
+  return [a, describe(segs[1],r)];
+}
+
+// ---------------- Scene ----------------
+const stage=document.getElementById('stage');
+const renderer=new THREE.WebGLRenderer({antialias:true});
+const TOUCH=matchMedia('(pointer:coarse)').matches;
+renderer.setPixelRatio(Math.min(devicePixelRatio,TOUCH?1.5:2));
+renderer.shadowMap.enabled=true; renderer.shadowMap.type=THREE.PCFSoftShadowMap;
+stage.prepend(renderer.domElement);
+const scene=new THREE.Scene(); scene.background=new THREE.Color(0xeaf0f5);
+scene.fog=new THREE.Fog(0xeef1f5,120,240);
+const camera=new THREE.PerspectiveCamera(45,1,0.1,600);
+const controls=new THREE.OrbitControls(camera,renderer.domElement);
+controls.enableDamping=true; controls.maxPolarAngle=Math.PI*0.47; controls.minDistance=8; controls.maxDistance=220;
+scene.add(new THREE.HemisphereLight(0xffffff,0xb8c2d0,0.85));
+const sun=new THREE.DirectionalLight(0xffffff,0.75); sun.position.set(-40,90,50); sun.castShadow=true;
+sun.shadow.mapSize.set(TOUCH?1024:2048,TOUCH?1024:2048); Object.assign(sun.shadow.camera,{left:-40,right:40,top:40,bottom:-40,near:1,far:220});
+scene.add(sun); scene.add(sun.target);
+
+const FLOORS=[0,1,2,3].map(f=>{const g=new THREE.Group();g.position.y=f*FH;scene.add(g);return g;});
+const mat=(color,o={})=>new THREE.MeshStandardMaterial(Object.assign({color,roughness:.85},o));
+function box(w,h,d,material){return new THREE.Mesh(new THREE.BoxGeometry(w,h,d),material);}
+function slab(g,x1,y1,x2,y2,color,y=0,h=0.08,material){
+  const b=box(Math.abs(x2-x1)*S,h,Math.abs(y2-y1)*S,material||mat(color)); const c=P((x1+x2)/2,(y1+y2)/2);
+  b.position.set(c.x,y+h/2-0.06,c.z); b.receiveShadow=true; g.add(b); return b;
+}
+const wallMat=new THREE.MeshStandardMaterial({color:0xffffff,roughness:.9,transparent:true,opacity:.78});
+const outerMat=mat(0xcfd6df);
+const glassMat=new THREE.MeshStandardMaterial({color:0xbfe6f5,roughness:.2,transparent:true,opacity:.35});
+function wall(g,x1,y1,x2,y2,material=wallMat,h=WALL_H,t=0.12){
+  const a=P(x1,y1),b=P(x2,y2),len=a.distanceTo(b); if(len<0.05)return null;
+  const w=new THREE.Mesh(new THREE.BoxGeometry(len+t,h,t),material);
+  w.position.set((a.x+b.x)/2,h/2,(a.z+b.z)/2); w.rotation.y=-Math.atan2(b.z-a.z,b.x-a.x);
+  w.castShadow=true; w.receiveShadow=true; g.add(w); return w;
+}
+const rectWalls=(g,x1,y1,x2,y2,m,h,t)=>[wall(g,x1,y1,x2,y1,m,h,t),wall(g,x2,y1,x2,y2,m,h,t),wall(g,x2,y2,x1,y2,m,h,t),wall(g,x1,y2,x1,y1,m,h,t)];
+
+// ground & site (always visible)
+const ground=box(160,0.2,150,mat(0xdfe4ea)); ground.position.set(0,-0.25,4); ground.receiveShadow=true; scene.add(ground);
+(function(){const s=box((880-300)*S,0.12,(720-130)*S,mat(0xf4f5f7));const c=P(590,425);s.position.set(c.x,-0.12,c.z);s.receiveShadow=true;scene.add(s);})();
+
+// ----- Ground floor model -----
+const G0=FLOORS[0];
+slab(G0,340,207,497,622,0xf7f8fa); slab(G0,697,207,855,622,0xf7f8fa); slab(G0,497,157,698,668,0xf7f8fa);
+slab(G0,497,186,538,623,0xfaf3e6,0.005); slab(G0,659,186,698,623,0xfaf3e6,0.005); slab(G0,537,286,657,306,0xfaf3e6,0.005);
+for(let i=0;i<5;i++){slab(G0,528,668+i*7,662,675+i*7,0xd2d8e0,-0.1-i*0.12,0.12);}
+for(let i=0;i<5;i++){slab(G0,528,150-i*7-7,662,150-i*7,0xd2d8e0,-0.1-i*0.12,0.12);}
+[[340,207,497,207],[340,207,340,622],[340,622,497,622],[697,207,855,207],[855,207,855,622],[697,622,855,622],
+ [497,157,560,157],[635,157,698,157],[497,157,497,207],[698,157,698,207],[497,622,497,668],[698,622,698,668],[497,668,565,668],[630,668,698,668]
+].forEach(s=>wall(G0,...s,outerMat,WALL_H+0.3,0.3));
+const treeMat=new THREE.MeshStandardMaterial({color:0x5a9a52,roughness:1,transparent:true,opacity:1}), trunkMat=mat(0x8a6a4a);
+[[570,388],[590,384],[615,386],[628,400],[628,430],[572,425],[580,450],[610,452],[568,405],[625,447]].forEach(([x,y],i)=>{
+  const p=P(x,y);const s=0.5+((i*37)%5)/10;
+  const t=new THREE.Mesh(new THREE.CylinderGeometry(.06,.08,.7),trunkMat);t.position.set(p.x,.35,p.z);G0.add(t);
+  const c=new THREE.Mesh(new THREE.SphereGeometry(s,14,10),treeMat);c.position.set(p.x,.7+s*.7,p.z);c.castShadow=true;G0.add(c);
+});
+wall(G0,534,355,660,355);wall(G0,534,475,660,475);wall(G0,534,355,534,475,wallMat,WALL_H,.08);wall(G0,660,355,660,475,wallMat,WALL_H,.08);
+[[560,567,585,574],[553,578,560,598],[560,600,585,607],[568,583,578,595]].forEach(a=>{const s=slab(G0,...a,0x8f9bb0,0.05,0.45);s.castShadow=true;});
+slab(G0,631,575,652,618,0x34445a,0.05,1.05).castShadow=true;
+slab(G0,697,288,701,332,0x34445a,0.05,1.05).castShadow=true;
+(function(){const n=8;for(let i=0;i<n;i++){const y1=226+i*6;slab(G0,599,y1,629,y1+5,0xbfc7d2,0.03,0.04);}})();
+
+// ----- Shared core pieces (elevators + main stair) per floor -----
+const elevMat=mat(0x5c6a7f);
+function core(g,f,e1,e2,st,stUp){
+  [e1,e2].forEach(r=>{const [x1,y1]=toPlan(f,r[0],r[1]),[x2,y2]=toPlan(f,r[2],r[3]);const c=P((x1+x2)/2,(y1+y2)/2);
+    const b=box((x2-x1)*S*.8,WALL_H,(y2-y1)*S*.8,elevMat);b.position.set(c.x,WALL_H/2,c.z);b.castShadow=true;g.add(b);});
+  if(st){const [x1,y1]=toPlan(f,st[0],st[1]),[x2,y2]=toPlan(f,st[2],st[3]);const n=10;
+    for(let i=0;i<n;i++){const ya=y2-(i+1)*(y2-y1)/n;slab(g,x1,ya,x2,ya+(y2-y1)/n,0xd7dde6,0.05+i*(stUp?0.17:0.02),stUp?0.17:0.03).castShadow=true;}}
+}
+core(G0,0,[538,509,566,541],[628,509,656,541],[581,479,613,541],true);
+
+// ----- Upper floor shells -----
+const SHELL={
+  1:{out:[340,122,872,655],hole:[545,327,660,441],e1:[546,474,573,505],e2:[631,474,658,505],st:[587,473,617,505],up:true,
+     cor:[[340,262,872,280],[340,516,862,538],[511,280,545,516],[660,280,691,516],[470,581,660,595],[545,505,660,516]]},
+  2:{out:[342,125,862,648],hole:[546,328,659,441],e1:[547,476,574,506],e2:[632,475,657,504],st:[587,476,617,506],up:true,
+     cor:[[342,264,862,282],[345,515,858,545],[513,282,546,515],[659,282,690,517]]},
+  3:{out:[318,150,850,685],hole:[531,356,642,473],e1:[532,505,556,534],e2:[618,505,642,534],st:[545,476,631,504],up:false,
+     cor:[[318,291,850,317],[642,317,680,545],[515,317,531,545],[515,534,680,583]]}
+};
+for(let f=1;f<=3;f++){
+  const g=FLOORS[f], sh=SHELL[f];
+  const tp=(x,y)=>toPlan(f,x,y);
+  const [ox1,oy1]=tp(sh.out[0],sh.out[1]),[ox2,oy2]=tp(sh.out[2],sh.out[3]),[hx1,hy1]=tp(sh.hole[0],sh.hole[1]),[hx2,hy2]=tp(sh.hole[2],sh.hole[3]);
+  const slabM=mat(0xf7f8fa), under=-0.32;
+  // floor plate with an opening over the atrium
+  [[ox1,oy1,ox2,hy1],[ox1,hy2,ox2,oy2],[ox1,hy1,hx1,hy2],[hx2,hy1,ox2,hy2]].forEach(a=>slab(g,...a,0,-0.28,0.34,slabM));
+  sh.cor.forEach(c=>{const [a,b]=tp(c[0],c[1]),[d,e]=tp(c[2],c[3]);slab(g,a,b,d,e,0xfaf3e6,0.03,0.05);});
+  rectWalls(g,ox1,oy1,ox2,oy2,glassMat,WALL_H+0.3,0.18);           // glazed facade
+  rectWalls(g,hx1,hy1,hx2,hy2,glassMat,1.1,0.08);                    // atrium railing
+  core(g,f,sh.e1,sh.e2,sh.st,sh.up);
+}
+// columns on every floor
+const GX=[388,455,537,656,725,805], GY=[207,283,355,476,548,620];
+const colMat=mat(0x2b3442,{roughness:.7});
+FLOORS.forEach(g=>GX.forEach(x=>GY.forEach(y=>{const c=box(.55,WALL_H+0.35,.55,colMat);const p=P(x,y);c.position.set(p.x,(WALL_H+0.35)/2,p.z);c.castShadow=true;g.add(c);})));
+
+// ----- Rooms on every floor -----
+const roomObj={};
+R.forEach(r=>{
+  const g=FLOORS[r.f], w=WING[r.wing];
+  const fl=slab(g,r.x1,r.y1,r.x2,r.y2,CAT[r.cat].tint,0.04,0.06);
+  if(!r.hidden||r.cat!=='service'){const a=P(r.x1,r.y1),b=P(r.x2,r.y2),y=0.06;const ln=new THREE.LineLoop(new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(a.x,y,a.z),new THREE.Vector3(b.x,y,a.z),new THREE.Vector3(b.x,y,b.z),new THREE.Vector3(a.x,y,b.z)]),new THREE.LineBasicMaterial({color:CAT[r.cat].stroke,transparent:true,opacity:.75}));g.add(ln);}
+  if(r.id==='inner-court') fl.material.color.set(0xb9dcb0);
+  if(r.id==='f4-assembly') fl.material.color.set(0xf1ece2);
+  const walls=OPEN_ROOMS.has(r.id)||/^elevator|grand-stair/.test(r.id)?[]:rectWalls(g,r.x1,r.y1,r.x2,r.y2).filter(Boolean);
+  roomObj[r.id]={floor:fl,walls,base:fl.material.color.clone()};
+  fl.userData.room=r;
+});
+
+// You-are-here marker (Front Lobby)
+const youGrp=new THREE.Group(); const yp=P(597,628); youGrp.position.set(yp.x,0,yp.z); G0.add(youGrp);
+const disc=new THREE.Mesh(new THREE.CylinderGeometry(.9,.9,.05,40),new THREE.MeshBasicMaterial({color:0x00adee,transparent:true,opacity:.35}));disc.position.y=.08;youGrp.add(disc);
+const dot=new THREE.Mesh(new THREE.SphereGeometry(.35,24,16),mat(0x00adee,{emissive:0x00adee,emissiveIntensity:.4}));dot.position.y=.45;youGrp.add(dot);
+
+// ---------------- Labels overlay ----------------
+const lblLayer=document.getElementById('labels'), labels=[];
+function addLabel(text,pos,cls,f,html){const d=document.createElement('div');d.className='lbl '+(cls||'');if(html)d.innerHTML=html;else d.textContent=text;lblLayer.appendChild(d);const o={el:d,pos,f};labels.push(o);return o;}
+const roomLabels=R.filter(r=>r.short&&!r.hidden).map(r=>{const c=P(...center(r));c.y=r.f*FH+WALL_H+0.3;return addLabel(r.short,c,'',r.f,pg(r.cat)+'<span>'+r.short.replace(/[&<>]/g,'')+'</span>');});
+const youLbl=addLabel('You are here',new THREE.Vector3(yp.x,1.1,yp.z),'you',0);
+const liftLbl=addLabel('Elevator from Front Lobby',new THREE.Vector3(),'you hide',1);
+const selLbl=addLabel('',new THREE.Vector3(),'sel hide',0);
+let showLabels=true, activeFloor=0;
+const v=new THREE.Vector3();
+function updateLabels(){
+  const w=stage.clientWidth,h=stage.clientHeight;
+  labels.forEach(o=>{
+    let show=o.f===activeFloor && !o.el.classList.contains('hide');
+    if(roomLabels.includes(o)) show=show&&showLabels;
+    if(walking && o!==selLbl) show=false;
+    if(!show){o.el.style.display='none';return;}
+    v.copy(o.pos).project(camera);
+    const vis=v.z<1&&v.x>-1.1&&v.x<1.1&&v.y>-1.1&&v.y<1.1;
+    o.el.style.display=vis?'':'none';
+    o.el.style.left=((v.x+1)/2*w)+'px'; o.el.style.top=((1-v.y)/2*h)+'px';
+  });
+}
+
+// ---------------- Floors switcher ----------------
+const floorsEl=document.getElementById('floors');
+floorsEl.innerHTML='<small>Floor</small>'+[3,2,1,0].map(f=>`<button data-f="${f}" title="${FLOOR_NAMES[f]}">${FLOOR_SHORT[f]}<i></i></button>`).join('');
+function setFloor(f,{fly:doFly=true}={}){
+  activeFloor=f;
+  FLOORS.forEach((g,i)=>g.visible=i<=f);
+  floorsEl.querySelectorAll('button').forEach(b=>{b.classList.toggle('on',+b.dataset.f===f);b.classList.toggle('dest',!!selected&&selected.f===+b.dataset.f&&selected.f!==f);});
+  document.getElementById('floorName').textContent=FLOOR_NAMES[f];
+  if(doFly&&!walking){ if(selected && (selected.f===f || f===0)) frameRoute(); else (bt.classList.contains('on')?topView:overview)(); }
+}
+floorsEl.addEventListener('click',e=>{const b=e.target.closest('button');if(b){stopWalk(false);setFloor(+b.dataset.f);}});
+
+// ---------------- Selection / route ----------------
+let selected=null, routeGrps=[], beacon=null, liftLine=null, chevrons=[];
+const routeMat=mat(0xf26500,{emissive:0xb83d00,emissiveIntensity:.35,roughness:.6});
+const selWallMat=new THREE.MeshStandardMaterial({color:0xff8a1f,transparent:true,opacity:.85,emissive:0xff7a00,emissiveIntensity:.25});
+let segs3=[];   // [{f, curve, len, pts}] in world space
+function clearRoute(){
+  routeGrps.forEach(g=>g.parent&&g.parent.remove(g)); routeGrps=[]; chevrons=[]; segs3=[];
+  if(liftLine){scene.remove(liftLine);liftLine=null;}
+  if(selected){const o=roomObj[selected.id];o.floor.material.color.copy(o.base);o.floor.material.emissive.set(0);o.walls.forEach(w=>w.material=wallMat);}
+  selected=null; selLbl.el.classList.add('hide'); liftLbl.el.classList.add('hide');
+}
+function select(r,fly=true){
+  stopWalk(false); clearRoute(); selected=r;
+  const o=roomObj[r.id]; o.floor.material.color.set(0xffc08a); o.floor.material.emissive.set(0x5a2300);
+  o.walls.forEach(w=>w.material=selWallMat);
+  const {segs,total}=routeFor(r);
+  const cg=new THREE.ConeGeometry(.28,.6,3); cg.rotateX(Math.PI/2); const cm=new THREE.MeshBasicMaterial({color:0xffffff});
+  segs.forEach(s=>{
+    const g=new THREE.Group(); FLOORS[s.f].add(g); routeGrps.push(g);
+    const pts=s.pts.map(p=>{const q=P(p.x,p.y);q.y=0.14;return q;});
+    const path=new THREE.CurvePath(); for(let i=1;i<pts.length;i++) path.add(new THREE.LineCurve3(pts[i-1],pts[i]));
+    const len=path.getLength();
+    g.add(new THREE.Mesh(new THREE.TubeGeometry(path,Math.max(40,pts.length*30),0.16,8,false),routeMat));
+    pts.forEach(p=>{const sp=new THREE.Mesh(new THREE.SphereGeometry(.17,12,8),routeMat);sp.position.copy(p);g.add(sp);});
+    const n=Math.max(4,Math.round(len/3)); for(let i=0;i<n;i++){const c=new THREE.Mesh(cg,cm);g.add(c);chevrons.push({m:c,off:i/n,curve:path,len});}
+    segs3.push({f:s.f,curve:path,len,pts,world:pts.map(p=>p.clone().setY(p.y+s.f*FH))});
+  });
+  if(segs.length>1){   // elevator shaft link between floors
+    const a=segs3[0].world[segs3[0].world.length-1], b=segs3[1].world[0];
+    liftLine=new THREE.Mesh(new THREE.CylinderGeometry(.12,.12,b.y-a.y,10),routeMat);
+    liftLine.position.set((a.x+b.x)/2,(a.y+b.y)/2,(a.z+b.z)/2); scene.add(liftLine);
+    liftLbl.pos.set(b.x,b.y+1.2,b.z); liftLbl.f=r.f; liftLbl.el.classList.remove('hide');
+  }
+  const c=P(...center(r));
+  beacon=new THREE.Group(); beacon.position.set(c.x,0,c.z); routeGrps[routeGrps.length-1].add(beacon);
+  const beam=new THREE.Mesh(new THREE.CylinderGeometry(.5,.5,6,24,1,true),new THREE.MeshBasicMaterial({color:0xff7a00,transparent:true,opacity:.2,side:THREE.DoubleSide,depthWrite:false}));beam.position.y=3;beacon.add(beam);
+  const pin=new THREE.Mesh(new THREE.ConeGeometry(.45,1.1,20),mat(0xff7a00,{emissive:0xff7a00,emissiveIntensity:.45}));pin.rotation.x=Math.PI;pin.position.y=3.6;beacon.add(pin);beacon.userData.pin=pin;
+  selLbl.pos.set(c.x,r.f*FH+4.4,c.z); selLbl.f=r.f; selLbl.el.textContent=r.name; selLbl.el.classList.remove('hide');
+  // panel
+  const st=stepsFor(r), all=st.flat();
+  document.getElementById('dName').textContent=r.name;
+  document.getElementById('dMeta').textContent=`${FLOOR_NAMES[r.f]} · ${WING[r.wing].name} · about ${Math.round(total)} m${r.f?' + elevator':''} from the Front Lobby`;
+  document.getElementById('dSteps').innerHTML=all.map(s=>`<li><span>${s}</span></li>`).join('');
+  document.getElementById('dir').classList.add('show'); document.getElementById('dir').classList.remove('min'); document.getElementById('dMin').textContent='–'; document.getElementById('dir').scrollTop=0; document.body.classList.add('has-route'); setTimeout(applyShift,0);
+  document.querySelectorAll('.item').forEach(b=>b.classList.toggle('on',b.dataset.id===r.id));
+  try{history.replaceState(null,'','#'+r.id);}catch(e){}
+  setFloor(r.f,{fly:false});
+  if(fly) frameRoute();
+}
+
+// ---------------- Camera ----------------
+let fly=null;
+function flyTo(pos,target,dur=1100){fly={p0:camera.position.clone(),t0:controls.target.clone(),p1:pos,t1:target,s:performance.now(),dur};}
+const BLDG=new THREE.Box3(P(320,130),P(875,700));
+function fitDist(w,d){const vf=THREE.MathUtils.degToRad(camera.fov), hf=2*Math.atan(Math.tan(vf/2)*camera.aspect);return Math.max((d*0.62)/Math.tan(vf/2),(w*0.58)/Math.tan(hf/2));}
+function overview(){const c=BLDG.getCenter(new THREE.Vector3()), sz=BLDG.getSize(new THREE.Vector3()), d=fitDist(sz.x,sz.z); c.y=activeFloor*FH; flyTo(new THREE.Vector3(c.x,c.y+d*0.72,c.z+d*0.72),c);}
+function topView(){const c=BLDG.getCenter(new THREE.Vector3()),sz=BLDG.getSize(new THREE.Vector3());const vf=THREE.MathUtils.degToRad(camera.fov),hf=2*Math.atan(Math.tan(vf/2)*camera.aspect);const d=Math.max(sz.z*0.55/Math.tan(vf/2),sz.x*0.55/Math.tan(hf/2));c.y=activeFloor*FH;flyTo(new THREE.Vector3(c.x,c.y+d,c.z+0.01),c);}
+function frameRoute(){
+  if(!selected){overview();return;}
+  const seg=segs3.find(s=>s.f===activeFloor)||segs3[segs3.length-1];
+  const b=new THREE.Box3(); seg.world.forEach(p=>b.expandByPoint(p)); if(seg.f===0) b.expandByPoint(P(597,668));
+  b.expandByScalar(4);
+  const c=b.getCenter(new THREE.Vector3()), sz=b.getSize(new THREE.Vector3());
+  const bs=BLDG.getSize(new THREE.Vector3()), d=Math.max(fitDist(sz.x,sz.z), 0.62*fitDist(bs.x,bs.z));
+  c.y=seg.f*FH;
+  flyTo(new THREE.Vector3(c.x,c.y+d*0.78,c.z+d*0.7),c);
+}
+
+// ---------------- Walkthrough ----------------
+let walking=false, paused=false, segIdx=0, segDist=0, walkLast=0, arrivedAt=0, liftT=0, walkPlan=null;
+const WALK_SPEED=3.2;
+const walkbar=document.getElementById('walkbar');
+const walker=new THREE.Group();
+(function(){
+  // Geo-tag (map pin) marker that rides the route
+  const pin=new THREE.Group(); walker.add(pin); walker.userData.pin=pin;
+  const pinMat=mat(0x00adee,{emissive:0x00adee,emissiveIntensity:.35,roughness:.35,metalness:.1});
+  // smooth teardrop: lathe profile from the tip (0,0) up around the head
+  const prof=[]; const R0=.48, H=1.6, cy=H-R0;
+  for(let i=0;i<=10;i++){const t=i/10;prof.push(new THREE.Vector2(R0*0.86*Math.sin(t*Math.PI/2)**1.4, t*(cy-R0*Math.sqrt(1-0.86*0.86))));}
+  const a0=-Math.acos(0.86);   // where the tapered stem meets the round head
+  for(let i=1;i<=16;i++){const a=a0+(Math.PI/2-a0)*(i/16);prof.push(new THREE.Vector2(Math.max(0.0001,R0*Math.cos(a)), cy+R0*Math.sin(a)));}
+  prof.push(new THREE.Vector2(0.0001,H));
+  const body=new THREE.Mesh(new THREE.LatheGeometry(prof,40),pinMat); body.castShadow=true; pin.add(body);
+  // white centre dot (always faces the camera)
+  const c=document.createElement('canvas'); c.width=c.height=128; const g=c.getContext('2d');
+  g.fillStyle='#fff'; g.beginPath(); g.arc(64,64,56,0,Math.PI*2); g.fill();
+  g.fillStyle='#0b0b0c'; g.beginPath(); g.arc(64,64,22,0,Math.PI*2); g.fill();
+  const dotS=new THREE.Sprite(new THREE.SpriteMaterial({map:new THREE.CanvasTexture(c),depthTest:false,transparent:true}));
+  dotS.scale.set(.5,.5,1); dotS.position.y=cy; dotS.renderOrder=10; pin.add(dotS);
+  // soft shadow + pulsing ring on the floor
+  const sh=new THREE.Mesh(new THREE.CircleGeometry(.32,32),new THREE.MeshBasicMaterial({color:0x000000,transparent:true,opacity:.25,depthWrite:false}));
+  sh.rotation.x=-Math.PI/2; sh.position.y=.11; walker.add(sh); walker.userData.shadow=sh;
+  const ring=new THREE.Mesh(new THREE.RingGeometry(.45,.6,40),new THREE.MeshBasicMaterial({color:0x00adee,transparent:true,opacity:.6,side:THREE.DoubleSide,depthWrite:false}));
+  ring.rotation.x=-Math.PI/2; ring.position.y=.12; walker.add(ring); walker.userData.ring=ring;
+  walker.visible=false; scene.add(walker);
+})();
+const camDir=new THREE.Vector3(0,0,-1), lookAtV=new THREE.Vector3(), wantPos=new THREE.Vector3(), wantLook=new THREE.Vector3(), tmp=new THREE.Vector3(), tmp2=new THREE.Vector3();
+const strip=t=>t.replace(/<\/?b>/g,'');
+function legEnds(seg3){ // distance (m) at the end of each written leg
+  const ends=[];let acc=0,last=null;
+  for(let i=1;i<seg3.pts.length;i++){const d=seg3.pts[i].clone().sub(seg3.pts[i-1]).setY(0);const L=d.length();if(L<0.04)continue;d.normalize();if(last&&last.dot(d)<0.94)ends.push(acc);acc+=L;last=d;}
+  ends.push(acc);return ends;
+}
+function startWalk(){
+  if(!selected||!segs3.length)return;
+  const st=stepsFor(selected);
+  walkPlan=segs3.map((s,i)=>({s,steps:st[i].map(strip),ends:legEnds(s)}));
+  walking=true; paused=false; segIdx=0; segDist=0; arrivedAt=0; liftT=0; walkLast=performance.now(); fly=null;
+  setFloor(0,{fly:false});
+  controls.enabled=false; walkbar.classList.add('show'); document.body.classList.add('walking'); applyShift(); document.getElementById('pauseWalk').textContent='Pause';
+  wallMat.opacity=.32; treeMat.opacity=.35; walker.visible=true;
+  tmp.copy(segs3[0].curve.getPointAt(0)); tmp2.copy(segs3[0].curve.getPointAt(Math.min(1,2/segs3[0].len)));
+  camDir.copy(tmp2).sub(tmp).setY(0).normalize(); lookAtV.copy(controls.target);
+}
+function stopWalk(reframe=true){
+  if(!walking)return; walking=false; paused=false;
+  wallMat.opacity=.78; treeMat.opacity=1; walker.visible=false; walkbar.classList.remove('show'); document.body.classList.remove('walking'); applyShift();
+  controls.target.copy(lookAtV); controls.enabled=true; controls.update();
+  if(selected) setFloor(selected.f,{fly:false});
+  if(reframe) frameRoute();
+}
+function walkTick(now){
+  const dt=Math.max(0,Math.min(.05,(now-walkLast)/1000)); walkLast=now;
+  const plan=walkPlan[segIdx], seg=plan.s, baseY=seg.f*FH;
+  const totalLen=walkPlan.reduce((a,p)=>a+p.s.len,0), doneLen=walkPlan.slice(0,segIdx).reduce((a,p)=>a+p.s.len,0);
+  let txt;
+  if(liftT>0){   // riding the elevator between floors
+    if(!paused) liftT+=dt/2.4;
+    const nxt=walkPlan[segIdx+1].s, a=seg.world[seg.world.length-1], b=nxt.world[0], k=Math.min(1,liftT-0.0001);
+    tmp.lerpVectors(a,b,k); walker.position.copy(tmp).setY(tmp.y-0.14);
+    if(k>0.5 && activeFloor!==nxt.f) setFloor(nxt.f,{fly:false});
+    txt=`<b>Elevator</b> · Going up to the ${FLOOR_NAMES[nxt.f]}…`;
+    wantPos.set(tmp.x-camDir.x*7, tmp.y+7.5, tmp.z-camDir.z*7); wantLook.set(tmp.x,tmp.y,tmp.z);
+    if(liftT>=1){ liftT=0; segIdx++; segDist=0; }
+  } else {
+    if(!paused && !arrivedAt) segDist+=dt*WALK_SPEED;
+    const u=Math.min(1,segDist/seg.len);
+    tmp.copy(seg.curve.getPointAt(u)); tmp.y+=baseY;
+    if(u<1){ tmp2.copy(seg.curve.getPointAt(Math.min(1,(segDist+2.5)/seg.len))); tmp2.y+=baseY; }
+    else tmp2.copy(beacon.position).setY(baseY);
+    const d=tmp2.clone().sub(tmp).setY(0);
+    if(d.lengthSq()>1e-3){ d.normalize(); camDir.lerp(d,1-Math.exp(-dt*6)).normalize(); }
+    walker.position.set(tmp.x,baseY,tmp.z);
+    wantPos.set(tmp.x-camDir.x*7, baseY+7.5, tmp.z-camDir.z*7);
+    wantLook.set(tmp.x+camDir.x*5, baseY, tmp.z+camDir.z*5);
+    const i=Math.max(0,plan.ends.findIndex(e=>segDist<=e));
+    const walkSteps=segIdx===0&&walkPlan.length>1?plan.steps.slice(0,-1):plan.steps;
+    const offset=walkPlan.slice(0,segIdx).reduce((a,p)=>a+p.steps.length,0), totalSteps=walkPlan.reduce((a,p)=>a+p.steps.length,0);
+    const si=Math.min(i,walkSteps.length-1);
+    const left=Math.max(0,Math.round(totalLen-doneLen-segDist));
+    txt=`<b>${offset+si+1}/${totalSteps}</b> · ${walkSteps[si]||''} <span style="color:#9aa">(${left} m to go)</span>`;
+    if(u>=1){
+      if(segIdx<walkPlan.length-1){ liftT=0.0001; }
+      else { if(!arrivedAt) arrivedAt=now; txt='<b>You have arrived:</b> '+selected.name; if(now-arrivedAt>4000) stopWalk(); }
+    }
+  }
+  if(!(camDir.lengthSq()>.5)) camDir.set(0,0,-1);
+  { const b=Math.sin(now/260); walker.userData.pin.position.y=.25+.18*(b*.5+.5); walker.userData.pin.rotation.y=now/900;
+    walker.userData.shadow.scale.setScalar(1.15-.25*(b*.5+.5)); walker.userData.ring.scale.setScalar(1+.35*((now/900)%1)); walker.userData.ring.material.opacity=.6*(1-((now/900)%1)); }
+  const k=1-Math.exp(-dt*5);
+  camera.position.lerp(wantPos,k); lookAtV.lerp(wantLook,k); camera.lookAt(lookAtV);
+  const prog=Math.min(1,(doneLen+(liftT>0?seg.len:segDist))/totalLen);
+  document.getElementById('walkProg').style.width=(prog*100).toFixed(1)+'%';
+  document.getElementById('walkTxt').innerHTML=txt;
+}
+document.getElementById('walkBtn').onclick=startWalk;
+document.getElementById('stopWalk').onclick=()=>stopWalk();
+document.getElementById('pauseWalk').onclick=()=>{paused=!paused;document.getElementById('pauseWalk').textContent=paused?'Resume':'Pause';};
+function clearAll(){stopWalk(false);clearRoute();document.getElementById('dir').classList.remove('show');setTimeout(applyShift,0);document.body.classList.remove('has-route');document.querySelectorAll('.item').forEach(b=>b.classList.remove('on'));try{history.replaceState(null,'','#directory');}catch(e){}setFloor(0,{fly:false});overview();}
+document.getElementById('clearBtn').onclick=clearAll;
+const dirEl=document.getElementById('dir'), dMin=document.getElementById('dMin');
+function setMin(on){setTimeout(applyShift,0);dirEl.classList.toggle('min',on);dMin.textContent=on?'+':'–';dMin.title=on?'Show directions':'Minimize';dMin.setAttribute('aria-label',dMin.title);}
+dMin.onclick=()=>setMin(!dirEl.classList.contains('min'));
+document.getElementById('dName').onclick=()=>{if(dirEl.classList.contains('min'))setMin(false);};
+document.getElementById('dClose').onclick=clearAll;
+
+// ---------------- Directory list ----------------
+const list=document.getElementById('list'), q=document.getElementById('q'), chipsEl=document.getElementById('fchips');
+let listFloor=-1, listCat='all';
+const cchipsEl=document.getElementById('cchips');
+const CAT_FILTERS=[['all','All places'],['office','Offices'],['meet','Meeting rooms'],['cr','Restrooms'],['lobby','Lobby & lifts']];
+cchipsEl.innerHTML=CAT_FILTERS.map(([k,t])=>`<button data-c="${k}" class="${k==='all'?'on':''}">${k==='all'?'':pg(k)}${t}</button>`).join('');
+cchipsEl.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;listCat=b.dataset.c;cchipsEl.querySelectorAll('button').forEach(x=>x.classList.toggle('on',x===b));renderList();list.scrollTop=0;});
+const catMatch=r=>listCat==='all'||r.cat===listCat||(listCat==='lobby'&&r.cat==='lift');
+document.getElementById('legend').innerHTML=['office','meet','cr','lobby'].map(k=>`<span>${pg(k)}${CAT[k].name}</span>`).join('')+'<span><b style="background:var(--route)"></b>Your route</span>';
+chipsEl.innerHTML=['All',...FLOOR_SHORT].map((t,i)=>`<button data-f="${i-1}" class="${i===0?'on':''}">${t}</button>`).join('');
+chipsEl.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;listFloor=+b.dataset.f;chipsEl.querySelectorAll('button').forEach(x=>x.classList.toggle('on',x===b));renderList();list.scrollTop=0;if(listFloor>=0&&!walking){setFloor(listFloor);}});
+function matches(str){
+  const words=str.toLowerCase().split(/\s+/).filter(Boolean);
+  return LISTED.filter(r=>{const h=(r.name+' '+r.kw+' '+FLOOR_NAMES[r.f]+' '+FLOOR_SHORT[r.f]).toLowerCase();return words.every(w=>h.includes(w));})
+    .sort((a,b)=>{const t=words[0]||'';const as=a.name.toLowerCase().startsWith(t)?0:1,bs=b.name.toLowerCase().startsWith(t)?0:1;return as-bs||a.f-b.f||a.name.localeCompare(b.name);});
+}
+const esc=t=>t.replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+function renderList(){
+  const s=q.value.trim(); const pool=s?matches(s):LISTED.slice();
+  let html='',count=0;
+  [0,1,2,3].forEach(f=>{
+    if(listFloor>=0&&listFloor!==f)return;
+    const items=pool.filter(r=>r.f===f&&catMatch(r)); if(s===''){items.sort((a,b)=>a.name.localeCompare(b.name));}
+    if(!items.length)return; count+=items.length;
+    html+=`<div class="grp"><h3><b class="fl">${FLOOR_SHORT[f]}</b>${FLOOR_NAMES[f]}<span>${items.length} ${items.length===1?'place':'places'}</span></h3>`+
+      items.map(r=>`<button class="item${selected&&selected.id===r.id?' on':''}" data-id="${r.id}">${pg(r.cat)}<span class="t"><b>${esc(r.name)}</b><small>${CAT[r.cat].name.replace(/s$/,'').replace('Lobby & lift','Lobby & lifts')}, ${WING[r.wing].name.toLowerCase()}</small></span><small>${Math.round(routeFor(r).total)} m</small></button>`).join('')+'</div>';
+  });
+  list.innerHTML=count?html:`<div class="empty">No places match. Try another floor or category, or clear the search.</div>`;
+}
+list.addEventListener('click',e=>{const b=e.target.closest('.item');if(b)select(R.find(r=>r.id===b.dataset.id));});
+
+// top-centre search dropdown
+const sBox=document.getElementById('searchBox'), drop=document.getElementById('drop');
+let hi=0, hits=[];
+function renderDrop(){
+  const val=q.value.trim(); sBox.classList.toggle('has',!!val);
+  if(!val){sBox.classList.remove('open');return;}
+  hits=matches(val).slice(0,14); hi=Math.min(hi,Math.max(0,hits.length-1));
+  drop.innerHTML=hits.length?hits.map((r,i)=>`<button role="option" data-id="${r.id}" class="${i===hi?'hi':''}">${pg(r.cat)}<span>${esc(r.name)}</span><em>${FLOOR_SHORT[r.f]}</em><small>${Math.round(routeFor(r).total)} m</small></button>`).join('')
+    :`<div class="none">No office matches “${esc(val)}”.</div>`;
+  sBox.classList.add('open');
+}
+function pick(r){if(!r)return;select(r);sBox.classList.remove('open');q.blur();}
+q.addEventListener('input',()=>{hi=0;renderList();renderDrop();});
+q.addEventListener('focus',()=>{if(q.value.trim())renderDrop();});
+q.addEventListener('keydown',e=>{
+  if(e.key==='ArrowDown'||e.key==='ArrowUp'){if(!hits.length)return;e.preventDefault();hi=(hi+(e.key==='ArrowDown'?1:-1)+hits.length)%hits.length;renderDrop();const h=drop.querySelector('.hi');h&&h.scrollIntoView({block:'nearest'});}
+  else if(e.key==='Enter'){e.preventDefault();pick(hits[hi]||matches(q.value)[0]);}
+  else if(e.key==='Escape'){sBox.classList.remove('open');q.blur();e.stopPropagation();}
+});
+drop.addEventListener('pointerdown',e=>e.preventDefault());
+drop.addEventListener('click',e=>{const b=e.target.closest('button[data-id]');if(b)pick(R.find(r=>r.id===b.dataset.id));});
+document.getElementById('qClear').onclick=()=>{q.value='';hi=0;renderList();renderDrop();q.focus();};
+document.addEventListener('pointerdown',e=>{if(!sBox.contains(e.target))sBox.classList.remove('open');});
+renderList();
+
+// click rooms in 3D (active floor only)
+const ray=new THREE.Raycaster(), mouse=new THREE.Vector2(); let downAt=null;
+renderer.domElement.addEventListener('pointerdown',e=>downAt=[e.clientX,e.clientY]);
+renderer.domElement.addEventListener('pointerup',e=>{
+  if(!downAt||Math.hypot(e.clientX-downAt[0],e.clientY-downAt[1])>5||walking)return;
+  const rc=renderer.domElement.getBoundingClientRect();
+  mouse.set((e.clientX-rc.left)/rc.width*2-1,-(e.clientY-rc.top)/rc.height*2+1);
+  ray.setFromCamera(mouse,camera);
+  const fl=R.filter(r=>r.f===activeFloor).map(r=>roomObj[r.id].floor);
+  const hit=ray.intersectObjects(fl)[0]; if(!hit)return;
+  const px=hit.point.x/S+OX, py=hit.point.z/S+OY;
+  const c=LISTED.filter(r=>r.f===activeFloor&&px>=r.x1&&px<=r.x2&&py>=r.y1&&py<=r.y2).sort((a,b)=>(a.x2-a.x1)*(a.y2-a.y1)-(b.x2-b.x1)*(b.y2-b.y1))[0];
+  if(c)select(c);
+});
+
+// tools
+const b3=document.getElementById('v3d'),bt=document.getElementById('vtop'),bl=document.getElementById('vlbl');
+b3.onclick=()=>{stopWalk(false);b3.classList.add('on');bt.classList.remove('on');selected&&selected.f===activeFloor?frameRoute():overview();};
+bt.onclick=()=>{stopWalk(false);bt.classList.add('on');b3.classList.remove('on');topView();};
+bl.onclick=()=>{showLabels=!showLabels;bl.classList.toggle('on',showLabels);};
+
+// ---------------- Loop ----------------
+function viewShift(){
+  const d=document.getElementById('dir');
+  if(!d||!d.classList.contains('show')||d.classList.contains('min')||document.body.classList.contains('walking')||innerWidth<=820) return 0;
+  return Math.round((d.offsetWidth+14)/2);
+}
+function applyShift(){const w=stage.clientWidth,h=stage.clientHeight;if(!w||!h)return;const k=viewShift();if(k)camera.setViewOffset(w,h,k,0,w,h);else camera.clearViewOffset();camera.updateProjectionMatrix();}
+function resize(){const w=stage.clientWidth,h=stage.clientHeight;if(!w||!h)return;renderer.setSize(w,h);camera.aspect=w/h;applyShift();}
+addEventListener('resize',resize); addEventListener('orientationchange',()=>setTimeout(resize,250));
+try{new ResizeObserver(resize).observe(stage);}catch(e){}
+resize();
+camera.position.set(0,52,66); controls.target.set(0,0,2);
+setTimeout(()=>{if(!selected)overview();},30);
+const ease=t=>t<.5?2*t*t:1-Math.pow(-2*t+2,2)/2;
+function loop(now){
+  requestAnimationFrame(loop);
+  if(document.body.dataset.view!=='dir') return;
+  const t=now/1000;
+  disc.scale.setScalar(1+0.25*Math.sin(t*3)); dot.position.y=.45+.12*Math.sin(t*3);
+  if(beacon){beacon.userData.pin.position.y=3.6+.25*Math.sin(t*3.2);beacon.userData.pin.rotation.y=t*1.5;}
+  chevrons.forEach(c=>{const u=((t*2.2/c.len)+c.off)%1;tmp.copy(c.curve.getPointAt(u));tmp2.copy(c.curve.getPointAt(Math.min(1,u+0.005)));c.m.position.copy(tmp);c.m.position.y=.22;c.m.lookAt(tmp2.x,.22,tmp2.z);});
+  if(fly){const k=Math.min(1,(now-fly.s)/fly.dur),e=ease(k);camera.position.lerpVectors(fly.p0,fly.p1,e);controls.target.lerpVectors(fly.t0,fly.t1,e);if(k>=1)fly=null;}
+  if(walking&&segs3.length) walkTick(now);
+  else controls.update();
+  renderer.render(scene,camera); updateLabels();
+}
+requestAnimationFrame(loop);
+
+// ---------------- Full screen ----------------
+const fsBtn=document.getElementById('fsBtn'), fsTxt=document.getElementById('fsTxt'), toast=document.getElementById('toast');
+const docEl=document.documentElement;
+const fsEl=()=>document.fullscreenElement||document.webkitFullscreenElement;
+function say(t){toast.textContent=t;toast.classList.add('show');clearTimeout(say.t);say.t=setTimeout(()=>toast.classList.remove('show'),3500);}
+function recenter(){resize();if(walking)return;(selected&&selected.f===activeFloor?frameRoute:(bt.classList.contains('on')?topView:overview))();}
+function setFsUi(){const on=!!fsEl()||document.body.classList.contains('immersive');fsTxt.textContent=on?'Exit':'Full screen';fsBtn.title=on?'Exit full screen':'Full screen';fsBtn.setAttribute('aria-label',fsBtn.title);
+  document.getElementById('fsIco').setAttribute('d',on?'M9 4v5H4M15 4v5h5M9 20v-5H4M15 20v-5h5':'M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5');setTimeout(recenter,80);setTimeout(recenter,400);}
+async function enterFs(){
+  document.body.classList.add('immersive');
+  try{ if(docEl.requestFullscreen) await docEl.requestFullscreen({navigationUI:'hide'}); else if(docEl.webkitRequestFullscreen) docEl.webkitRequestFullscreen(); else throw 0; }
+  catch(e){ say('Showing the map full-window. For true full screen, open this page in its own browser tab or add it to the Home Screen.'); }
+  setFsUi();
+}
+function exitFs(){document.body.classList.remove('immersive');try{if(fsEl())(document.exitFullscreen||document.webkitExitFullscreen).call(document);}catch(e){}setFsUi();}
+fsBtn.onclick=()=>{(fsEl()||document.body.classList.contains('immersive'))?exitFs():enterFs();};
+['fullscreenchange','webkitfullscreenchange'].forEach(ev=>document.addEventListener(ev,()=>{if(!fsEl())document.body.classList.remove('immersive');setFsUi();}));
+document.getElementById('showList').onclick=()=>{document.body.classList.remove('immersive');setFsUi();};
+addEventListener('keydown',e=>{if(e.key==='Escape'){if(walking){stopWalk();return;}if(document.body.classList.contains('immersive')&&!fsEl())exitFs();}});
+
+// ---------------- Kiosk idle reset (2 min) ----------------
+let idle;
+function poke(){clearTimeout(idle);idle=setTimeout(()=>{if(walking)return;q.value='';renderDrop();listFloor=-1;listCat='all';chipsEl.querySelectorAll('button').forEach((x,i)=>x.classList.toggle('on',i===0));cchipsEl.querySelectorAll('button').forEach((x,i)=>x.classList.toggle('on',i===0));renderList();clearAll();b3.classList.add('on');bt.classList.remove('on');list.scrollTop=0;},120000);}
+['pointerdown','keydown','wheel','touchstart'].forEach(ev=>addEventListener(ev,poke,{passive:true})); poke();
+
+// ---------------- Deep links: #room-id  /  #room-id-walk ----------------
+function fromHash(){let id=location.hash.slice(1);const w=/-walk$/.test(id);if(w)id=id.replace(/-walk$/,'');const r=R.find(x=>x.id===id);if(!r)return;if(selected&&selected.id===r.id){if(w&&!walking)startWalk();return;}select(r);if(w)setTimeout(()=>{if(!walking)startWalk();},1300);}
+addEventListener('hashchange',fromHash);
+setFloor(0,{fly:false});
+if(location.hash)setTimeout(fromHash,50);
+// expose for testing
+window.__dir={R,routeFor,stepsFor,NODES,LIFT};
+})();
+
+</script>
+
+<script>
+// ===== Main menu, Citizen's Charter and view routing =====
+(function(){
+const CHARTER=[
+ {id:'bsp',  pages:1, title:'Application to Balik-Scientist Program (BSP)', unit:'Office of the Undersecretary for Research and Development', room:'f3-usec-rd',
+  desc:'For Filipino science and technology experts abroad, or foreigners of Filipino descent, who want to return and share their expertise.'},
+ {id:'gmo',  pages:1, title:'Processing of Proposals Related to Genetically Modified Organism', unit:'Office of the Secretary – DOST Biosafety Committee', room:'f4-osec',
+  desc:'Evaluation of proposals for the contained use and confined testing of genetically modified organisms.'},
+ {id:'hrdp', pages:1, title:'Processing of Requests for Human Resource Development Program (HRDP) Funding (Non-Degree Component)', unit:'Office of the Undersecretary for Scientific and Technical Services', room:'f3-usec-sts',
+  desc:'Funding for local group training that develops the skills of DOST System personnel.'},
+ {id:'hta-general', pages:2, title:'Topic Nomination for General HTA Track Assessments', unit:'HTA Division',
+  desc:'Referring health technologies for assessment to guide healthcare coverage decisions.'},
+ {id:'hta-pnf', pages:2, title:'Topic Nomination for Minor Inclusion Track for Drugs and Vaccines Listed in the Philippine National Formulary (PNF)', unit:'HTA Division',
+  desc:'Topic nomination for drugs and vaccines already listed in the Philippine National Formulary for the same indication.'},
+ {id:'pmd',  pages:1, title:'Sale and Issuance of Bidding Documents for Public Bidding', unit:'Administrative and Legal Service – Procurement Management Division', room:'f2-procurement',
+  desc:'Purchase of bidding documents by prospective bidders, upon payment of the corresponding fees.'},
+ {id:'sfu',  pages:1, title:'Certification of Science & Technology (S&T) Foundations', unit:'S&T Foundation Unit, Office of the Undersecretary for Regional Operations', room:'f3-sfu',
+  desc:'Certification of STI-oriented non-stock, non-profit organizations for tax exemption.'},
+ {id:'gia',  pages:1, title:'Application to Grants-in-Aid (GIA) Program/Project', unit:'Special Projects Division, Office of the Undersecretary for Research and Development', room:'f2-spd',
+  desc:'Grants for programs and projects aligned with current DOST priorities and thrusts.'}
+];
+const FL={'f2':'2nd Floor','f3':'3rd Floor','f4':'4th Floor'};
+const esc=t=>t.replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+document.getElementById('ccCount').textContent=CHARTER.length+' services';
+document.getElementById('ccGrid').innerHTML=CHARTER.map(c=>`<a class="cc-card" href="#charter-${c.id}">
+  <img src="charter/${c.id}-thumb.jpg" alt="" loading="lazy">
+  <span class="cc-body"><small>${esc(c.unit)}</small><b>${esc(c.title)}</b><p>${esc(c.desc)}</p>
+  <span class="cc-tags">${c.pages>1?`<span>${c.pages} pages</span>`:''}${c.room?`<span class="loc">Office on the ${FL[c.room.slice(0,2)]}</span>`:''}</span></span></a>`).join('');
+
+// viewer
+const img=document.getElementById('vwImg'), scroller=document.getElementById('vwScroll');
+let cur=null, page=1, zoom=1;
+function fitW(){return Math.min(scroller.clientWidth-44,1100);}
+function applyZoom(keep){
+  const prevH=img.offsetHeight||1, rel=scroller.scrollTop/prevH;
+  img.style.width=Math.round(fitW()*zoom)+'px'; scroller.style.overflowX=zoom>1?'auto':'hidden';
+  if(keep) requestAnimationFrame(()=>{scroller.scrollTop=rel*img.offsetHeight;});
+  document.getElementById('zFit').textContent=zoom===1?'Fit':Math.round(zoom*100)+'%';
+}
+function openCharter(id,pg){
+  const c=CHARTER.find(x=>x.id===id); if(!c){go('charter');return;}
+  if(!cur||cur.id!==c.id){zoom=1;}
+  cur=c; page=Math.min(Math.max(1,pg||1),c.pages);
+  document.getElementById('vwTitle').textContent=c.title;
+  document.getElementById('vwUnit').textContent=c.unit;
+  img.alt=c.title+(c.pages>1?` (page ${page} of ${c.pages})`:'');
+  img.src=`charter/${c.id}-${page}.jpg`;
+  document.getElementById('vwPages').innerHTML=c.pages>1?Array.from({length:c.pages},(_,i)=>`<button data-p="${i+1}" class="${i+1===page?'on':''}">Page ${i+1}</button>`).join(''):'';
+  const m=document.getElementById('vwMap');
+  if(c.room){m.classList.remove('off');m.href='#'+c.room;document.getElementById('vwMapTxt').textContent='Find office';}else m.classList.add('off');
+  scroller.scrollTop=0; applyZoom(false);
+}
+document.getElementById('vwPages').addEventListener('click',e=>{const b=e.target.closest('button');if(b&&cur)openCharter(cur.id,+b.dataset.p);});
+document.getElementById('zIn').onclick=()=>{zoom=Math.min(3,+(zoom+0.5).toFixed(2));applyZoom(true);};
+document.getElementById('zOut').onclick=()=>{zoom=Math.max(1,+(zoom-0.5).toFixed(2));applyZoom(true);};
+document.getElementById('zFit').onclick=()=>{zoom=1;applyZoom(true);};
+img.addEventListener('dblclick',()=>{zoom=zoom>1?1:2;applyZoom(true);});
+addEventListener('resize',()=>{if(document.body.dataset.view==='viewer')applyZoom(true);});
+
+// routing on the URL hash: #home, #charter, #charter-<id>, #directory, #<room-id>
+function go(h){ if(location.hash!=='#'+h) location.hash=h; else route(); }
+function setView(v){document.body.dataset.view=v; if(v==='dir') setTimeout(()=>dispatchEvent(new Event('resize')),30);}
+function route(){
+  const h=location.hash.slice(1);
+  if(!h||h==='home'){setView('home');return;}
+  if(h==='charter'){setView('charter');return;}
+  if(h.startsWith('charter-')){setView('viewer');openCharter(h.slice(8));return;}
+  setView('dir');   // #directory or any office link handled by the directory
+}
+addEventListener('hashchange',route); route();
+
+// full screen from the main menu
+const fsBtnH=document.getElementById('homeFs'), docEl=document.documentElement;
+const fsOn=()=>!!(document.fullscreenElement||document.webkitFullscreenElement);
+function fsUi(){const on=fsOn();document.getElementById('homeFsTxt').textContent=on?'Exit full screen':'Full screen';fsBtnH.setAttribute('aria-label',on?'Exit full screen':'Full screen');
+  document.getElementById('homeFsIco').setAttribute('d',on?'M9 4v5H4M15 4v5h5M9 20v-5H4M15 20v-5h5':'M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5');}
+function hsay(t){const el=document.getElementById('homeToast');el.textContent=t;el.classList.add('show');clearTimeout(hsay.t);hsay.t=setTimeout(()=>el.classList.remove('show'),4500);}
+fsBtnH.onclick=async()=>{
+  try{
+    if(fsOn()){ await (document.exitFullscreen||document.webkitExitFullscreen).call(document); }
+    else if(docEl.requestFullscreen){ await docEl.requestFullscreen({navigationUI:'hide'}); }
+    else if(docEl.webkitRequestFullscreen){ docEl.webkitRequestFullscreen(); }
+    else throw 0;
+  }catch(e){ hsay('This browser blocked full screen here. Open the page in its own browser tab, or add it to the Home Screen, then try again.'); }
+  setTimeout(fsUi,150);
+};
+['fullscreenchange','webkitfullscreenchange'].forEach(ev=>document.addEventListener(ev,fsUi));
+
+// clock on the main menu
+function tick(){const d=new Date();document.getElementById('clock').innerHTML=`<b>${d.toLocaleTimeString([], {hour:'numeric',minute:'2-digit'})}</b>${d.toLocaleDateString([], {weekday:'long',month:'long',day:'numeric',year:'numeric'})}`;}
+tick(); setInterval(tick,15000);
+
+// kiosk: after 2.5 minutes without a touch, go back to the main menu
+let idle; function poke(){clearTimeout(idle);idle=setTimeout(()=>{if(document.querySelector('.walkbar.show'))return poke();go('home');},150000);}
+['pointerdown','keydown','wheel','touchstart'].forEach(ev=>addEventListener(ev,poke,{passive:true})); poke();
+})();
+</script>
+</body>
+</html>

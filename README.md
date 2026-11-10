@@ -22,6 +22,8 @@ Settings → Pages → *Deploy from a branch* → `main` / root. The site appear
 - `#<office-id>` opens an office route, `#<office-id>-walk` also starts the guided walk (e.g. `#f2-coa-walk`)
 
 ## Updating content
+- **Bump the build stamp** `<meta name="build" content="YYYYMMDDhhmmss">` near the top of `index.html` on every change.
+  Kiosks check every 5 minutes and reload themselves (only while idle on the main menu) when the stamp changes.
 - Office names, floors and routes live in the `GF_ROOMS` / `UP_ROOMS` tables inside `index.html`.
 - Citizen's Charter services are in the `CHARTER` list in `index.html`; images are in `charter/`
   (`<id>-1.jpg`, `<id>-2.jpg` for extra pages, `<id>-thumb.jpg` for the menu preview).

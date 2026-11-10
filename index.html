@@ -296,6 +296,33 @@
     #viewer .vtools{width:100%;justify-content:flex-end}
     .cc-wrap{padding:14px}
   }
+  body[data-view="officials"] #officials{display:flex}
+  .choices{grid-template-columns:repeat(3,minmax(0,1fr));width:min(1180px,100%)}
+  .ctile.line{background:#fff;border:3px solid #000}.ctile.line svg{stroke:#000}
+  .ko-wrap{flex:1;overflow:auto;padding:22px 22px 40px}
+  .ko-sec{max-width:1240px;margin:0 auto 26px}
+  .ko-sec h2{font-size:22px;margin:4px 4px 14px;display:flex;align-items:baseline;gap:10px}
+  .ko-sec h2 span{font-size:14px;font-weight:400;color:var(--mute)}
+  .ko-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:16px}
+  .ko{background:#fff;border-radius:18px;padding:18px;display:flex;flex-direction:column;gap:12px;box-shadow:0 6px 20px rgba(15,27,45,.08)}
+  .ko.lead{grid-column:1/-1;flex-direction:row;align-items:center;gap:22px;padding:22px;border-top:4px solid var(--accent)}
+  .ko-ph{position:relative;width:84px;height:84px;border-radius:50%;flex:none;overflow:hidden;background:#000;color:#fff;display:grid;place-items:center;font-size:30px;font-weight:700;letter-spacing:.02em;box-shadow:0 0 0 4px #fff,0 0 0 6px var(--accent)}
+  .ko.lead .ko-ph{width:132px;height:132px;font-size:44px}
+  .ko-ph img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:top}
+  .ko-ph.svc{background:var(--accent)}
+  .ko-top{display:flex;align-items:center;gap:16px}
+  .ko b.n{display:block;font-size:18px;line-height:1.25}
+  .ko.lead b.n{font-size:26px}
+  .ko .pos{display:block;color:var(--accent-d);font-weight:700;font-size:14.5px;margin-top:3px;line-height:1.3}
+  .ko .off{color:var(--ink2);font-size:14px;line-height:1.4;margin:0}
+  .ko-foot{display:flex;align-items:center;gap:8px;margin-top:auto;flex-wrap:wrap}
+  .ko-tel{display:flex;align-items:center;gap:6px;font-size:14px;font-weight:700;color:var(--ink);background:var(--bg);border-radius:10px;padding:8px 10px}
+  .ko-tel svg,.ko-go svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+  .ko-go{display:flex;align-items:center;gap:6px;margin-left:auto;text-decoration:none;font-weight:700;font-size:14px;color:#fff;background:var(--route);border-radius:10px;padding:8px 12px;min-height:40px}
+  .ko-go:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+  .ko-note{max-width:1240px;margin:0 auto;color:var(--mute);font-size:13px;padding:0 4px}
+  @media (max-width:1000px){.choices{grid-template-columns:1fr;gap:14px}.choice{min-height:0;flex-direction:row;align-items:center;padding:20px}.ctile{width:64px;height:64px;flex:none}.ctile svg{width:36px;height:36px}}
+  @media (max-width:820px){.ko.lead{flex-direction:column;align-items:flex-start}.ko-wrap{padding:14px}}
 </style>
 </head>
 <body data-view="home">
@@ -318,6 +345,10 @@
         <span class="ctile ink"><svg viewBox="0 0 24 24"><path d="M12 2.5a7 7 0 0 0-7 7c0 5.2 7 12 7 12s7-6.8 7-12a7 7 0 0 0-7-7z"/><circle cx="12" cy="9.5" r="2.5"/></svg></span>
         <span class="ctext"><b>Building Directory</b><span>Find an office from the Ground Floor to the 4th Floor and get directions</span></span>
       </a>
+      <a class="choice" href="#officials">
+        <span class="ctile line"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.6"/><path d="M4.5 20.5a7.5 7.5 0 0 1 15 0"/></svg></span>
+        <span class="ctext"><b>Key Officials</b><span>Executive officials and service directors, with their offices and local numbers</span></span>
+      </a>
     </div>
   </main>
   <footer class="home-foot"><i></i>You are at the Front Lobby, Ground Floor</footer>
@@ -330,6 +361,15 @@
     <div class="logo sm"><svg xmlns="http://www.w3.org/2000/svg" viewBox="-0.3 -0.3 4.6 4.6" role="img" aria-label="DOST logo"><g fill="#000"><path d="M0,1A1,1 0 0 1 2,1Z"/><path d="M3,0A1,1 0 0 1 3,2Z"/><path d="M1,2A1,1 0 0 0 1,4Z"/><path d="M2,3A1,1 0 0 0 4,3Z"/><rect x="1" y="1" width="2" height="2"/></g><g fill="#00adee"><path d="M1,1L0,1A1,1 0 0 0 1,2Z"/><path d="M3,1L3,0A1,1 0 0 0 2,1Z"/><path d="M1,3L1,4A1,1 0 0 0 2,3Z"/><path d="M3,3L4,3A1,1 0 0 0 3,2Z"/></g><g fill="#fff"><path d="M1,1L2,1A1,1 0 0 1 1,2Z"/><path d="M3,1L3,2A1,1 0 0 1 2,1Z"/><path d="M1,3L1,2A1,1 0 0 1 2,3Z"/><path d="M3,3L2,3A1,1 0 0 1 3,2Z"/></g></svg></div>
   </header>
   <div class="cc-wrap"><div class="cc-grid" id="ccGrid"></div></div>
+</div>
+
+<div id="officials" class="view" aria-label="Key Officials">
+  <header class="vbar">
+    <a class="vback" href="#home"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg>Home</a>
+    <div class="vtitle"><b>Key Officials</b><span>DOST Central Office</span></div>
+    <div class="logo sm"><svg xmlns="http://www.w3.org/2000/svg" viewBox="-0.3 -0.3 4.6 4.6" role="img" aria-label="DOST logo"><g fill="#000"><path d="M0,1A1,1 0 0 1 2,1Z"/><path d="M3,0A1,1 0 0 1 3,2Z"/><path d="M1,2A1,1 0 0 0 1,4Z"/><path d="M2,3A1,1 0 0 0 4,3Z"/><rect x="1" y="1" width="2" height="2"/></g><g fill="#00adee"><path d="M1,1L0,1A1,1 0 0 0 1,2Z"/><path d="M3,1L3,0A1,1 0 0 0 2,1Z"/><path d="M1,3L1,4A1,1 0 0 0 2,3Z"/><path d="M3,3L4,3A1,1 0 0 0 3,2Z"/></g><g fill="#fff"><path d="M1,1L2,1A1,1 0 0 1 1,2Z"/><path d="M3,1L3,2A1,1 0 0 1 2,1Z"/><path d="M1,3L1,2A1,1 0 0 1 2,3Z"/><path d="M3,3L2,3A1,1 0 0 1 3,2Z"/></g></svg></div>
+  </header>
+  <div class="ko-wrap" id="koWrap"></div>
 </div>
 
 <div id="viewer" class="view" aria-label="Citizen's Charter service">
@@ -1261,6 +1301,50 @@ window.__dir={R,routeFor,stepsFor,NODES,LIFT};
 </script>
 
 <script>
+
+// ===== Key Officials (source: DOST Office Directory, dost.gov.ph) =====
+(function(){
+const TRUNK='(02) 8837 2071';
+const EXEC=[
+ {id:'secretary',name:'Dr. Renato U. Solidum, Jr.',pos:'Secretary',off:'Office of the Secretary (OSEC)',loc:'4000',room:'f4-osec'},
+ {id:'usec-sts',name:'Ms. Maridon O. Sahagun',pos:'Undersecretary for Scientific and Technical Services',off:'OUSEC-STS',loc:'3000',room:'f3-usec-sts'},
+ {id:'usec-rd',name:'Dr. Leah J. Buendia',pos:'Undersecretary for Research and Development',off:'OUSEC-RD',loc:'3040',room:'f3-usec-rd'},
+ {id:'usec-ro',name:'Engr. Sancho A. Mabborang',pos:'Undersecretary for Regional Operations',off:'OUSEC-RO',loc:'3060',room:'f3-usec-ro'},
+ {id:'usec-sc',name:'Dr. Teodoro Gatchalian',pos:'Undersecretary for Special Concerns',off:'OUSEC-SC',loc:'3020',room:'f3-usec-sc'},
+ {id:'asec-ala',name:'Dr. Diana L. Ignacio',pos:'Assistant Secretary for Administration and Legal Affairs',off:'OASEC-ALA',loc:'3050',room:'f3-asec-ala'},
+ {id:'asec-ttcc',name:'Mr. Napoleon K. Juanillo, Jr., PhD',pos:'Assistant Secretary for Technology Transfer, Communications, and Commercialization',off:'OASEC-TTCC',loc:'3010',room:'f3-asec-ttcc'},
+ {id:'asec-dc',name:'Mr. Rodolfo J. Calzado, Jr.',pos:'Assistant Secretary for Development Cooperation',off:'OASEC-DC',loc:'3030',room:'f3-asec-dc'},
+ {id:'asec-cd',name:'Engr. Maria Teresa Bien De Guzman',pos:'Assistant Secretary for Countryside Development',off:'OASEC-CD',loc:'4041',room:'f4-asec-cd'}
+];
+const SVC=[
+ {id:'dir-als',name:'Atty. Angely P. Medalle-Alviar',pos:'Director, Administrative and Legal Service',off:'ALS',loc:'1010',room:'als-director'},
+ {id:'dir-fms',name:'Dir. Racquel P. Alvendia',pos:'Director, Financial and Management Service',off:'FMS',loc:'1210',room:'fms-director'},
+ {id:'dir-pes',name:'Dir. Cezar R. Pedraza',pos:'Director, Planning and Evaluation Service',off:'PES',loc:'2010',room:'f2-pes-director'},
+ {id:'dir-ias',name:'Mr. Robert Paulo T. Lumbatan',pos:'Head, Internal Audit Service',off:'IAS',loc:'4010',room:'f4-ias'},
+ {id:'dir-dllo',name:'Dir. Lita S. Suerte-Felipe',pos:'Director, Department Legislative Liaison Office',off:'DLLO',loc:'2160',room:'f2-dllo'}
+];
+const FL={f2:'2nd Floor',f3:'3rd Floor',f4:'4th Floor'};
+const floorOf=room=>FL[room.slice(0,2)]||'Ground Floor';
+const esc=t=>t.replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+function initials(n){const w=n.replace(/^(Dr|Ms|Mr|Engr|Atty|Dir)\.\s+/,'').replace(/,.*$/,'').split(/\s+/).filter(x=>!/^[A-Z]\.$/.test(x));return (w[0][0]+(w[w.length-1]||'')[0]).toUpperCase();}
+const tel='<svg viewBox="0 0 24 24"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2"/></svg>';
+const pin='<svg viewBox="0 0 24 24"><path d="M12 2.5a7 7 0 0 0-7 7c0 5.2 7 12 7 12s7-6.8 7-12a7 7 0 0 0-7-7z"/><circle cx="12" cy="9.5" r="2.5"/></svg>';
+function card(o,lead,svc){
+  return `<article class="ko${lead?' lead':''}">
+    <div class="ko-top"><div class="ko-ph${svc?' svc':''}" aria-hidden="true">${initials(o.name)}<img src="officials/${o.id}.jpg" alt="" onerror="this.remove()"></div>
+    ${lead?'':`<div><b class="n">${esc(o.name)}</b><span class="pos">${esc(o.pos)}</span></div>`}</div>
+    ${lead?`<div style="flex:1;display:flex;flex-direction:column;gap:10px"><div><b class="n">${esc(o.name)}</b><span class="pos">${esc(o.pos)}</span></div>`:''}
+    <p class="off">${esc(o.off)} · ${floorOf(o.room)}</p>
+    <div class="ko-foot"><span class="ko-tel">${tel}${TRUNK} loc. ${o.loc}</span><a class="ko-go" href="#${o.room}">${pin}Find office</a></div>
+    ${lead?'</div>':''}
+  </article>`;
+}
+document.getElementById('koWrap').innerHTML=
+  `<section class="ko-sec"><h2>Executive officials <span>${EXEC.length} officials</span></h2><div class="ko-grid">${card(EXEC[0],true)}${EXEC.slice(1).map(o=>card(o)).join('')}</div></section>
+   <section class="ko-sec"><h2>Service directors <span>${SVC.length} services</span></h2><div class="ko-grid">${SVC.map(o=>card(o,false,true)).join('')}</div></section>
+   <p class="ko-note">Names and local numbers from the DOST Office Directory (dost.gov.ph).</p>`;
+})();
+
 // ===== Main menu, Citizen's Charter and view routing =====
 (function(){
 const CHARTER=[
@@ -1326,6 +1410,7 @@ function route(){
   const h=location.hash.slice(1);
   if(!h||h==='home'){setView('home');return;}
   if(h==='charter'){setView('charter');return;}
+  if(h==='officials'){setView('officials');return;}
   if(h.startsWith('charter-')){setView('viewer');openCharter(h.slice(8));return;}
   setView('dir');   // #directory or any office link handled by the directory
 }

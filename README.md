@@ -2,7 +2,8 @@
 
 A touch-friendly lobby kiosk for the DOST Central Office.
 
-- **Main menu** — choose *Citizen's Charter* or *Building Directory*; full-screen button for kiosk use.
+- **Main menu** — choose *Citizen's Charter*, *Building Directory* or *Key Officials*; full-screen button for kiosk use.
+- **Key Officials** — executive officials and service directors with local numbers and a "Find office" link; photos go in `officials/` (see `officials/README.txt`).
 - **Citizen's Charter** — 8 services with full tarpaulin layouts (zoom, page switching, "Find office").
 - **Building Directory** — 3D model of the Ground Floor to the 4th Floor with search, floor switcher,
   turn-by-turn directions from the Front Lobby, and a "Walk me there" guided walk (elevator included).
@@ -17,7 +18,7 @@ Settings → Pages → *Deploy from a branch* → `main` / root. The site appear
 `https://<user>.github.io/<repo>/`.
 
 ## Links
-- `#home`, `#charter`, `#charter-<id>` (e.g. `#charter-gia`), `#directory`
+- `#home`, `#officials`, `#charter`, `#charter-<id>` (e.g. `#charter-gia`), `#directory`
 - `#<office-id>` opens an office route, `#<office-id>-walk` also starts the guided walk (e.g. `#f2-coa-walk`)
 
 ## Updating content

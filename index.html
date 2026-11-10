@@ -805,25 +805,26 @@ function legsOf(pts){
   }
   return legs;
 }
-const turnWord=(p,h)=>{const cr=p[0]*h[1]-p[1]*h[0], dot=p[0]*h[0]+p[1]*h[1]; return dot>0.94?'Continue straight':(cr>0?'Turn right':'Turn left');};
+const turnWord=(p,h)=>{const cr=p[0]*h[1]-p[1]*h[0], dot=p[0]*h[0]+p[1]*h[1]; return dot>0.94?'Continue straight':(dot<-0.7?'Turn around':(cr>0?'Turn right':'Turn left'));};
 function describe(seg,room){
   const legs=legsOf(seg.pts), walk=legs.filter(l=>!l.end), last=legs[legs.length-1], out=[];
   walk.forEach((l,i)=>{
     const d=Math.max(1,m(l.len));
     if(i===0){
-      if(seg.fromLift){ out.push(`Step out of the elevator into the <b>${l.lab}</b> on the <b>${FLOOR_NAMES[seg.f]}</b>.`); return; }
+      if(seg.fromLift){ out.push(`Step out of the elevator into the <b>${l.lab}</b> on the <b>${FLOOR_NAMES[seg.f]}</b> and turn to face the main stairs.`); return; }
       out.push(`From the front entrance, walk straight ahead about ${d} m into the <b>${l.lab}</b>.`); return;
     }
-    const turn=turnWord(walk[i-1].h,l.h), passage=isPassageLab(l.lab);
+    const ref=(seg.fromLift&&i===1)?[0,-1]:walk[i-1].h;
+    const turn=turnWord(ref,l.h), passage=isPassageLab(l.lab);
     if(room && i===walk.length-1 && !passage){ out.push(`${turn} and enter <b>${room.name}</b> (about ${d} m). You have arrived.`); out.done=true; }
     else if(l.lab===walk[i-1].lab) out.push(`${turn} and continue along the <b>${l.lab}</b> for about ${d} m.`);
     else if(passage) out.push(`${turn} into the <b>${l.lab}</b> and walk about ${d} m.`);
     else out.push(`${turn} and go through <b>${l.lab}</b> (about ${d} m).`);
   });
   if(!room||out.done) return out;
-  const ph=walk.length?walk[walk.length-1].h:[0,1];
+  const ph=(seg.fromLift&&walk.length<=1)?[0,-1]:(walk.length?walk[walk.length-1].h:[0,1]);
   const cr=ph[0]*last.h[1]-ph[1]*last.h[0], dot=ph[0]*last.h[0]+ph[1]*last.h[1];
-  out.push(`<b>${room.name}</b> is ${dot>0.7?'straight ahead':(cr>0?'on your right':'on your left')}.`);
+  out.push(`<b>${room.name}</b> is ${dot>0.7?'straight ahead':(dot<-0.7?'behind you':(cr>0?'on your right':'on your left'))}.`);
   return out;
 }
 function stepsFor(r){

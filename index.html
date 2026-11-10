@@ -524,7 +524,8 @@ const UPPER_PATHS = {
       {lab:'2.50 m east corridor', pts:[[675,273],[675,350],[675,440],[675,530]]},
       {lab:'stair lobby', lift:true, pts:[[602,520],[602,530]]} ],
   3:[ {lab:'2.00 m north corridor', pts:XS(304,[340,400,470,523,560,600,661,720,790,835])},
-      {lab:'west corridor',         pts:[[523,304],[523,400],[523,480],[523,560]]},
+      // west side does not connect through to the north corridor; IAS and the north offices are reached via the east (right) side
+      {lab:'west corridor',         pts:[[523,480],[523,560]]},
       {lab:'2.50 m east corridor',  pts:[[661,304],[661,400],[661,480],[661,560]]},
       {lab:'elevator lobby',        pts:[[523,560],[587,560],[661,560]]},
       {lab:'elevator lobby', lift:true, pts:[[587,548],[587,560]]},

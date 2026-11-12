@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="build" content="20261112083500">
+<meta name="build" content="20261112084500">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>DOST Building Directory</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -342,6 +342,10 @@
   .still-btns{display:flex;gap:10px;justify-content:center}
   .still-btns button{font:inherit;font-size:17px;font-weight:700;height:56px;padding:0 22px;border:0;border-radius:12px;cursor:pointer}
   #stillYes{background:var(--route);color:#fff}#stillNo{background:var(--bg);color:var(--ink)}
+  .ccss-blocked{position:absolute;inset:0;z-index:3;display:none;place-items:center;background:#f0ebf8;padding:20px}
+  .ccss-wrap.blocked .ccss-blocked{display:grid}
+  .ccss-open{display:inline-flex;align-items:center;height:56px;padding:0 26px;border-radius:12px;background:var(--route);color:#fff;font-weight:700;font-size:17px;text-decoration:none}
+  .ccss-short{font-weight:700;color:var(--ink);margin:16px 0 0!important}
 </style>
 </head>
 <body data-view="home">
@@ -384,7 +388,7 @@
     <div class="vtitle"><b>Client Satisfaction Survey</b><span>Tell us how we did today</span></div>
     <button class="vback" id="ccssNew" type="button">Start over</button>
   </header>
-  <div class="ccss-wrap" id="ccssWrap"><div class="ccss-load">Loading the survey…</div><iframe id="ccssFrame" title="DOST Central Office Client Satisfaction Survey" data-src="https://docs.google.com/forms/d/e/1FAIpQLSegYpFLC05LZITTre2Pi6_Um0kDMGOs2PbDElmv3wtFVkYgbw/viewform?embedded=true"></iframe></div>
+  <div class="ccss-wrap" id="ccssWrap"><div class="ccss-load">Loading the survey…</div><div class="ccss-blocked" id="ccssBlocked"><div class="still-card"><b>The survey can't be shown inside this page</b><p>Open it in a new tab, or use the link below on your phone.</p><a class="ccss-open" href="https://tinyurl.com/DOST-CO-OnlineCCSS" target="_blank" rel="noopener">Open the survey</a><p class="ccss-short">tinyurl.com/DOST-CO-OnlineCCSS</p></div></div><iframe id="ccssFrame" title="DOST Central Office Client Satisfaction Survey" data-src="https://docs.google.com/forms/d/e/1FAIpQLSegYpFLC05LZITTre2Pi6_Um0kDMGOs2PbDElmv3wtFVkYgbw/viewform?embedded=true"></iframe></div>
   <div class="still" id="ccssStill" role="alertdialog" aria-labelledby="stillQ"><div class="still-card"><b id="stillQ">Are you still answering the survey?</b><p>The kiosk will return to the main menu in <span id="stillN">30</span> seconds.</p><div class="still-btns"><button type="button" id="stillYes">Yes, continue</button><button type="button" id="stillNo">I'm done</button></div></div></div>
 </div>
 
@@ -1506,6 +1510,8 @@ document.getElementById('stillNo').onclick=()=>{hideStill();go('home');};
 addEventListener('hashchange',poke);
 ['pointerdown','keydown','wheel','touchstart'].forEach(ev=>addEventListener(ev,poke,{passive:true})); poke();
 
+// If the host page blocks embedding Google Forms (for example the Claude preview), show a link instead of a blank area.
+document.addEventListener('securitypolicyviolation',e=>{if(/docs\.google\.com|google\.com\/forms/.test(e.blockedURI||'')||e.effectiveDirective==='frame-src'||e.effectiveDirective==='child-src')document.getElementById('ccssWrap').classList.add('blocked');});
 // Client Satisfaction Survey: the office's Google Form, shown inside the kiosk.
 // It reloads fresh each time it is opened, so the next visitor never sees someone else's answers.
 const ccssFrame=document.getElementById('ccssFrame'), ccssWrap=document.getElementById('ccssWrap');

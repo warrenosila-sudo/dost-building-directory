@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="build" content="20261112081500">
+<meta name="build" content="20261112081800">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>DOST Building Directory</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -324,65 +324,6 @@
   .ko-note{max-width:1240px;margin:0 auto;color:var(--mute);font-size:13px;padding:0 4px}
   @media (max-width:1000px){.choices{grid-template-columns:1fr;gap:14px}.choice{min-height:0;flex-direction:row;align-items:center;padding:20px}.ctile{width:64px;height:64px;flex:none}.ctile svg{width:36px;height:36px}}
   @media (max-width:820px){.ko.lead{flex-direction:column;align-items:flex-start}.ko-wrap{padding:14px}}
-  /* ---------- client satisfaction survey ---------- */
-  body[data-view="survey"] #survey{display:flex}
-  .choices.four{grid-template-columns:repeat(2,minmax(0,1fr));width:min(1040px,100%)}
-  .choices.four .choice{min-height:200px}
-  .ctile.orange{background:var(--route)}.ctile.orange svg{stroke:#fff}
-  .sv-prog{flex:none;height:8px;background:#dfe5ec}
-  .sv-prog i{display:block;height:100%;width:0;background:var(--route);transition:width .25s ease}
-  .sv-body{flex:1;overflow:auto;padding:28px 22px 24px;-webkit-overflow-scrolling:touch}
-  .sv-step{max-width:1060px;margin:0 auto;display:none}
-  .sv-step.on{display:block}
-  .sv-step h2{font-size:clamp(24px,3.2vw,34px);line-height:1.2;margin:0 0 6px}
-  .sv-step .fil{color:var(--ink2);font-size:clamp(16px,1.9vw,20px);line-height:1.4;margin:0 0 6px}
-  .sv-kicker{color:var(--accent-d);font-weight:700;font-size:15px;margin:0 0 10px}
-  .sv-note{color:var(--mute);font-size:14px;line-height:1.5;margin:18px 0 0;max-width:760px}
-  .sv-intro{display:flex;flex-direction:column;align-items:center;text-align:center;padding-top:4vh}
-  .sv-intro .faces-demo{display:flex;gap:10px;margin:8px 0 22px}
-  .sv-intro .faces-demo svg{width:54px;height:54px}
-  .sv-intro p.lead2{font-size:19px;color:var(--ink2);max-width:640px;line-height:1.5;margin:6px 0 26px}
-  .sv-big{font:inherit;font-size:20px;font-weight:700;border:0;border-radius:14px;background:var(--route);color:#fff;padding:0 34px;height:64px;cursor:pointer;touch-action:manipulation}
-  .sv-big:focus-visible,.sv-opt:focus-visible,.face:focus-visible,.sv-na:focus-visible,.sv-nav button:focus-visible,.sv-chip:focus-visible,.sv-field select:focus-visible,.sv-field textarea:focus-visible,.sv-field input:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
-  .sv-fields{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:22px 28px;margin-top:22px}
-  .sv-field{display:flex;flex-direction:column;gap:10px}
-  .sv-field.wide{grid-column:1/-1}
-  .sv-field>b{font-size:17px}
-  .sv-field>b small{font-weight:400;color:var(--mute);font-size:14px;margin-left:6px}
-  .sv-chips{display:flex;flex-wrap:wrap;gap:8px}
-  .sv-chip{font:inherit;font-size:16px;font-weight:700;min-height:52px;padding:0 18px;border-radius:12px;border:2px solid #d5dce5;background:#fff;color:var(--ink);cursor:pointer;touch-action:manipulation}
-  .sv-chip.on{background:var(--ink);border-color:var(--ink);color:#fff}
-  .sv-field select,.sv-field input,.sv-field textarea{font:inherit;font-size:17px;border:2px solid #d5dce5;border-radius:12px;background:#fff;color:var(--ink);padding:12px 14px;min-height:54px;width:100%}
-  .sv-field textarea{min-height:150px;resize:vertical;line-height:1.45}
-  .sv-opts{display:flex;flex-direction:column;gap:12px;margin-top:22px;max-width:860px}
-  .sv-opt{display:flex;align-items:center;gap:16px;text-align:left;font:inherit;font-size:18px;line-height:1.35;color:var(--ink);background:#fff;border:2px solid #fff;border-radius:16px;padding:16px 18px;min-height:72px;box-shadow:0 4px 14px rgba(15,27,45,.07);cursor:pointer;touch-action:manipulation}
-  .sv-opt i{flex:none;width:40px;height:40px;border-radius:50%;display:grid;place-items:center;font-style:normal;font-weight:700;background:var(--bg);color:var(--ink2)}
-  .sv-opt span small{display:block;color:var(--mute);font-size:15px;margin-top:2px}
-  .sv-opt:hover{border-color:var(--accent)}
-  .sv-opt.on{border-color:var(--route);background:#fff6ee}.sv-opt.on i{background:var(--route);color:#fff}
-  .faces{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:14px;margin-top:26px}
-  .face{display:flex;flex-direction:column;align-items:center;gap:10px;font:inherit;color:var(--ink);background:#fff;border:3px solid #fff;border-radius:20px;padding:20px 10px 18px;box-shadow:0 6px 18px rgba(15,27,45,.08);cursor:pointer;touch-action:manipulation;transition:transform .1s ease}
-  .face svg{width:clamp(64px,9vw,104px);height:auto}
-  .face b{font-size:clamp(14px,1.6vw,18px);line-height:1.2;text-align:center}
-  .face small{font-size:clamp(12px,1.3vw,14.5px);color:var(--mute);line-height:1.3;text-align:center}
-  .face:active{transform:scale(.97)}
-  .face.on{border-color:var(--route);background:#fff6ee}
-  .sv-na{font:inherit;font-size:16px;font-weight:700;margin-top:16px;min-height:52px;padding:0 20px;border-radius:12px;border:2px solid #d5dce5;background:#fff;color:var(--ink2);cursor:pointer;touch-action:manipulation}
-  .sv-na.on{background:var(--ink);color:#fff;border-color:var(--ink)}
-  .sv-nav{flex:none;display:flex;align-items:center;gap:12px;padding:12px 22px;background:#fff;border-top:1px solid var(--line)}
-  .sv-nav button{font:inherit;font-size:17px;font-weight:700;height:56px;padding:0 26px;border-radius:12px;border:0;cursor:pointer;touch-action:manipulation}
-  .sv-nav .back{background:var(--bg);color:var(--ink)}
-  .sv-nav .next{margin-left:auto;background:var(--ink);color:#fff}
-  .sv-nav .next.send{background:var(--route)}
-  .sv-nav .count{color:var(--mute);font-size:14px}
-  .sv-nav.hide{display:none}
-  .sv-thanks{text-align:center;padding-top:8vh}
-  .sv-thanks svg.big{width:120px;height:120px}
-  .sv-thanks h2{margin-top:18px}
-  .sv-thanks p{font-size:19px;color:var(--ink2);line-height:1.5;max-width:620px;margin:10px auto 0}
-  .sv-thanks .sv-big{margin-top:30px;background:var(--ink)}
-  @media (max-width:1000px){.choices.four{grid-template-columns:1fr}.choices.four .choice{min-height:0}}
-  @media (max-width:820px){.sv-fields{grid-template-columns:1fr}.faces{gap:8px}.face{padding:14px 4px;border-radius:14px}.face small{display:none}.sv-body{padding:18px 14px}}
 </style>
 </head>
 <body data-view="home">
@@ -396,7 +337,7 @@
   <main class="home-main">
     <h1>How can we help you today?</h1>
     <p class="lead">Choose what you'd like to see.</p>
-    <div class="choices four">
+    <div class="choices">
       <a class="choice" href="#charter">
         <span class="ctile cyan"><svg viewBox="0 0 24 24"><path d="M7 3h7l5 5v13H7z"/><path d="M14 3v5h5M10 12h6M10 15.5h6M10 19h4"/></svg></span>
         <span class="ctext"><b>Citizen's Charter</b><span>Our services: requirements, steps, fees and processing time</span></span>
@@ -409,27 +350,9 @@
         <span class="ctile line"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.6"/><path d="M4.5 20.5a7.5 7.5 0 0 1 15 0"/></svg></span>
         <span class="ctext"><b>Key Officials</b><span>Executive officials and service directors, with their offices and local numbers</span></span>
       </a>
-      <a class="choice" href="#survey">
-        <span class="ctile orange"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M8 14.2c1 1.6 2.4 2.4 4 2.4s3-.8 4-2.4"/><path d="M9 9.6v.6M15 9.6v.6"/></svg></span>
-        <span class="ctext"><b>Client Satisfaction Survey</b><span>Tell us how we did today. It takes about 2 minutes.</span></span>
-      </a>
     </div>
   </main>
   <footer class="home-foot"><i></i>You are at the Front Lobby, Ground Floor</footer>
-</div>
-
-<div id="survey" class="view" aria-label="Client Satisfaction Survey">
-  <header class="vbar">
-    <a class="vback" href="#home"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg>Home</a>
-    <div class="vtitle"><b>Client Satisfaction Survey</b><span id="svStepTxt">Help us serve you better</span></div>
-  </header>
-  <div class="sv-prog" aria-hidden="true"><i id="svProg"></i></div>
-  <div class="sv-body" id="svBody"></div>
-  <div class="sv-nav" id="svNav">
-    <button class="back" id="svBack" type="button">Back</button>
-    <span class="count" id="svCount"></span>
-    <button class="next" id="svNext" type="button">Next</button>
-  </div>
 </div>
 
 <div id="charter" class="view" aria-label="Citizen's Charter">
@@ -1509,7 +1432,6 @@ function route(){
   if(!h||h==='home'){setView('home');return;}
   if(h==='charter'){setView('charter');return;}
   if(h==='officials'){setView('officials');return;}
-  if(h==='survey'){setView('survey');return;}
   if(h.startsWith('charter-')){setView('viewer');openCharter(h.slice(8));return;}
   setView('dir');   // #directory or any office link handled by the directory
 }
@@ -1539,148 +1461,6 @@ tick(); setInterval(tick,15000);
 // kiosk: after 2.5 minutes without a touch, go back to the main menu
 let idle; function poke(){clearTimeout(idle);idle=setTimeout(()=>{if(document.querySelector('.walkbar.show'))return poke();go('home');},150000);}
 ['pointerdown','keydown','wheel','touchstart'].forEach(ev=>addEventListener(ev,poke,{passive:true})); poke();
-
-// ===== Client Satisfaction Survey (ARTA CSM style), saved to Google Sheets =====
-// Paste the Apps Script web app URL here after deploying it from the Google Sheet.
-const SURVEY_ENDPOINT='';
-const SURVEY_TOKEN='dost-co-kiosk';
-const OUTBOX='dostSurveyOutbox';
-const RATE=[
- {v:'Very satisfied',en:'Very Satisfied',fil:'Lubos na nasiyahan',c:'#2e9e5b',m:'M7 13.5Q12 19.5 17 13.5'},
- {v:'Satisfied',en:'Satisfied',fil:'Nasiyahan',c:'#8cc63f',m:'M8 14.5Q12 17.5 16 14.5'},
- {v:'Neither',en:'Neither Satisfied nor Dissatisfied',fil:'Hindi nasiyahan at hindi rin naman hindi nasiyahan',c:'#f2c200',m:'M8 15.5H16'},
- {v:'Dissatisfied',en:'Dissatisfied',fil:'Hindi nasiyahan',c:'#f57c1f',m:'M8 16.8Q12 13.8 16 16.8'},
- {v:'Very dissatisfied',en:'Very Dissatisfied',fil:'Lubos na hindi nasiyahan',c:'#d93a2b',m:'M7 18Q12 12 17 18'}];
-const faceSvg=(r,cls)=>`<svg ${cls?`class="${cls}"`:''} viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="11" fill="${r.c}"/><circle cx="8.4" cy="9.4" r="1.25" fill="#1b1b1b"/><circle cx="15.6" cy="9.4" r="1.25" fill="#1b1b1b"/><path d="${r.m}" fill="none" stroke="#1b1b1b" stroke-width="1.6" stroke-linecap="round"/></svg>`;
-const SQD=[
- ['Overall','I am satisfied with the service that I availed.','Nasiyahan ako sa serbisyo na aking natanggap.'],
- ['Responsiveness','I spent a reasonable amount of time for my transaction.','Makatwiran ang oras na aking ginugol para sa aking transaksyon.'],
- ['Reliability','The office followed the transaction\'s requirements and steps based on the information provided.','Sinunod ng opisina ang mga kinakailangan at hakbang ng transaksyon batay sa impormasyong ibinigay.'],
- ['Access and facilities','The steps (including payment) I needed to do for my transaction were easy and simple.','Madali at simple ang mga hakbang (kasama ang pagbabayad) sa aking transaksyon.'],
- ['Communication','I easily found information about my transaction from the office or its website.','Madali akong nakahanap ng impormasyon tungkol sa aking transaksyon mula sa opisina o sa website nito.'],
- ['Costs','I paid a reasonable amount of fees for my transaction. (If the service was free, choose N/A.)','Makatwiran ang halagang ibinayad ko para sa aking transaksyon. (Kung libre ang serbisyo, piliin ang N/A.)'],
- ['Integrity','I feel the office was fair to everyone, or "walang palakasan", during my transaction.','Pakiramdam ko ay patas ang opisina sa lahat, o "walang palakasan", sa aking transaksyon.'],
- ['Assurance','I was treated courteously by the staff, and (if I asked for help) the staff was helpful.','Magalang akong trinato ng mga kawani, at (kung humingi ako ng tulong) handa silang tumulong.'],
- ['Outcome','I got what I needed from the office, or (if denied) the denial was sufficiently explained to me.','Nakuha ko ang kailangan ko mula sa opisina, o (kung tinanggihan) sapat itong ipinaliwanag sa akin.']];
-const CC=[
- {q:'Which of the following best describes your awareness of a Citizen\'s Charter (CC)?',fil:'Alin sa mga sumusunod ang naglalarawan sa iyong kaalaman sa Citizen\'s Charter?',o:[
-  'I know what a CC is and I saw this office\'s CC.',
-  'I know what a CC is but I did NOT see this office\'s CC.',
-  'I learned of the CC only when I saw this office\'s CC.',
-  'I do not know what a CC is and I did not see one in this office.']},
- {q:'If aware of the CC, would you say that the CC of this office was…',fil:'Kung alam mo ang CC, masasabi mo ba na ang CC ng opisinang ito ay…',o:['Easy to see','Somewhat easy to see','Difficult to see','Not visible at all','N/A']},
- {q:'If aware of the CC, how much did the CC help you in your transaction?',fil:'Kung alam mo ang CC, gaano ito nakatulong sa iyong transaksyon?',o:['Helped very much','Somewhat helped','Did not help','N/A']}];
-const REGIONS=['NCR','CAR','Region I – Ilocos','Region II – Cagayan Valley','Region III – Central Luzon','Region IV-A – CALABARZON','MIMAROPA','Region V – Bicol','Region VI – Western Visayas','NIR – Negros Island','Region VII – Central Visayas','Region VIII – Eastern Visayas','Region IX – Zamboanga Peninsula','Region X – Northern Mindanao','Region XI – Davao','Region XII – SOCCSKSARGEN','Caraga','BARMM','Outside the Philippines'];
-const SERVICES=CHARTER.map(c=>c.title).concat(['Visit or meeting with an office','Inquiry or follow-up','Delivery or submission of documents','Other']);
-const sEsc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;"}[c]));
-
-const svBody=document.getElementById('svBody'), svNav=document.getElementById('svNav');
-const STEPS=['intro','about','cc0','cc1','cc2',...SQD.map((_,i)=>'sqd'+i),'final','thanks'];
-let ans, si;
-function blank(){return {clientType:'',sex:'',age:'',region:'',service:'',cc:['','',''],sqd:Array(9).fill(''),suggestions:'',email:''};}
-
-function chips(key,opts){return `<div class="sv-chips" data-key="${key}">${opts.map(o=>`<button type="button" class="sv-chip${ans[key]===o?' on':''}" data-v="${sEsc(o)}">${sEsc(o)}</button>`).join('')}</div>`;}
-function render(){
-  const s=STEPS[si]; let h='';
-  if(s==='intro'){
-    h=`<div class="sv-intro"><div class="faces-demo">${RATE.map(r=>faceSvg(r)).join('')}</div>
-      <h2>How did we do today?</h2>
-      <p class="lead2">Your answers help the DOST Central Office improve its services. The survey takes about 2 minutes. You do not need to give your name.</p>
-      <button type="button" class="sv-big" id="svStart">Start the survey</button>
-      <p class="sv-note">Your answers are kept confidential and used only to improve our services, in line with the Data Privacy Act of 2012 (RA 10173).</p></div>`;
-  } else if(s==='about'){
-    h=`<p class="sv-kicker">About you</p><h2>Tell us a little about your visit</h2><p class="fil">Ilang impormasyon tungkol sa iyong pagbisita</p>
-    <div class="sv-fields">
-      <div class="sv-field wide"><b>Client type</b>${chips('clientType',['Citizen','Business','Government (employee or another agency)'])}</div>
-      <div class="sv-field"><b>Sex</b>${chips('sex',['Male','Female','Prefer not to say'])}</div>
-      <div class="sv-field"><b>Age</b>${chips('age',['19 or younger','20 to 34','35 to 49','50 to 64','65 or older'])}</div>
-      <div class="sv-field"><b>Region of residence</b><select id="svRegion"><option value="">Choose a region</option>${REGIONS.map(r=>`<option${ans.region===r?' selected':''}>${sEsc(r)}</option>`).join('')}</select></div>
-      <div class="sv-field"><b>Service availed</b><select id="svService"><option value="">Choose a service</option>${SERVICES.map(r=>`<option${ans.service===r?' selected':''}>${sEsc(r)}</option>`).join('')}</select></div>
-    </div>`;
-  } else if(s.startsWith('cc')){
-    const k=+s[2], c=CC[k];
-    h=`<p class="sv-kicker">Citizen's Charter · Question ${k+1} of 3</p><h2>${sEsc(c.q)}</h2><p class="fil">${sEsc(c.fil)}</p>
-    <div class="sv-opts">${c.o.map((o,i)=>{const v=(o==='N/A'?'N/A':(i+1)+'. '+o);return `<button type="button" class="sv-opt${ans.cc[k]===v?' on':''}" data-v="${sEsc(v)}"><i>${o==='N/A'?'–':i+1}</i><span>${sEsc(o)}</span></button>`;}).join('')}</div>`;
-  } else if(s.startsWith('sqd')){
-    const k=+s.slice(3), q=SQD[k];
-    h=`<p class="sv-kicker">${sEsc(q[0])} · Statement ${k+1} of 9</p><h2>${sEsc(q[1])}</h2><p class="fil">${sEsc(q[2])}</p>
-    <div class="faces">${RATE.map(r=>`<button type="button" class="face${ans.sqd[k]===r.v?' on':''}" data-v="${r.v}" aria-label="${r.en}">${faceSvg(r)}<b>${r.en}</b><small>${r.fil}</small></button>`).join('')}</div>
-    <button type="button" class="sv-na${ans.sqd[k]==='N/A'?' on':''}" data-v="N/A">N/A – Not applicable</button>`;
-  } else if(s==='final'){
-    h=`<p class="sv-kicker">Almost done</p><h2>Any suggestions on how we can further improve our services?</h2><p class="fil">May mungkahi ka ba kung paano pa namin mapapabuti ang aming serbisyo? (optional)</p>
-    <div class="sv-fields"><div class="sv-field wide"><textarea id="svSugg" maxlength="1500" placeholder="Type your suggestion here">${sEsc(ans.suggestions)}</textarea></div>
-    <div class="sv-field wide"><b>Email address <small>optional, if you want us to get back to you</small></b><input id="svEmail" type="email" inputmode="email" autocomplete="off" value="${sEsc(ans.email)}" placeholder="name@example.com"></div></div>`;
-  } else if(s==='thanks'){
-    h=`<div class="sv-thanks">${faceSvg(RATE[0],'big')}<h2>Thank you for your feedback!</h2><p>Maraming salamat po! Your answers help us serve you better.</p>
-    <button type="button" class="sv-big" id="svDone">Back to main menu</button></div>`;
-  }
-  svBody.innerHTML=`<div class="sv-step on">${h}</div>`; svBody.scrollTop=0;
-  const n=STEPS.length-2;
-  document.getElementById('svProg').style.width=(s==='thanks'?100:Math.round(Math.max(0,si-1)/(n-1)*100))+'%';
-  document.getElementById('svStepTxt').textContent=s==='intro'?'Help us serve you better':s==='thanks'?'Submitted':`Step ${si} of ${n}`;
-  svNav.classList.toggle('hide',s==='intro'||s==='thanks');
-  const nx=document.getElementById('svNext');
-  nx.textContent=s==='final'?'Submit':'Next'; nx.classList.toggle('send',s==='final');
-  nx.style.visibility=(s.startsWith('cc')||s.startsWith('sqd'))&&!curAnswer()?'hidden':'visible';
-  const q=outbox().length; document.getElementById('svCount').textContent=q?`${q} saved response${q>1?'s':''} waiting to send`:'';
-  if(s==='thanks'){clearTimeout(render.t);render.t=setTimeout(()=>{if(document.body.dataset.view==='survey'&&STEPS[si]==='thanks')location.hash='home';},12000);}
-}
-function curAnswer(){const s=STEPS[si];if(s.startsWith('cc'))return ans.cc[+s[2]];if(s.startsWith('sqd'))return ans.sqd[+s.slice(3)];return 1;}
-function next(){
-  const s=STEPS[si];
-  if(s==='about'){ans.region=document.getElementById('svRegion').value;ans.service=document.getElementById('svService').value;}
-  if(s==='final'){ans.suggestions=document.getElementById('svSugg').value.trim();ans.email=document.getElementById('svEmail').value.trim();submit();}
-  si++;
-  if(STEPS[si]==='cc1'&&ans.cc[0].startsWith('4.')){ans.cc[1]='N/A';ans.cc[2]='N/A';si+=2;}
-  render();
-}
-function back(){
-  const s=STEPS[si];
-  if(s==='about'){ans.region=document.getElementById('svRegion').value;ans.service=document.getElementById('svService').value;}
-  if(s==='final'){ans.suggestions=document.getElementById('svSugg').value;ans.email=document.getElementById('svEmail').value;}
-  si--; if(STEPS[si]==='cc2'&&ans.cc[0].startsWith('4.'))si-=2; render();
-}
-svBody.addEventListener('click',e=>{
-  const b=e.target.closest('button'); if(!b) return; const s=STEPS[si];
-  if(b.id==='svStart'){si=1;render();return;}
-  if(b.id==='svDone'){location.hash='home';return;}
-  if(b.classList.contains('sv-chip')){const key=b.parentNode.dataset.key;ans[key]=ans[key]===b.dataset.v?'':b.dataset.v;b.parentNode.querySelectorAll('.sv-chip').forEach(x=>x.classList.toggle('on',x===b&&ans[key]!==''));return;}
-  if(b.classList.contains('sv-opt')){ans.cc[+s[2]]=b.dataset.v;}
-  else if(b.classList.contains('face')||b.classList.contains('sv-na')){ans.sqd[+s.slice(3)]=b.dataset.v;}
-  else return;
-  b.parentNode.querySelectorAll('button').forEach(x=>x.classList.toggle('on',x===b));
-  svBody.querySelectorAll('.sv-na,.face').forEach(x=>x.classList.toggle('on',x===b));
-  document.getElementById('svNext').style.visibility='visible';
-  clearTimeout(next.t); next.t=setTimeout(()=>{if(STEPS[si]===s)next();},380);
-});
-document.getElementById('svNext').onclick=()=>{if(curAnswer())next();};
-document.getElementById('svBack').onclick=back;
-
-// offline-safe sending: every response goes to an outbox on this tablet first, then to the Sheet
-function outbox(){try{return JSON.parse(localStorage.getItem(OUTBOX)||'[]');}catch(e){return [];}}
-function saveBox(b){try{localStorage.setItem(OUTBOX,JSON.stringify(b));}catch(e){}}
-function submit(){
-  const build=(document.querySelector('meta[name="build"]')||{}).content||'';
-  const rec={id:Date.now().toString(36)+Math.random().toString(36).slice(2,7),submittedAt:new Date().toLocaleString('en-PH',{timeZone:'Asia/Manila'}),build,
-    clientType:ans.clientType,sex:ans.sex,age:ans.age,region:ans.region,service:ans.service,cc1:ans.cc[0],cc2:ans.cc[1],cc3:ans.cc[2],sqd:ans.sqd,suggestions:ans.suggestions,email:ans.email,token:SURVEY_TOKEN};
-  const b=outbox(); b.push(rec); saveBox(b); flush();
-}
-let flushing=false;
-async function flush(){
-  if(flushing||!SURVEY_ENDPOINT||!navigator.onLine) return; flushing=true;
-  try{
-    let b=outbox();
-    while(b.length){
-      const rec=b[0];
-      await fetch(SURVEY_ENDPOINT,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(rec)});
-      b=outbox().filter(x=>x.id!==rec.id); saveBox(b);
-    }
-  }catch(e){/* offline or blocked: keep the answers and try again later */}
-  flushing=false;
-}
-addEventListener('online',flush); setInterval(flush,120000); setTimeout(flush,4000);
-addEventListener('hashchange',()=>{if(location.hash==='#survey'){ans=blank();si=0;render();}});
-ans=blank(); si=0; render();
 })();
 </script>
 </body>

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="build" content="20261112083000">
+<meta name="build" content="20261112083500">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>DOST Building Directory</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -334,6 +334,14 @@
   .ccss-load{position:absolute;inset:0;display:grid;place-items:center;color:var(--ink2);font-size:17px;pointer-events:none}
   .ccss-wrap.ready .ccss-load{display:none}
   @media (max-width:1000px){.choices.four{grid-template-columns:1fr}.choices.four .choice{min-height:0}}
+  .still{position:absolute;inset:0;z-index:5;display:none;place-items:center;background:rgba(10,16,24,.55)}
+  .still.show{display:grid}
+  .still-card{background:#fff;border-radius:20px;padding:28px;max-width:440px;width:calc(100% - 40px);text-align:center;box-shadow:0 20px 50px rgba(0,0,0,.3)}
+  .still-card b{font-size:22px;display:block}
+  .still-card p{color:var(--ink2);font-size:17px;margin:10px 0 22px}
+  .still-btns{display:flex;gap:10px;justify-content:center}
+  .still-btns button{font:inherit;font-size:17px;font-weight:700;height:56px;padding:0 22px;border:0;border-radius:12px;cursor:pointer}
+  #stillYes{background:var(--route);color:#fff}#stillNo{background:var(--bg);color:var(--ink)}
 </style>
 </head>
 <body data-view="home">
@@ -377,6 +385,7 @@
     <button class="vback" id="ccssNew" type="button">Start over</button>
   </header>
   <div class="ccss-wrap" id="ccssWrap"><div class="ccss-load">Loading the survey…</div><iframe id="ccssFrame" title="DOST Central Office Client Satisfaction Survey" data-src="https://docs.google.com/forms/d/e/1FAIpQLSegYpFLC05LZITTre2Pi6_Um0kDMGOs2PbDElmv3wtFVkYgbw/viewform?embedded=true"></iframe></div>
+  <div class="still" id="ccssStill" role="alertdialog" aria-labelledby="stillQ"><div class="still-card"><b id="stillQ">Are you still answering the survey?</b><p>The kiosk will return to the main menu in <span id="stillN">30</span> seconds.</p><div class="still-btns"><button type="button" id="stillYes">Yes, continue</button><button type="button" id="stillNo">I'm done</button></div></div></div>
 </div>
 
 <div id="charter" class="view" aria-label="Citizen's Charter">
@@ -1178,7 +1187,7 @@ function walkTick(now){
 document.getElementById('walkBtn').onclick=startWalk;
 document.getElementById('stopWalk').onclick=()=>stopWalk();
 document.getElementById('pauseWalk').onclick=()=>{paused=!paused;document.getElementById('pauseWalk').textContent=paused?'Resume':'Pause';};
-function clearAll(){stopWalk(false);clearRoute();document.getElementById('dir').classList.remove('show');setTimeout(applyShift,0);document.body.classList.remove('has-route');document.querySelectorAll('.item').forEach(b=>b.classList.remove('on'));try{history.replaceState(null,'','#directory');}catch(e){}setFloor(0,{fly:false});overview();}
+function clearAll(){stopWalk(false);clearRoute();document.getElementById('dir').classList.remove('show');setTimeout(applyShift,0);document.body.classList.remove('has-route');document.querySelectorAll('.item').forEach(b=>b.classList.remove('on'));if(document.body.dataset.view==='dir'){try{history.replaceState(null,'','#directory');}catch(e){}}setFloor(0,{fly:false});overview();}
 document.getElementById('clearBtn').onclick=clearAll;
 const dirEl=document.getElementById('dir'), dMin=document.getElementById('dMin');
 function setMin(on){setTimeout(applyShift,0);dirEl.classList.toggle('min',on);dMin.textContent=on?'+':'–';dMin.title=on?'Show directions':'Minimize';dMin.setAttribute('aria-label',dMin.title);}
@@ -1484,7 +1493,17 @@ function tick(){const d=new Date();document.getElementById('clock').innerHTML=`<
 tick(); setInterval(tick,15000);
 
 // kiosk: after 2.5 minutes without a touch, go back to the main menu
-let idle; function poke(){clearTimeout(idle);idle=setTimeout(()=>{if(document.querySelector('.walkbar.show'))return poke();go('home');},150000);}
+let idle; function poke(){clearTimeout(idle);hideStill();
+  // Taps inside the survey form are not visible to the kiosk, so give it 8 minutes and ask before leaving.
+  if(document.body.dataset.view==='ccss'){idle=setTimeout(askStill,480000);return;}
+  idle=setTimeout(()=>{if(document.querySelector('.walkbar.show'))return poke();go('home');},150000);}
+const still=document.getElementById('ccssStill'); let stillT;
+function hideStill(){clearInterval(stillT);still.classList.remove('show');}
+function askStill(){let n=30;still.classList.add('show');document.getElementById('stillN').textContent=n;
+  stillT=setInterval(()=>{n--;document.getElementById('stillN').textContent=n;if(n<=0){hideStill();go('home');}},1000);}
+document.getElementById('stillYes').onclick=()=>poke();
+document.getElementById('stillNo').onclick=()=>{hideStill();go('home');};
+addEventListener('hashchange',poke);
 ['pointerdown','keydown','wheel','touchstart'].forEach(ev=>addEventListener(ev,poke,{passive:true})); poke();
 
 // Client Satisfaction Survey: the office's Google Form, shown inside the kiosk.

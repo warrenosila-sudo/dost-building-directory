@@ -27,3 +27,7 @@ Settings → Pages → *Deploy from a branch* → `main` / root. The site appear
 - Office names, floors and routes live in the `GF_ROOMS` / `UP_ROOMS` tables inside `index.html`.
 - Citizen's Charter services are in the `CHARTER` list in `index.html`; images are in `charter/`
   (`<id>-1.jpg`, `<id>-2.jpg` for extra pages, `<id>-thumb.jpg` for the menu preview).
+
+## Client Satisfaction Survey
+
+The fourth home option (`#ccss`) shows the office's Google Form (tinyurl.com/DOST-CO-OnlineCCSS) inside the kiosk. Responses go to the form's own response sheet. The form reloads empty each time it is opened, and "Start over" clears it for the next visitor. To change the form, edit `data-src` on `#ccssFrame` in `index.html` (keep `?embedded=true`).

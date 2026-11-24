@@ -41,3 +41,9 @@ The fifth home option (`#ccss`) is the DOST-CO CCSS, form DOSTCO-001 Rev. 7: cli
 Answers are saved on the tablet first, then sent to a Google Apps Script web app that adds a row to the Google Sheet "DOST-CO CCSS – Kiosk Responses" and emails the answer to woosila@dost.gov.ph. To connect it (once):
 
 Connected on 24 Nov 2026: the Apps Script project "DOST-CO CCSS Kiosk" (script.google.com, owned by warren.osila@gmail.com) runs `survey/ccss-apps-script.gs` as a web app, and its URL is in `SURVEY_ENDPOINT` in `index.html`. Emails are sent from warren.osila@gmail.com. To change the recipient, edit `RECIPIENT` in the project, then Deploy > Manage deployments > edit > New version.
+
+## DOST-CO Policies
+
+The home option "DOST-CO Policies" (`#policies`) lists administrative orders by category; each opens in the page viewer (`#policy-<id>`, e.g. `#policy-ao016-2024`), all pages in one scrolling view with zoom.
+
+Files in `policies/`: the original PDF `<id>.pdf`, page images `<id>-<n>.jpg` (140 dpi) and `<id>-thumb.jpg`. To add one: `pdftoppm -r 140 -jpeg -jpegopt quality=72 file.pdf policies/<id>`, rename pages to `<id>-1.jpg`, `<id>-2.jpg`…, make a thumbnail, add a line to `POLICIES` in `index.html`, bump the build stamp and push.

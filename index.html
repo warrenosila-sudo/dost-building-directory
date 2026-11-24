@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="build" content="20261124093500">
+<meta name="build" content="20261124151500">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>DOST Building Directory</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -415,9 +415,8 @@
   .sv-thanks .sv-big{margin-top:30px;background:var(--ink)}
   @media (max-width:820px){.sv-fields{grid-template-columns:1fr}.faces{gap:8px}.face{padding:14px 4px;border-radius:14px}.face small{display:none}.sv-body{padding:18px 14px}}
   body[data-view="ccss"] #ccss{display:flex}
-  .choices.five{grid-template-columns:repeat(6,minmax(0,1fr));width:min(1180px,100%);gap:20px}
-  .choices.five .choice{grid-column:span 2;min-height:0;padding:24px 24px 26px;gap:16px}
-  .choices.five .choice:nth-child(4){grid-column:2/4}
+  .choices.five{grid-template-columns:repeat(3,minmax(0,1fr));width:min(1180px,100%);gap:20px}
+  .choices.five .choice{min-height:0;padding:24px 24px 26px;gap:16px}
   .choices.five .ctile{width:72px;height:72px}
   .ctile.green{background:#2e9e5b}.ctile.green svg{stroke:#fff}
   .sv-field input[type=datetime-local]{min-height:54px}
@@ -425,8 +424,17 @@
   .sv-err{color:#c0392b;font-weight:700;font-size:15px;margin:16px 0 0;min-height:20px}
   .sv-field.bad select,.sv-field.bad input,.sv-field.bad .sv-chips{outline:2px solid #e0827a;outline-offset:3px;border-radius:12px}
   .sv-docno{color:var(--mute);font-size:13px;margin-top:22px}
-  @media (max-width:1000px){.choices.five{grid-template-columns:1fr}.choices.five .choice,.choices.five .choice:nth-child(4){grid-column:auto}}
+  @media (max-width:1000px){.choices.five{grid-template-columns:1fr}}
   .sv-send{font-size:16px!important;font-weight:700;color:#2e7d4f!important;margin-top:18px!important}.sv-send.wait{color:#b26a00!important}
+  body[data-view="policies"] #policies{display:flex}
+  .pol-cats{display:flex;flex-wrap:wrap;gap:10px;max-width:1300px;margin:0 auto 18px}
+  .pol-cats button{font:inherit;font-size:16px;font-weight:700;min-height:50px;padding:0 20px;border-radius:25px;border:2px solid #d5dce5;background:#fff;color:var(--ink);cursor:pointer;touch-action:manipulation}
+  .pol-cats button.on{background:var(--ink);border-color:var(--ink);color:#fff}
+  .pol-card img{aspect-ratio:auto;height:220px;object-fit:cover;object-position:top}
+  .vw-stack{display:none;flex-direction:column;align-items:center;gap:18px}
+  .vw-stack img{display:block;max-width:none;min-height:300px;background:#fff;box-shadow:0 4px 18px rgba(0,0,0,.25)}
+  #viewer.stack #vwImg{display:none}#viewer.stack .vw-stack{display:flex}
+  .vpages .pg-ind{color:#9fb0c3;font-size:14px;font-weight:700;white-space:nowrap}
 </style>
 </head>
 <body data-view="home">
@@ -454,9 +462,13 @@
         <span class="ctext"><b>Key Officials</b><span>Executive officials and service directors, with their offices and local numbers</span></span>
       </a>
 
+      <a class="choice" href="#policies">
+        <span class="ctile" style="background:#5b4bb7"><svg viewBox="0 0 24 24" style="stroke:#fff"><path d="M6 3h8l4 4v14H6z"/><path d="M14 3v4h4"/><path d="M9 12h6M9 15.5h6M9 9h3"/></svg></span>
+        <span class="ctext"><b>DOST-CO Policies</b><span>Administrative orders on workplace health, security and the environment</span></span>
+      </a>
       <a class="choice" href="#avp">
         <span class="ctile orange"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2.5"/><path d="M10.2 9.2v5.6l4.6-2.8z"/></svg></span>
-        <span class="ctext"><b>AVP</b><span>Watch our audio-visual presentations on safety, the environment and public service</span></span>
+        <span class="ctext"><b>AVP and Infographs</b><span>Watch our audio-visual presentations on safety, the environment and public service</span></span>
       </a> 
       <a class="choice" href="#ccss">
         <span class="ctile green"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M8 14.2c1 1.6 2.4 2.4 4 2.4s3-.8 4-2.4"/><path d="M9 9.6v.6M15 9.6v.6"/></svg></span>
@@ -466,10 +478,10 @@
   <footer class="home-foot"><i></i>You are at the Front Lobby, Ground Floor</footer>
 </div>
 
-<div id="avp" class="view" aria-label="AVP videos">
+<div id="avp" class="view" aria-label="AVP and Infographs">
   <header class="vbar">
     <a class="vback" href="#home"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg>Home</a>
-    <div class="vtitle"><b>AVP</b><span>Audio-visual presentations of the DOST Central Office</span></div>
+    <div class="vtitle"><b>AVP and Infographs</b><span>Audio-visual presentations of the DOST Central Office</span></div>
   </header>
   <div class="avp-wrap"><div class="avp-cats" id="avpCats" role="tablist" aria-label="Categories"></div><div id="avpList"></div></div>
 </div>
@@ -514,9 +526,17 @@
   <div class="ko-wrap" id="koWrap"></div>
 </div>
 
+<div id="policies" class="view" aria-label="DOST-CO Policies">
+  <header class="vbar">
+    <a class="vback" href="#home"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg>Home</a>
+    <div class="vtitle"><b>DOST-CO Policies</b><span id="polCount"></span></div>
+  </header>
+  <div class="cc-wrap"><div class="pol-cats" id="polCats"></div><div class="cc-grid" id="polGrid"></div></div>
+</div>
+
 <div id="viewer" class="view" aria-label="Citizen's Charter service">
   <header class="vbar">
-    <a class="vback" href="#charter"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg>All services</a>
+    <a class="vback" id="vwBack" href="#charter"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg><span id="vwBackTxt">All services</span></a>
     <div class="vtitle"><b id="vwTitle"></b><span id="vwUnit"></span></div>
     <div class="vtools">
       <div class="vpages" id="vwPages"></div>
@@ -524,7 +544,7 @@
       <a class="vmap" id="vwMap" href="#"><svg viewBox="0 0 24 24"><path d="M12 2.5a7 7 0 0 0-7 7c0 5.2 7 12 7 12s7-6.8 7-12a7 7 0 0 0-7-7z"/><circle cx="12" cy="9.5" r="2.5"/></svg><span id="vwMapTxt">Find office</span></a>
     </div>
   </header>
-  <div class="vw-scroll" id="vwScroll"><img id="vwImg" alt=""></div>
+  <div class="vw-scroll" id="vwScroll"><img id="vwImg" alt=""><div class="vw-stack" id="vwStack"></div></div>
 </div>
 
 <div id="app">
@@ -1455,7 +1475,7 @@ const EXEC=[
  {id:'usec-sts',name:'Ms. Maridon O. Sahagun',pos:'Undersecretary for Scientific and Technical Services',off:'OUSEC-STS',loc:'3000',room:'f3-usec-sts'},
  {id:'usec-rd',name:'Dr. Leah J. Buendia',pos:'Undersecretary for Research and Development',off:'OUSEC-RD',loc:'3040',room:'f3-usec-rd'},
  {id:'usec-ro',name:'Engr. Sancho A. Mabborang',pos:'Undersecretary for Regional Operations',off:'OUSEC-RO',loc:'3060',room:'f3-usec-ro'},
- {id:'usec-sc',name:'Dr. Teodoro Gatchalian',pos:'Undersecretary for Special Concerns',off:'OUSEC-SC',loc:'3020',room:'f3-usec-sc'},
+ {id:'usec-sc',name:'Dr. Teodoro M. Gatchalian',pos:'Undersecretary for Special Concerns',off:'OUSEC-SC',loc:'3020',room:'f3-usec-sc'},
  {id:'asec-ala',name:'Dr. Diana L. Ignacio',pos:'Assistant Secretary for Administration and Legal Affairs',off:'OASEC-ALA',loc:'3050',room:'f3-asec-ala'},
  {id:'asec-ttcc',name:'Mr. Napoleon K. Juanillo, Jr., PhD',pos:'Assistant Secretary for Technology Transfer, Communications, and Commercialization',off:'OASEC-TTCC',loc:'3010',room:'f3-asec-ttcc'},
  {id:'asec-dc',name:'Mr. Rodolfo J. Calzado, Jr.',pos:'Assistant Secretary for Development Cooperation',off:'OASEC-DC',loc:'3030',room:'f3-asec-dc'},
@@ -1465,7 +1485,7 @@ const SVC=[
  {id:'dir-als',name:'Atty. Angely P. Medalle-Alviar',pos:'Director, Administrative and Legal Service',off:'ALS',loc:'1010',room:'als-director'},
  {id:'dir-fms',name:'Dir. Racquel P. Alvendia',pos:'Director, Financial and Management Service',off:'FMS',loc:'1210',room:'fms-director'},
  {id:'dir-pes',name:'Dir. Cezar R. Pedraza',pos:'Director, Planning and Evaluation Service',off:'PES',loc:'2010',room:'f2-pes-director'},
- {id:'dir-ias',name:'Mr. Robert Paulo T. Lumbatan',pos:'Head, Internal Audit Service',off:'IAS',loc:'4010',room:'f4-ias'},
+ {id:'dir-ias',name:'Mr. Robert Paulo T. Lumbatan',pos:'OIC, Internal Audit Service',off:'IAS',loc:'4010',room:'f4-ias'},
  {id:'dir-dllo',name:'Dir. Lita S. Suerte-Felipe',pos:'Director, Department Legislative Liaison Office',off:'DLLO',loc:'2160',room:'f2-dllo'}
 ];
 const FL={f2:'2nd Floor',f3:'3rd Floor',f4:'4th Floor'};
@@ -1540,16 +1560,19 @@ document.getElementById('ccGrid').innerHTML=CHARTER.map(c=>`<a class="cc-card" h
 const img=document.getElementById('vwImg'), scroller=document.getElementById('vwScroll');
 let cur=null, page=1, zoom=1;
 function fitW(){return Math.min(scroller.clientWidth-44,1100);}
+const stack=document.getElementById('vwStack'), viewerEl=document.getElementById('viewer');
 function applyZoom(keep){
-  const prevH=img.offsetHeight||1, rel=scroller.scrollTop/prevH;
-  img.style.width=Math.round(fitW()*zoom)+'px'; scroller.style.overflowX=zoom>1?'auto':'hidden';
-  if(keep) requestAnimationFrame(()=>{scroller.scrollTop=rel*img.offsetHeight;});
+  const prevH=scroller.scrollHeight||1, rel=scroller.scrollTop/prevH, w=Math.round(fitW()*zoom)+'px';
+  img.style.width=w; stack.querySelectorAll('img').forEach(i=>i.style.width=w); scroller.style.overflowX=zoom>1?'auto':'hidden';
+  if(keep) requestAnimationFrame(()=>{scroller.scrollTop=rel*scroller.scrollHeight;});
   document.getElementById('zFit').textContent=zoom===1?'Fit':Math.round(zoom*100)+'%';
 }
 function openCharter(id,pg){
   const c=CHARTER.find(x=>x.id===id); if(!c){go('charter');return;}
   if(!cur||cur.id!==c.id){zoom=1;}
   cur=c; page=Math.min(Math.max(1,pg||1),c.pages);
+  viewerEl.classList.remove('stack'); viewerEl.setAttribute('aria-label',"Citizen's Charter service");
+  document.getElementById('vwBack').href='#charter'; document.getElementById('vwBackTxt').textContent='All services';
   document.getElementById('vwTitle').textContent=c.title;
   document.getElementById('vwUnit').textContent=c.unit;
   img.alt=c.title+(c.pages>1?` (page ${page} of ${c.pages})`:'');
@@ -1559,12 +1582,54 @@ function openCharter(id,pg){
   if(c.room){m.classList.remove('off');m.href='#'+c.room;document.getElementById('vwMapTxt').textContent='Find office';}else m.classList.add('off');
   scroller.scrollTop=0; applyZoom(false);
 }
-document.getElementById('vwPages').addEventListener('click',e=>{const b=e.target.closest('button');if(b&&cur)openCharter(cur.id,+b.dataset.p);});
+document.getElementById('vwPages').addEventListener('click',e=>{const b=e.target.closest('button');if(b&&cur&&!cur.pol)openCharter(cur.id,+b.dataset.p);});
 document.getElementById('zIn').onclick=()=>{zoom=Math.min(3,+(zoom+0.5).toFixed(2));applyZoom(true);};
 document.getElementById('zOut').onclick=()=>{zoom=Math.max(1,+(zoom-0.5).toFixed(2));applyZoom(true);};
 document.getElementById('zFit').onclick=()=>{zoom=1;applyZoom(true);};
 img.addEventListener('dblclick',()=>{zoom=zoom>1?1:2;applyZoom(true);});
 addEventListener('resize',()=>{if(document.body.dataset.view==='viewer')applyZoom(true);});
+
+
+// ===== DOST-CO Policies (administrative orders), shown page by page in the viewer =====
+const POL_CATS=[{id:'health',name:'Workplace health'},{id:'security',name:'Security and traffic'},{id:'environment',name:'Environment'}];
+const POLICIES=[
+ {id:'ao009-2026',no:'Administrative Order No. 009, s. 2026',date:'18 May 2026',cat:'health',pages:9,title:'DOST Workplace Policy and Program on Human Immunodeficiency Virus (HIV) and Acquired Immune Deficiency Syndrome (AIDS)'},
+ {id:'ao008-2026',no:'Administrative Order No. 008, s. 2026',date:'18 May 2026',cat:'health',pages:7,title:'DOST Workplace Policy and Program on Hepatitis B'},
+ {id:'ao007-2026',no:'Administrative Order No. 007, s. 2026',date:'18 May 2026',cat:'health',pages:7,title:'DOST Workplace Policy and Program on Tuberculosis'},
+ {id:'ao016-2024',no:'Administrative Order No. 016, s. 2024',date:'21 October 2024',cat:'security',pages:19,title:'DOST Bicutan Security and Traffic Management Policy'},
+ {id:'ao001-2024',no:'Administrative Order No. 001, s. 2024',date:'30 January 2024',cat:'environment',pages:5,title:'DOST Solid Waste Management Policy'}];
+const polCatName=id=>(POL_CATS.find(c=>c.id===id)||{}).name||'';
+let polCat='all';
+function renderPolicies(){
+  document.getElementById('polCount').textContent=POLICIES.length+' administrative orders';
+  document.getElementById('polCats').innerHTML=[{id:'all',name:'All policies'}].concat(POL_CATS).map(c=>`<button type="button" data-c="${c.id}" class="${polCat===c.id?'on':''}">${esc(c.name)}</button>`).join('');
+  document.getElementById('polGrid').innerHTML=POLICIES.filter(p=>polCat==='all'||p.cat===polCat).map(p=>`<a class="cc-card pol-card" href="#policy-${p.id}">
+  <img src="policies/${p.id}-thumb.jpg" alt="" loading="lazy">
+  <span class="cc-body"><small>${esc(p.no)} · ${esc(p.date)}</small><b>${esc(p.title)}</b>
+  <span class="cc-tags"><span>${esc(polCatName(p.cat))}</span><span>${p.pages} pages</span></span></span></a>`).join('');
+}
+document.getElementById('polCats').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;polCat=b.dataset.c;renderPolicies();});
+renderPolicies();
+function openPolicy(id){
+  const p=POLICIES.find(x=>x.id===id); if(!p){go('policies');return;}
+  if(!cur||cur.id!==p.id){
+    zoom=1;
+    stack.innerHTML=Array.from({length:p.pages},(_,i)=>`<img src="policies/${p.id}-${i+1}.jpg" alt="${esc(p.title)}, page ${i+1} of ${p.pages}">`).join('');
+    scroller.scrollTop=0;
+  }
+  cur=Object.assign({pol:true},p);
+  viewerEl.classList.add('stack'); viewerEl.setAttribute('aria-label','DOST-CO policy');
+  document.getElementById('vwBack').href='#policies'; document.getElementById('vwBackTxt').textContent='All policies';
+  document.getElementById('vwTitle').textContent=p.title;
+  document.getElementById('vwUnit').textContent=p.no+' · '+p.date;
+  document.getElementById('vwPages').innerHTML=`<span class="pg-ind" id="pgInd">Page 1 of ${p.pages}</span>`;
+  document.getElementById('vwMap').classList.add('off');
+  applyZoom(false); updPg();
+}
+function updPg(){const el=document.getElementById('pgInd');if(!el||!cur||!cur.pol)return;
+  const imgs=[...stack.querySelectorAll('img')], mid=scroller.scrollTop+scroller.clientHeight*0.35;
+  let n=1; imgs.forEach((im,i)=>{if(im.offsetTop<=mid)n=i+1;}); el.textContent=`Page ${n} of ${cur.pages}`;}
+scroller.addEventListener('scroll',updPg,{passive:true});
 
 // routing on the URL hash: #home, #charter, #charter-<id>, #directory, #<room-id>
 function go(h){ if(location.hash!=='#'+h) location.hash=h; else route(); }
@@ -1578,6 +1643,8 @@ function route(){
   if(!h||h==='home'){setView('home');return;}
   if(h==='charter'){setView('charter');return;}
   if(h==='officials'){setView('officials');return;}
+  if(h==='policies'){setView('policies');return;}
+  if(h.startsWith('policy-')){setView('viewer');openPolicy(h.slice(7));return;}
   if(h.startsWith('charter-')){setView('viewer');openCharter(h.slice(8));return;}
   setView('dir');   // #directory or any office link handled by the directory
 }
@@ -1614,9 +1681,9 @@ const AVP_CATS=[
  {id:'environment',name:'Environment',d:'How the Central Office manages its waste.'},
  {id:'service',name:'Public Service and Transparency',d:'Freedom of Information and other services for the public.'}];
 const AVP=[
- {id:'evacuation',cat:'safety',title:'Evacuation Preparedness',sub:'What to do during an emergency: duck, cover and hold, then evacuate safely.',dur:'1:44'},
- {id:'osh',cat:'safety',title:'Occupational Safety and Health Program',sub:'The DOST-CO OSH program: safety officers, fire protection, drills and other activities.',dur:'12:35'},
- {id:'osh-clinic',cat:'safety',title:'OSH Clinic',sub:'Health programs, safety signage, disinfection and other OSH activities at the DOST-CO.',dur:'10:12'},
+ {id:'evacuation',cat:'safety',title:'Evacuation Plan',sub:'What to do during an emergency: duck, cover and hold, then evacuate safely.',dur:'1:44'},
+ {id:'osh',cat:'safety',title:'Occupational Safety and Health Program Part 1',sub:'The DOST-CO OSH program: safety officers, fire protection, drills and other activities.',dur:'12:35'},
+ {id:'osh-clinic',cat:'safety',title:'Occupational Safety and Health Program Part 2',sub:'Health programs, safety signage, disinfection and other OSH activities at the DOST-CO.',dur:'10:12'},
  {id:'waste',cat:'environment',title:'Waste Management in the DOST-CO',sub:'Circular economy, recycling and food waste composting.',dur:'3:12'},
  {id:'foi',cat:'service',title:'Freedom of Information (FOI) in the DOST-CO',sub:'How the Central Office answers requests for information.',dur:'4:55'}];
 const avpEsc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));

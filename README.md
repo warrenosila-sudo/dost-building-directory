@@ -27,3 +27,9 @@ Settings → Pages → *Deploy from a branch* → `main` / root. The site appear
 - Office names, floors and routes live in the `GF_ROOMS` / `UP_ROOMS` tables inside `index.html`.
 - Citizen's Charter services are in the `CHARTER` list in `index.html`; images are in `charter/`
   (`<id>-1.jpg`, `<id>-2.jpg` for extra pages, `<id>-thumb.jpg` for the menu preview).
+
+## AVP
+
+The fourth home option (`#avp`) lists the office's audio-visual presentations by category (Safety and Health, Environment, Public Service and Transparency). Each video has its own link, `#avp-<id>`, for example `#avp-evacuation`.
+
+Videos live in `avp/` as `<id>.mp4` (720p H.264, under 100 MB each for GitHub) with a poster `<id>.jpg`. To add one: compress it, put both files in `avp/`, add a line to `AVP` in `index.html` (and a category to `AVP_CATS` if needed), bump the build stamp and push. While a video is playing, the kiosk does not return to the main menu.

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="build" content="20261124092500">
+<meta name="build" content="20261124093500">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>DOST Building Directory</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -426,6 +426,7 @@
   .sv-field.bad select,.sv-field.bad input,.sv-field.bad .sv-chips{outline:2px solid #e0827a;outline-offset:3px;border-radius:12px}
   .sv-docno{color:var(--mute);font-size:13px;margin-top:22px}
   @media (max-width:1000px){.choices.five{grid-template-columns:1fr}.choices.five .choice,.choices.five .choice:nth-child(4){grid-column:auto}}
+  .sv-send{font-size:16px!important;font-weight:700;color:#2e7d4f!important;margin-top:18px!important}.sv-send.wait{color:#b26a00!important}
 </style>
 </head>
 <body data-view="home">
@@ -1732,7 +1733,7 @@ function render(){
     <div class="sv-fields"><div class="sv-field wide"><textarea id="fComments" data-key="comments" maxlength="2000" placeholder="Type your comments or suggestions here">${sEsc(ans.comments)}</textarea></div>
     <div class="sv-field wide"><b>Complaint/s, if there is or are any <small>optional</small></b><textarea id="fComplaints" data-key="complaints" maxlength="2000" placeholder="Describe your complaint here">${sEsc(ans.complaints)}</textarea></div></div>`;
   } else if(s==='thanks'){
-    h=`<div class="sv-thanks">${faceSvg(RATE[0],'big')}<h2>Thank you very much for your feedback!</h2><p>Maraming salamat po! Your answers have been sent to the DOST Central Office.</p>
+    h=`<div class="sv-thanks">${faceSvg(RATE[0],'big')}<h2>Thank you very much for your feedback!</h2><p>Maraming salamat po! Your answers help us serve you better.</p><p class="sv-send" id="svSend">Sending your answers…</p>
     <button type="button" class="sv-big" id="svDone">Back to main menu</button></div>`;
   }
   svBody.innerHTML=`<div class="sv-step on">${h}</div>`; svBody.scrollTop=0;
@@ -1791,11 +1792,14 @@ function submit(){
     name:ans.name,sex:ans.sex,contact:ans.contact,age:ans.age,email:ans.email,clientType:ans.clientType,
     affiliation:ans.affiliation,office:ans.office,personnel:ans.personnel,visit:fmtVisit(ans.visit),purpose:ans.purpose,
     cc1:ans.cc[0],cc2:ans.cc[1],cc3:ans.cc[2],sqd:ans.sqd,comments:ans.comments,complaints:ans.complaints,token:SURVEY_TOKEN};
-  const b=outbox(); b.push(rec); saveBox(b); flush();
+  const b=outbox(); b.push(rec); saveBox(b); setTimeout(flush,0);
 }
+function sendState(ok){const el=document.getElementById('svSend');if(!el)return;
+  el.textContent=ok?'Your answers have been sent to the DOST Central Office.':'Your answers are saved on this kiosk and will be sent automatically when the connection is back.';
+  el.classList.toggle('wait',!ok);}
 let flushing=false;
 async function flush(){
-  if(flushing||!SURVEY_ENDPOINT||!navigator.onLine) return; flushing=true;
+  if(flushing||!SURVEY_ENDPOINT||!navigator.onLine){if(!flushing)sendState(false);return;} flushing=true;
   try{
     let b=outbox();
     while(b.length){
@@ -1803,7 +1807,8 @@ async function flush(){
       await fetch(SURVEY_ENDPOINT,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(rec)});
       b=outbox().filter(x=>x.id!==rec.id); saveBox(b);
     }
-  }catch(e){/* offline or blocked: keep the answers and try again later */}
+    sendState(true);
+  }catch(e){/* offline or blocked: keep the answers and try again later */ sendState(false);}
   flushing=false;
 }
 addEventListener('online',flush); setInterval(flush,120000); setTimeout(flush,4000);

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="build" content="20261124091500">
+<meta name="build" content="20261124093000">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>DOST Building Directory</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -360,6 +360,72 @@
   .avp-mini small{display:block;color:#9fb0c3;font-size:12px;margin-top:3px}
   @media (max-width:1000px){.choices.four{grid-template-columns:1fr}.avp-stage{flex-direction:column}.avp-side{width:auto;max-height:34vh}}
   @media (max-width:640px){.avp-grid{grid-template-columns:1fr}}
+  /* ---------- CCSS (DOSTCO-001 Rev. 7) ---------- */
+  .sv-prog{flex:none;height:8px;background:#dfe5ec}
+  .sv-prog i{display:block;height:100%;width:0;background:var(--route);transition:width .25s ease}
+  .sv-body{flex:1;overflow:auto;padding:28px 22px 24px;-webkit-overflow-scrolling:touch}
+  .sv-step{max-width:1060px;margin:0 auto;display:none}
+  .sv-step.on{display:block}
+  .sv-step h2{font-size:clamp(24px,3.2vw,34px);line-height:1.2;margin:0 0 6px}
+  .sv-step .fil{color:var(--ink2);font-size:clamp(16px,1.9vw,20px);line-height:1.4;margin:0 0 6px}
+  .sv-kicker{color:var(--accent-d);font-weight:700;font-size:15px;margin:0 0 10px}
+  .sv-note{color:var(--mute);font-size:14px;line-height:1.5;margin:18px 0 0;max-width:760px}
+  .sv-intro{display:flex;flex-direction:column;align-items:center;text-align:center;padding-top:4vh}
+  .sv-intro .faces-demo{display:flex;gap:10px;margin:8px 0 22px}
+  .sv-intro .faces-demo svg{width:54px;height:54px}
+  .sv-intro p.lead2{font-size:19px;color:var(--ink2);max-width:640px;line-height:1.5;margin:6px 0 26px}
+  .sv-big{font:inherit;font-size:20px;font-weight:700;border:0;border-radius:14px;background:var(--route);color:#fff;padding:0 34px;height:64px;cursor:pointer;touch-action:manipulation}
+  .sv-big:focus-visible,.sv-opt:focus-visible,.face:focus-visible,.sv-na:focus-visible,.sv-nav button:focus-visible,.sv-chip:focus-visible,.sv-field select:focus-visible,.sv-field textarea:focus-visible,.sv-field input:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+  .sv-fields{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:22px 28px;margin-top:22px}
+  .sv-field{display:flex;flex-direction:column;gap:10px}
+  .sv-field.wide{grid-column:1/-1}
+  .sv-field>b{font-size:17px}
+  .sv-field>b small{font-weight:400;color:var(--mute);font-size:14px;margin-left:6px}
+  .sv-chips{display:flex;flex-wrap:wrap;gap:8px}
+  .sv-chip{font:inherit;font-size:16px;font-weight:700;min-height:52px;padding:0 18px;border-radius:12px;border:2px solid #d5dce5;background:#fff;color:var(--ink);cursor:pointer;touch-action:manipulation}
+  .sv-chip.on{background:var(--ink);border-color:var(--ink);color:#fff}
+  .sv-field select,.sv-field input,.sv-field textarea{font:inherit;font-size:17px;border:2px solid #d5dce5;border-radius:12px;background:#fff;color:var(--ink);padding:12px 14px;min-height:54px;width:100%}
+  .sv-field textarea{min-height:150px;resize:vertical;line-height:1.45}
+  .sv-opts{display:flex;flex-direction:column;gap:12px;margin-top:22px;max-width:860px}
+  .sv-opt{display:flex;align-items:center;gap:16px;text-align:left;font:inherit;font-size:18px;line-height:1.35;color:var(--ink);background:#fff;border:2px solid #fff;border-radius:16px;padding:16px 18px;min-height:72px;box-shadow:0 4px 14px rgba(15,27,45,.07);cursor:pointer;touch-action:manipulation}
+  .sv-opt i{flex:none;width:40px;height:40px;border-radius:50%;display:grid;place-items:center;font-style:normal;font-weight:700;background:var(--bg);color:var(--ink2)}
+  .sv-opt span small{display:block;color:var(--mute);font-size:15px;margin-top:2px}
+  .sv-opt:hover{border-color:var(--accent)}
+  .sv-opt.on{border-color:var(--route);background:#fff6ee}.sv-opt.on i{background:var(--route);color:#fff}
+  .faces{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:14px;margin-top:26px}
+  .face{display:flex;flex-direction:column;align-items:center;gap:10px;font:inherit;color:var(--ink);background:#fff;border:3px solid #fff;border-radius:20px;padding:20px 10px 18px;box-shadow:0 6px 18px rgba(15,27,45,.08);cursor:pointer;touch-action:manipulation;transition:transform .1s ease}
+  .face svg{width:clamp(64px,9vw,104px);height:auto}
+  .face b{font-size:clamp(14px,1.6vw,18px);line-height:1.2;text-align:center}
+  .face small{font-size:clamp(12px,1.3vw,14.5px);color:var(--mute);line-height:1.3;text-align:center}
+  .face:active{transform:scale(.97)}
+  .face.on{border-color:var(--route);background:#fff6ee}
+  .sv-na{font:inherit;font-size:16px;font-weight:700;margin-top:16px;min-height:52px;padding:0 20px;border-radius:12px;border:2px solid #d5dce5;background:#fff;color:var(--ink2);cursor:pointer;touch-action:manipulation}
+  .sv-na.on{background:var(--ink);color:#fff;border-color:var(--ink)}
+  .sv-nav{flex:none;display:flex;align-items:center;gap:12px;padding:12px 22px;background:#fff;border-top:1px solid var(--line)}
+  .sv-nav button{font:inherit;font-size:17px;font-weight:700;height:56px;padding:0 26px;border-radius:12px;border:0;cursor:pointer;touch-action:manipulation}
+  .sv-nav .back{background:var(--bg);color:var(--ink)}
+  .sv-nav .next{margin-left:auto;background:var(--ink);color:#fff}
+  .sv-nav .next.send{background:var(--route)}
+  .sv-nav .count{color:var(--mute);font-size:14px}
+  .sv-nav.hide{display:none}
+  .sv-thanks{text-align:center;padding-top:8vh}
+  .sv-thanks svg.big{width:120px;height:120px}
+  .sv-thanks h2{margin-top:18px}
+  .sv-thanks p{font-size:19px;color:var(--ink2);line-height:1.5;max-width:620px;margin:10px auto 0}
+  .sv-thanks .sv-big{margin-top:30px;background:var(--ink)}
+  @media (max-width:820px){.sv-fields{grid-template-columns:1fr}.faces{gap:8px}.face{padding:14px 4px;border-radius:14px}.face small{display:none}.sv-body{padding:18px 14px}}
+  body[data-view="ccss"] #ccss{display:flex}
+  .choices.five{grid-template-columns:repeat(6,minmax(0,1fr));width:min(1180px,100%);gap:20px}
+  .choices.five .choice{grid-column:span 2;min-height:0;padding:24px 24px 26px;gap:16px}
+  .choices.five .choice:nth-child(4){grid-column:2/4}
+  .choices.five .ctile{width:72px;height:72px}
+  .ctile.green{background:#2e9e5b}.ctile.green svg{stroke:#fff}
+  .sv-field input[type=datetime-local]{min-height:54px}
+  .sv-req{color:#c0392b;margin-left:3px}
+  .sv-err{color:#c0392b;font-weight:700;font-size:15px;margin:16px 0 0;min-height:20px}
+  .sv-field.bad select,.sv-field.bad input,.sv-field.bad .sv-chips{outline:2px solid #e0827a;outline-offset:3px;border-radius:12px}
+  .sv-docno{color:var(--mute);font-size:13px;margin-top:22px}
+  @media (max-width:1000px){.choices.five{grid-template-columns:1fr}.choices.five .choice,.choices.five .choice:nth-child(4){grid-column:auto}}
 </style>
 </head>
 <body data-view="home">
@@ -373,7 +439,7 @@
   <main class="home-main">
     <h1>How can we help you today?</h1>
     <p class="lead">Choose what you'd like to see.</p>
-    <div class="choices four">
+    <div class="choices five">
       <a class="choice" href="#charter">
         <span class="ctile cyan"><svg viewBox="0 0 24 24"><path d="M7 3h7l5 5v13H7z"/><path d="M14 3v5h5M10 12h6M10 15.5h6M10 19h4"/></svg></span>
         <span class="ctext"><b>Citizen's Charter</b><span>Our services: requirements, steps, fees and processing time</span></span>
@@ -390,7 +456,11 @@
       <a class="choice" href="#avp">
         <span class="ctile orange"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2.5"/><path d="M10.2 9.2v5.6l4.6-2.8z"/></svg></span>
         <span class="ctext"><b>AVP</b><span>Watch our audio-visual presentations on safety, the environment and public service</span></span>
-      </a>    </div>
+      </a> 
+      <a class="choice" href="#ccss">
+        <span class="ctile green"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M8 14.2c1 1.6 2.4 2.4 4 2.4s3-.8 4-2.4"/><path d="M9 9.6v.6M15 9.6v.6"/></svg></span>
+        <span class="ctext"><b>Client Satisfaction Survey</b><span>Tell us how we did today (CCSS). It takes about 3 minutes.</span></span>
+      </a>   </div>
   </main>
   <footer class="home-foot"><i></i>You are at the Front Lobby, Ground Floor</footer>
 </div>
@@ -409,6 +479,20 @@
     <div class="vtitle"><b id="avpTitle">Video</b><span id="avpCatName"></span></div>
   </header>
   <div class="avp-stage"><video id="avpVideo" controls playsinline preload="metadata"></video><aside class="avp-side" id="avpSide"></aside></div>
+</div>
+
+<div id="ccss" class="view" aria-label="Citizen/Client Satisfaction Survey">
+  <header class="vbar">
+    <a class="vback" href="#home"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg>Home</a>
+    <div class="vtitle"><b>Citizen/Client Satisfaction Survey (CCSS)</b><span id="svStepTxt">Help us serve you better</span></div>
+  </header>
+  <div class="sv-prog" aria-hidden="true"><i id="svProg"></i></div>
+  <div class="sv-body" id="svBody"></div>
+  <div class="sv-nav" id="svNav">
+    <button class="back" id="svBack" type="button">Back</button>
+    <span class="count" id="svCount"></span>
+    <button class="next" id="svNext" type="button">Next</button>
+  </div>
 </div>
 
 <div id="charter" class="view" aria-label="Citizen's Charter">
@@ -816,6 +900,7 @@ function catOf(r){const n=r.name;
   if(/Pantry|Storage|Maintenance|Vault|Janitor|Service Room|Surveillance|Records/.test(n))return 'service';
   return 'office';}
 R.forEach(r=>r.cat=catOf(r));
+try{window.DIR_OFFICES=[...new Set(R.filter(r=>!r.hidden&&r.cat==='office').map(r=>r.name))].sort();}catch(e){}
 const pg=(cat,size)=>{const c=CAT[cat];return `<span class="pg" style="background:${c.fill};color:${c.ink}${size?`;width:${size}px;height:${size}px`:''}"><svg viewBox="0 0 24 24">${ICON[c.icon||cat]}</svg></span>`;};
 const WING = {L:{name:'Left Wing',color:0x00adee,tint:0xdcf2fb},
               C:{name:'Center Core',color:0x8a9099,tint:0xeceef1},
@@ -1487,6 +1572,7 @@ function route(){
   const h=location.hash.slice(1);
   if(!/^avp-/.test(h))setTimeout(()=>stopAvp(),0);
   if(h==='avp'){setView('avp');return;}
+  if(h==='ccss'){setView('ccss');setTimeout(()=>startCcss(),0);return;}
   if(h.startsWith('avp-')){setView('avpplay');setTimeout(()=>openAvp(h.slice(4)),0);return;}
   if(!h||h==='home'){setView('home');return;}
   if(h==='charter'){setView('charter');return;}
@@ -1518,7 +1604,7 @@ function tick(){const d=new Date();document.getElementById('clock').innerHTML=`<
 tick(); setInterval(tick,15000);
 
 // kiosk: after 2.5 minutes without a touch, go back to the main menu
-let idle; function poke(){clearTimeout(idle);idle=setTimeout(()=>{const av=document.getElementById('avpVideo');if(document.querySelector('.walkbar.show')||(document.body.dataset.view==='avpplay'&&av&&!av.paused&&!av.ended))return poke();go('home');},150000);}
+let idle; function poke(){clearTimeout(idle);idle=setTimeout(()=>{const av=document.getElementById('avpVideo');if(document.querySelector('.walkbar.show')||(document.body.dataset.view==='avpplay'&&av&&!av.paused&&!av.ended))return poke();go('home');},document.body.dataset.view==='ccss'?240000:150000);}
 ['pointerdown','keydown','wheel','touchstart'].forEach(ev=>addEventListener(ev,poke,{passive:true})); poke();
 
 // ===== AVP: audio-visual presentations, grouped by category =====
@@ -1556,6 +1642,173 @@ function openAvp(id){
 function stopAvp(){if(!avpVideo.paused)avpVideo.pause();}
 avpVideo.addEventListener('ended',()=>{setTimeout(()=>{if(document.body.dataset.view==='avpplay'&&avpVideo.ended)go('avp');},8000);});
 renderAvp();
+
+// ===== Citizen/Client Satisfaction Survey (CCSS), form DOSTCO-001 Rev. 7 =====
+// Answers are kept on this tablet first, then sent to the Apps Script web app,
+// which saves them to the Google Sheet and emails them to woosila@dost.gov.ph.
+// Paste the web app URL (ends in /exec) here after deploying the script.
+const SURVEY_ENDPOINT='';
+const SURVEY_TOKEN='dost-co-kiosk';
+const OUTBOX='dostCcssOutbox';
+const RATE=[
+ {v:'Very satisfied',en:'Very Satisfied',fil:'Lubos na nasiyahan',c:'#2e9e5b',m:'M7 13.5Q12 19.5 17 13.5'},
+ {v:'Satisfied',en:'Satisfied',fil:'Nasiyahan',c:'#8cc63f',m:'M8 14.5Q12 17.5 16 14.5'},
+ {v:'Neither',en:'Neither Satisfied nor Dissatisfied',fil:'Hindi nasiyahan at hindi rin naman hindi nasiyahan',c:'#f2c200',m:'M8 15.5H16'},
+ {v:'Dissatisfied',en:'Dissatisfied',fil:'Hindi nasiyahan',c:'#f57c1f',m:'M8 16.8Q12 13.8 16 16.8'},
+ {v:'Very dissatisfied',en:'Very Dissatisfied',fil:'Lubos na hindi nasiyahan',c:'#d93a2b',m:'M7 18Q12 12 17 18'}];
+const faceSvg=(r,cls)=>`<svg ${cls?`class="${cls}"`:''} viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="11" fill="${r.c}"/><circle cx="8.4" cy="9.4" r="1.25" fill="#1b1b1b"/><circle cx="15.6" cy="9.4" r="1.25" fill="#1b1b1b"/><path d="${r.m}" fill="none" stroke="#1b1b1b" stroke-width="1.6" stroke-linecap="round"/></svg>`;
+// Statements and Filipino translations exactly as on DOSTCO-001 Rev. 7
+const SQD=[
+ ['I am satisfied with the service that I availed.','Nasiyahan ako sa serbisyong aking natanggap.'],
+ ['I spent a reasonable amount of time for my transaction.','Gumugol ako ng maktwirang dami ng oras para sa aking transaksyon.'],
+ ['The office followed the transaction’s requirements and steps based on the information provided.','Sinunod ng tanggapan ang mga rekisito (requirement) at hakbang ng transaksyon batay sa ibinibigay na impormasyon.'],
+ ['I easily found information about my transaction from the office or its website.','Madali kong natagpuan ang impormasyon tungkol sa aking transaksyon mula sa kanilang tanggapan o website.'],
+ ['I paid an acceptable amount of fees for my transaction.','Nagbayad ako ng katanggap-tanggap na halaga para sa aking transaksyon.'],
+ ['I feel the office was fair to everyone during my transaction.','Pakiramdam ko ay patas ang opisina sa lahat ng panahon ng aking transaksyon.'],
+ ['I was treated courteously by the staff and the staff was helpful.','Naging magalang at matulungin ang mga kawani sa akin.'],
+ ['I got what I needed from the government office.','Nakuha ko ang aking mga kailangan mula sa tanggapan ng pamahalaan.']];
+const CC=[
+ {q:'Which of the following best describes your awareness of CC?',o:[
+  'I know what a CC is and I saw this office’s CC.',
+  'I know what a CC is however I did not see this office’s CC.',
+  'I learned of the CC only when I saw this office’s CC.',
+  'I do not know what a CC is and I did not see one in this office.']},
+ {q:'If aware of CC, would you say that the CC of this office was…?',o:['Easy to see','Somewhat easy to see','Difficult to see','Not visible at all','N/A']},
+ {q:'If aware of CC, how much did the CC help you in your transaction?',o:['Helped very much','Somewhat helped','Did not help','N/A']}];
+const sEsc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const pad=n=>String(n).padStart(2,'0');
+function nowLocal(){const d=new Date();return `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}T${pad(d.getHours())}:${pad(d.getMinutes())}`;}
+function fmtVisit(v){const m=/^(\d{4})-(\d\d)-(\d\d)T(\d\d):(\d\d)/.exec(v||'');if(!m)return v||'';let h=+m[4];const ap=h>=12?'PM':'AM';h=h%12||12;return `${m[2]}/${m[3]}/${m[1]} ${h}:${m[5]} ${ap}`;}
+
+const svBody=document.getElementById('svBody'), svNav=document.getElementById('svNav');
+const STEPS=['intro','about','visit','cc0','cc1','cc2',...SQD.map((_,i)=>'sqd'+i),'final','thanks'];
+let ans, si;
+function blank(){return {name:'',sex:'',contact:'',age:'',email:'',clientType:'',affiliation:'',office:'',personnel:'',visit:nowLocal(),purpose:'',cc:['','',''],sqd:Array(8).fill(''),comments:'',complaints:''};}
+const REQ='<span class="sv-req" aria-hidden="true">*</span>';
+function chips(key,opts){return `<div class="sv-chips" data-key="${key}">${opts.map(o=>`<button type="button" class="sv-chip${ans[key]===o?' on':''}" data-v="${sEsc(o)}">${sEsc(o)}</button>`).join('')}</div>`;}
+function inp(id,key,type,ph,extra){return `<input id="${id}" data-key="${key}" type="${type}" value="${sEsc(ans[key])}" placeholder="${sEsc(ph||'')}" autocomplete="off" ${extra||''}>`;}
+
+function render(){
+  const s=STEPS[si]; let h='';
+  if(s==='intro'){
+    h=`<div class="sv-intro"><div class="faces-demo">${RATE.map(r=>faceSvg(r)).join('')}</div>
+      <h2>Citizen/Client Satisfaction Survey</h2>
+      <p class="lead2">Please help us improve our products or services by answering this short survey. It takes about 3 minutes.</p>
+      <button type="button" class="sv-big" id="svStart">Start the survey</button>
+      <p class="sv-note">Fields marked * are required. Your answers are used only to improve our services, in line with the Data Privacy Act of 2012 (RA 10173).</p>
+      <p class="sv-docno">DOSTCO-001 · Revision No. 7</p></div>`;
+  } else if(s==='about'){
+    h=`<p class="sv-kicker">About you</p><h2>Tell us a little about yourself</h2>
+    <div class="sv-fields">
+      <div class="sv-field" data-req="sex"><b>Sex at birth${REQ}</b>${chips('sex',['Male','Female','Prefer not to say'])}</div>
+      <div class="sv-field"><b>Citizen or client type</b>${chips('clientType',['Internal','External'])}</div>
+      <div class="sv-field wide" data-req="age"><b>Age bracket${REQ}</b>${chips('age',['19 and under','20 to 29','30 to 39','40 to 49','50 to 59','60 years old and above'])}</div>
+      <div class="sv-field wide" data-req="affiliation"><b>Agency, school or company affiliation${REQ}</b>${inp('fAff','affiliation','text','e.g. DOST-PCHRD, UP Diliman, ABC Corporation, or "None"')}</div>
+      <div class="sv-field"><b>Name of citizen/client <small>optional</small></b>${inp('fName','name','text','Your name')}</div>
+      <div class="sv-field"><b>Contact no. <small>optional</small></b>${inp('fContact','contact','tel','09XX XXX XXXX','inputmode="tel"')}</div>
+      <div class="sv-field wide"><b>Email <small>optional</small></b>${inp('fEmail','email','email','name@example.com','inputmode="email"')}</div>
+    </div><p class="sv-err" id="svErr" role="alert"></p>`;
+  } else if(s==='visit'){
+    const offs=(window.DIR_OFFICES||[]);
+    h=`<p class="sv-kicker">Your visit</p><h2>Tell us about your visit today</h2>
+    <div class="sv-fields">
+      <div class="sv-field wide" data-req="purpose"><b>Purpose of visit${REQ}</b>${inp('fPurpose','purpose','text','e.g. Submit documents, follow up a request, attend a meeting')}</div>
+      <div class="sv-field"><b>Office or unit visited</b>${inp('fOffice','office','text','Choose or type the office','list="svOffices"')}<datalist id="svOffices">${offs.map(o=>`<option value="${sEsc(o)}">`).join('')}</datalist></div>
+      <div class="sv-field"><b>Name of DOST-CO personnel attending to your need or request</b>${inp('fPers','personnel','text','Name of staff, if known')}</div>
+      <div class="sv-field"><b>Date and time of visit</b>${inp('fVisit','visit','datetime-local','')}</div>
+    </div><p class="sv-err" id="svErr" role="alert"></p>`;
+  } else if(s.startsWith('cc')){
+    const k=+s[2], c=CC[k];
+    h=`<p class="sv-kicker">Citizen's Charter (CC) awareness · CC${k+1}</p><h2>${sEsc(c.q)}${REQ}</h2>
+    ${k===0?'<p class="fil">The Citizen’s Charter lists our services with their requirements, steps, fees and processing time. You can see it on the tarpaulins and under "Citizen’s Charter" on this kiosk.</p>':''}
+    <div class="sv-opts">${c.o.map((o,i)=>{const v=(o==='N/A'?'N/A':(i+1)+'. '+o);return `<button type="button" class="sv-opt${ans.cc[k]===v?' on':''}" data-v="${sEsc(v)}"><i>${o==='N/A'?'–':i+1}</i><span>${sEsc(o)}${k===0&&i===3?'<small>CC2 and CC3 will be answered N/A.</small>':''}</span></button>`;}).join('')}</div>`;
+  } else if(s.startsWith('sqd')){
+    const k=+s.slice(3), q=SQD[k];
+    h=`<p class="sv-kicker">Overall experience with our product/service · ${k+1} of 8</p><h2>${sEsc(q[0])}</h2><p class="fil">${sEsc(q[1])}</p>
+    <div class="faces">${RATE.map(r=>`<button type="button" class="face${ans.sqd[k]===r.v?' on':''}" data-v="${r.v}" aria-label="${r.en}">${faceSvg(r)}<b>${r.en}</b><small>${r.fil}</small></button>`).join('')}</div>
+    <button type="button" class="sv-na${ans.sqd[k]==='N/A'?' on':''}" data-v="N/A">Not applicable (Hindi akma)</button>`;
+  } else if(s==='final'){
+    h=`<p class="sv-kicker">Almost done</p><h2>Comments or suggestions on how we can improve the quality of our product/service?</h2><p class="fil">Optional</p>
+    <div class="sv-fields"><div class="sv-field wide"><textarea id="fComments" data-key="comments" maxlength="2000" placeholder="Type your comments or suggestions here">${sEsc(ans.comments)}</textarea></div>
+    <div class="sv-field wide"><b>Complaint/s, if there is or are any <small>optional</small></b><textarea id="fComplaints" data-key="complaints" maxlength="2000" placeholder="Describe your complaint here">${sEsc(ans.complaints)}</textarea></div></div>`;
+  } else if(s==='thanks'){
+    h=`<div class="sv-thanks">${faceSvg(RATE[0],'big')}<h2>Thank you very much for your feedback!</h2><p>Maraming salamat po! Your answers have been sent to the DOST Central Office.</p>
+    <button type="button" class="sv-big" id="svDone">Back to main menu</button></div>`;
+  }
+  svBody.innerHTML=`<div class="sv-step on">${h}</div>`; svBody.scrollTop=0;
+  const n=STEPS.length-2;
+  document.getElementById('svProg').style.width=(s==='thanks'?100:Math.round(Math.max(0,si-1)/(n-1)*100))+'%';
+  document.getElementById('svStepTxt').textContent=s==='intro'?'Help us serve you better':s==='thanks'?'Submitted':`Step ${si} of ${n}`;
+  svNav.classList.toggle('hide',s==='intro'||s==='thanks');
+  const nx=document.getElementById('svNext');
+  nx.textContent=s==='final'?'Submit':'Next'; nx.classList.toggle('send',s==='final');
+  nx.style.visibility=(s.startsWith('cc')||s.startsWith('sqd'))&&!curAnswer()?'hidden':'visible';
+  const q=outbox().length; document.getElementById('svCount').textContent=q?`${q} saved response${q>1?'s':''} waiting to send`:'';
+  if(s==='thanks'){clearTimeout(render.t);render.t=setTimeout(()=>{if(document.body.dataset.view==='ccss'&&STEPS[si]==='thanks')location.hash='home';},12000);}
+}
+function readInputs(){svBody.querySelectorAll('[data-key]').forEach(el=>{if(el.tagName==='INPUT'||el.tagName==='TEXTAREA')ans[el.dataset.key]=el.value.trim();});}
+function curAnswer(){const s=STEPS[si];if(s.startsWith('cc'))return ans.cc[+s[2]];if(s.startsWith('sqd'))return ans.sqd[+s.slice(3)];return 1;}
+function missing(){
+  const s=STEPS[si]; const need=s==='about'?['sex','age','affiliation']:s==='visit'?['purpose']:[];
+  const miss=need.filter(k=>!ans[k]);
+  svBody.querySelectorAll('.sv-field').forEach(f=>f.classList.toggle('bad',miss.includes(f.dataset.req)));
+  const err=document.getElementById('svErr');
+  if(err)err.textContent=miss.length?'Please answer the fields marked *.':'';
+  return miss.length>0;
+}
+function next(){
+  const s=STEPS[si]; readInputs();
+  if(missing())return;
+  if(s==='final'){submit();}
+  si++;
+  if(STEPS[si]==='cc1'&&ans.cc[0].startsWith('4.')){ans.cc[1]='N/A';ans.cc[2]='N/A';si+=2;}
+  render();
+}
+function back(){readInputs();si--; if(STEPS[si]==='cc2'&&ans.cc[0].startsWith('4.'))si-=2; render();}
+svBody.addEventListener('click',e=>{
+  const b=e.target.closest('button'); if(!b) return; const s=STEPS[si];
+  if(b.id==='svStart'){ans=blank();si=1;render();return;}
+  if(b.id==='svDone'){location.hash='home';return;}
+  if(b.classList.contains('sv-chip')){const key=b.parentNode.dataset.key;ans[key]=ans[key]===b.dataset.v?'':b.dataset.v;b.parentNode.querySelectorAll('.sv-chip').forEach(x=>x.classList.toggle('on',x===b&&ans[key]!==''));
+    const f=b.closest('.sv-field');if(f&&ans[key])f.classList.remove('bad');return;}
+  if(b.classList.contains('sv-opt')){ans.cc[+s[2]]=b.dataset.v;}
+  else if(b.classList.contains('face')||b.classList.contains('sv-na')){ans.sqd[+s.slice(3)]=b.dataset.v;}
+  else return;
+  svBody.querySelectorAll('.sv-opt,.face,.sv-na').forEach(x=>x.classList.toggle('on',x===b));
+  document.getElementById('svNext').style.visibility='visible';
+  clearTimeout(next.t); next.t=setTimeout(()=>{if(STEPS[si]===s)next();},380);
+});
+document.getElementById('svNext').onclick=()=>{if(curAnswer())next();};
+document.getElementById('svBack').onclick=back;
+
+// offline-safe sending: every response goes to an outbox on this tablet first
+function outbox(){try{return JSON.parse(localStorage.getItem(OUTBOX)||'[]');}catch(e){return [];}}
+function saveBox(b){try{localStorage.setItem(OUTBOX,JSON.stringify(b));}catch(e){}}
+function submit(){
+  const build=(document.querySelector('meta[name="build"]')||{}).content||'';
+  const rec={id:Date.now().toString(36)+Math.random().toString(36).slice(2,7),
+    submittedAt:new Date().toLocaleString('en-PH',{timeZone:'Asia/Manila'}),build,
+    name:ans.name,sex:ans.sex,contact:ans.contact,age:ans.age,email:ans.email,clientType:ans.clientType,
+    affiliation:ans.affiliation,office:ans.office,personnel:ans.personnel,visit:fmtVisit(ans.visit),purpose:ans.purpose,
+    cc1:ans.cc[0],cc2:ans.cc[1],cc3:ans.cc[2],sqd:ans.sqd,comments:ans.comments,complaints:ans.complaints,token:SURVEY_TOKEN};
+  const b=outbox(); b.push(rec); saveBox(b); flush();
+}
+let flushing=false;
+async function flush(){
+  if(flushing||!SURVEY_ENDPOINT||!navigator.onLine) return; flushing=true;
+  try{
+    let b=outbox();
+    while(b.length){
+      const rec=b[0];
+      await fetch(SURVEY_ENDPOINT,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(rec)});
+      b=outbox().filter(x=>x.id!==rec.id); saveBox(b);
+    }
+  }catch(e){/* offline or blocked: keep the answers and try again later */}
+  flushing=false;
+}
+addEventListener('online',flush); setInterval(flush,120000); setTimeout(flush,4000);
+function startCcss(){ans=blank();si=0;render();}
+ans=blank(); si=0; render();
 })();
 </script>
 </body>

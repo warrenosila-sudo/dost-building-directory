@@ -40,6 +40,4 @@ The fifth home option (`#ccss`) is the DOST-CO CCSS, form DOSTCO-001 Rev. 7: cli
 
 Answers are saved on the tablet first, then sent to a Google Apps Script web app that adds a row to the Google Sheet "DOST-CO CCSS – Kiosk Responses" and emails the answer to woosila@dost.gov.ph. To connect it (once):
 
-1. Open the Sheet, go to Extensions > Apps Script, paste `survey/ccss-apps-script.gs`, and save.
-2. Deploy > New deployment > Web app. Execute as: Me. Who has access: Anyone. Authorize, then copy the web app URL.
-3. Put that URL in `SURVEY_ENDPOINT` in `index.html`, bump the build stamp, and push. Saved answers then send automatically.
+Connected on 24 Nov 2026: the Apps Script project "DOST-CO CCSS Kiosk" (script.google.com, owned by warren.osila@gmail.com) runs `survey/ccss-apps-script.gs` as a web app, and its URL is in `SURVEY_ENDPOINT` in `index.html`. Emails are sent from warren.osila@gmail.com. To change the recipient, edit `RECIPIENT` in the project, then Deploy > Manage deployments > edit > New version.

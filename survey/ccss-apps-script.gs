@@ -2,12 +2,13 @@
  * DOST-CO CCSS (DOSTCO-001 Rev. 7) from the lobby kiosk.
  * Each answer is saved to the "Responses" tab and emailed to RECIPIENT.
  *
- * Setup, once: open the Google Sheet "DOST-CO CCSS – Kiosk Responses",
- * Extensions > Apps Script, replace everything with this file, Save.
+ * Setup, once: create an Apps Script project (script.google.com > New project,
+ * or Extensions > Apps Script in the Sheet), replace everything with this file, Save.
  * Deploy > New deployment > Web app. Execute as: Me. Who has access: Anyone.
  * Authorize, then copy the Web app URL (ends in /exec) into the kiosk.
  */
 const RECIPIENT = 'woosila@dost.gov.ph';
+const SHEET_ID = '1SgsBcrMM6ZwCfg1nL3_O3cNJdNnCnYHckTqXIPoDuho'; // DOST-CO CCSS – Kiosk Responses
 const SHEET_NAME = 'Responses';
 const TOKEN = 'dost-co-kiosk';
 const SQD = [
@@ -36,7 +37,7 @@ function doPost(e) {
       d.clientType, d.affiliation, d.office, d.personnel, d.visit, d.purpose, d.cc1, d.cc2, d.cc3];
     for (let i = 0; i < 8; i++) row.push(s[i]);
     row.push(d.comments, d.complaints);
-    SpreadsheetApp.getActive().getSheetByName(SHEET_NAME)
+    SpreadsheetApp.openById(SHEET_ID).getSheetByName(SHEET_NAME)
       .appendRow(row.map((v, i) => i === 0 ? v : clean(v)));
 
     sendMail(d);
@@ -82,6 +83,11 @@ function clean(v) {
 }
 function esc(v) {
   return String(v == null ? '' : v).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+}
+// Run once from the editor to grant permissions (adds nothing to the Sheet).
+function authorize() {
+  SpreadsheetApp.openById(SHEET_ID).getName();
+  MailApp.getRemainingDailyQuota();
 }
 function doGet() { return out({ ok: true, service: 'DOST-CO CCSS kiosk' }); }
 function out(o) {

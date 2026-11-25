@@ -36,7 +36,7 @@ function doPost(e) {
     const row = [new Date(), d.submittedAt, d.build, d.name, d.sex, d.contact, d.age, d.email,
       d.clientType, d.affiliation, d.office, d.personnel, d.visit, d.purpose, d.cc1, d.cc2, d.cc3];
     for (let i = 0; i < 8; i++) row.push(s[i]);
-    row.push(d.comments, d.complaints);
+    row.push(d.comments, d.complaints, whyText(d));
     SpreadsheetApp.openById(SHEET_ID).getSheetByName(SHEET_NAME)
       .appendRow(row.map((v, i) => i === 0 ? v : clean(v)));
 
@@ -58,22 +58,33 @@ function sendMail(d) {
     ['Purpose of visit', d.purpose],
     ['CC1 Awareness of CC', d.cc1], ['CC2 Visibility of CC', d.cc2], ['CC3 Helpfulness of CC', d.cc3]
   ];
-  SQD.forEach((q, i) => info.push([(i + 1) + '. ' + q, s[i]]));
+  const why = d.why || [];
+  SQD.forEach((q, i) => {
+    info.push([(i + 1) + '. ' + q, s[i]]);
+    if (why[i]) info.push(['\u2003Why dissatisfied', why[i], true]);
+  });
   info.push(['Comments or suggestions', d.comments], ['Complaint/s', d.complaints]);
 
-  const rows = info.map(([k, v]) =>
-    '<tr><td style="padding:6px 10px;border:1px solid #ccd;background:#f3f6fa;font-weight:bold;vertical-align:top">' +
-    esc(k) + '</td><td style="padding:6px 10px;border:1px solid #ccd;vertical-align:top">' +
+  const rows = info.map(([k, v, hot]) =>
+    '<tr><td style="padding:6px 10px;border:1px solid #ccd;background:' + (hot ? '#fde8d8' : '#f3f6fa') + ';font-weight:bold;vertical-align:top">' +
+    esc(k) + '</td><td style="padding:6px 10px;border:1px solid #ccd;vertical-align:top' + (hot ? ';background:#fff4ec' : '') + '">' +
     (esc(v) || '<span style="color:#889">(blank)</span>') + '</td></tr>').join('');
   const html = '<p>A Citizen/Client Satisfaction Survey (DOSTCO-001 Rev. 7) was submitted at the lobby kiosk on ' +
     esc(d.submittedAt) + '.</p><table style="border-collapse:collapse;font-family:Arial,sans-serif;font-size:13px">' +
     rows + '</table>';
 
   const who = d.affiliation || d.name || 'Walk-in client';
-  const subject = (d.complaints ? '[With complaint] ' : '') + 'CCSS (kiosk): ' + who + ', ' + (d.visit || d.submittedAt);
+  const unhappy = s.some(v => v === 'Dissatisfied' || v === 'Very dissatisfied');
+  const subject = (d.complaints ? '[With complaint] ' : '') + (unhappy ? '[Dissatisfied] ' : '') + 'CCSS (kiosk): ' + who + ', ' + (d.visit || d.submittedAt);
   const msg = { to: RECIPIENT, subject: subject, htmlBody: html, name: 'DOST-CO Lobby Kiosk' };
   if (/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(d.email || '')) msg.replyTo = d.email;
   MailApp.sendEmail(msg);
+}
+
+// "SQD2 (Dissatisfied): reason; SQD5 (Very dissatisfied): reason"
+function whyText(d) {
+  const s = d.sqd || [], why = d.why || [];
+  return why.map((w, i) => w ? 'SQD' + (i + 1) + ' (' + s[i] + '): ' + w : '').filter(Boolean).join('; ');
 }
 
 // Plain text only, so nothing typed on the kiosk can run as a formula.

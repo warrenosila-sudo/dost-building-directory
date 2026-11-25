@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="build" content="20261124151500">
+<meta name="build" content="20261125120500">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>DOST Building Directory</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -435,6 +435,12 @@
   .vw-stack img{display:block;max-width:none;min-height:300px;background:#fff;box-shadow:0 4px 18px rgba(0,0,0,.25)}
   #viewer.stack #vwImg{display:none}#viewer.stack .vw-stack{display:flex}
   .vpages .pg-ind{color:#9fb0c3;font-size:14px;font-weight:700;white-space:nowrap}
+  .sv-why{margin-top:22px;background:#fff6ee;border:2px solid #f5b47a;border-radius:16px;padding:18px 18px 8px;max-width:900px}
+  .sv-why label{display:flex;flex-direction:column;gap:4px;margin-bottom:12px}
+  .sv-why label b{font-size:19px}.sv-why .fil{margin:0;font-size:16px}
+  .sv-why textarea{font:inherit;font-size:17px;width:100%;min-height:120px;border:2px solid #d5dce5;border-radius:12px;padding:12px 14px;resize:vertical;line-height:1.45;background:#fff}
+  .sv-why textarea:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+  .sv-why.bad textarea{border-color:#e0827a}
 </style>
 </head>
 <body data-view="home">
@@ -1751,7 +1757,7 @@ function fmtVisit(v){const m=/^(\d{4})-(\d\d)-(\d\d)T(\d\d):(\d\d)/.exec(v||'');
 const svBody=document.getElementById('svBody'), svNav=document.getElementById('svNav');
 const STEPS=['intro','about','visit','cc0','cc1','cc2',...SQD.map((_,i)=>'sqd'+i),'final','thanks'];
 let ans, si;
-function blank(){return {name:'',sex:'',contact:'',age:'',email:'',clientType:'',affiliation:'',office:'',personnel:'',visit:nowLocal(),purpose:'',cc:['','',''],sqd:Array(8).fill(''),comments:'',complaints:''};}
+function blank(){return {name:'',sex:'',contact:'',age:'',email:'',clientType:'',affiliation:'',office:'',personnel:'',visit:nowLocal(),purpose:'',cc:['','',''],sqd:Array(8).fill(''),why:Array(8).fill(''),comments:'',complaints:''};}
 const REQ='<span class="sv-req" aria-hidden="true">*</span>';
 function chips(key,opts){return `<div class="sv-chips" data-key="${key}">${opts.map(o=>`<button type="button" class="sv-chip${ans[key]===o?' on':''}" data-v="${sEsc(o)}">${sEsc(o)}</button>`).join('')}</div>`;}
 function inp(id,key,type,ph,extra){return `<input id="${id}" data-key="${key}" type="${type}" value="${sEsc(ans[key])}" placeholder="${sEsc(ph||'')}" autocomplete="off" ${extra||''}>`;}
@@ -1794,7 +1800,9 @@ function render(){
     const k=+s.slice(3), q=SQD[k];
     h=`<p class="sv-kicker">Overall experience with our product/service · ${k+1} of 8</p><h2>${sEsc(q[0])}</h2><p class="fil">${sEsc(q[1])}</p>
     <div class="faces">${RATE.map(r=>`<button type="button" class="face${ans.sqd[k]===r.v?' on':''}" data-v="${r.v}" aria-label="${r.en}">${faceSvg(r)}<b>${r.en}</b><small>${r.fil}</small></button>`).join('')}</div>
-    <button type="button" class="sv-na${ans.sqd[k]==='N/A'?' on':''}" data-v="N/A">Not applicable (Hindi akma)</button>`;
+    <button type="button" class="sv-na${ans.sqd[k]==='N/A'?' on':''}" data-v="N/A">Not applicable (Hindi akma)</button>
+    <div class="sv-why" id="svWhy"${isBad(ans.sqd[k])?'':' hidden'}><label for="fWhy"><b>Why were you dissatisfied?${REQ}</b><span class="fil">Bakit po kayo hindi nasiyahan?</span></label>
+    <textarea id="fWhy" maxlength="1000" placeholder="Please tell us what went wrong so we can improve">${sEsc(ans.why[k])}</textarea><p class="sv-err" id="svErr" role="alert"></p></div>`;
   } else if(s==='final'){
     h=`<p class="sv-kicker">Almost done</p><h2>Comments or suggestions on how we can improve the quality of our product/service?</h2><p class="fil">Optional</p>
     <div class="sv-fields"><div class="sv-field wide"><textarea id="fComments" data-key="comments" maxlength="2000" placeholder="Type your comments or suggestions here">${sEsc(ans.comments)}</textarea></div>
@@ -1814,10 +1822,14 @@ function render(){
   const q=outbox().length; document.getElementById('svCount').textContent=q?`${q} saved response${q>1?'s':''} waiting to send`:'';
   if(s==='thanks'){clearTimeout(render.t);render.t=setTimeout(()=>{if(document.body.dataset.view==='ccss'&&STEPS[si]==='thanks')location.hash='home';},12000);}
 }
-function readInputs(){svBody.querySelectorAll('[data-key]').forEach(el=>{if(el.tagName==='INPUT'||el.tagName==='TEXTAREA')ans[el.dataset.key]=el.value.trim();});}
+const isBad=v=>v==='Dissatisfied'||v==='Very dissatisfied';
+function readInputs(){const w=document.getElementById('fWhy'),s=STEPS[si];if(w&&s.startsWith('sqd'))ans.why[+s.slice(3)]=w.value.trim();svBody.querySelectorAll('[data-key]').forEach(el=>{if(el.tagName==='INPUT'||el.tagName==='TEXTAREA')ans[el.dataset.key]=el.value.trim();});}
 function curAnswer(){const s=STEPS[si];if(s.startsWith('cc'))return ans.cc[+s[2]];if(s.startsWith('sqd'))return ans.sqd[+s.slice(3)];return 1;}
 function missing(){
-  const s=STEPS[si]; const need=s==='about'?['sex','age','affiliation']:s==='visit'?['purpose']:[];
+  const s=STEPS[si];
+  if(s.startsWith('sqd')){const k=+s.slice(3),bad=isBad(ans.sqd[k])&&!ans.why[k];const w=document.getElementById('svWhy'),err=document.getElementById('svErr');
+    if(w)w.classList.toggle('bad',bad); if(err)err.textContent=bad?'Please tell us why you were dissatisfied.':''; if(bad)document.getElementById('fWhy').focus(); return bad;}
+  const need=s==='about'?['sex','age','affiliation']:s==='visit'?['purpose']:[];
   const miss=need.filter(k=>!ans[k]);
   svBody.querySelectorAll('.sv-field').forEach(f=>f.classList.toggle('bad',miss.includes(f.dataset.req)));
   const err=document.getElementById('svErr');
@@ -1840,7 +1852,16 @@ svBody.addEventListener('click',e=>{
   if(b.classList.contains('sv-chip')){const key=b.parentNode.dataset.key;ans[key]=ans[key]===b.dataset.v?'':b.dataset.v;b.parentNode.querySelectorAll('.sv-chip').forEach(x=>x.classList.toggle('on',x===b&&ans[key]!==''));
     const f=b.closest('.sv-field');if(f&&ans[key])f.classList.remove('bad');return;}
   if(b.classList.contains('sv-opt')){ans.cc[+s[2]]=b.dataset.v;}
-  else if(b.classList.contains('face')||b.classList.contains('sv-na')){ans.sqd[+s.slice(3)]=b.dataset.v;}
+  else if(b.classList.contains('face')||b.classList.contains('sv-na')){const k=+s.slice(3);ans.sqd[k]=b.dataset.v;
+    const w=document.getElementById('svWhy');
+    if(isBad(b.dataset.v)){
+      // Dissatisfied or Very dissatisfied: ask why before moving on
+      svBody.querySelectorAll('.face,.sv-na').forEach(x=>x.classList.toggle('on',x===b));
+      document.getElementById('svNext').style.visibility='visible';
+      clearTimeout(next.t); w.hidden=false; w.scrollIntoView({behavior:'smooth',block:'center'});
+      setTimeout(()=>document.getElementById('fWhy').focus({preventScroll:true}),350); return;
+    }
+    ans.why[k]=''; w.hidden=true; document.getElementById('fWhy').value='';}
   else return;
   svBody.querySelectorAll('.sv-opt,.face,.sv-na').forEach(x=>x.classList.toggle('on',x===b));
   document.getElementById('svNext').style.visibility='visible';
@@ -1858,7 +1879,7 @@ function submit(){
     submittedAt:new Date().toLocaleString('en-PH',{timeZone:'Asia/Manila'}),build,
     name:ans.name,sex:ans.sex,contact:ans.contact,age:ans.age,email:ans.email,clientType:ans.clientType,
     affiliation:ans.affiliation,office:ans.office,personnel:ans.personnel,visit:fmtVisit(ans.visit),purpose:ans.purpose,
-    cc1:ans.cc[0],cc2:ans.cc[1],cc3:ans.cc[2],sqd:ans.sqd,comments:ans.comments,complaints:ans.complaints,token:SURVEY_TOKEN};
+    cc1:ans.cc[0],cc2:ans.cc[1],cc3:ans.cc[2],sqd:ans.sqd,why:ans.why,comments:ans.comments,complaints:ans.complaints,token:SURVEY_TOKEN};
   const b=outbox(); b.push(rec); saveBox(b); setTimeout(flush,0);
 }
 function sendState(ok){const el=document.getElementById('svSend');if(!el)return;
